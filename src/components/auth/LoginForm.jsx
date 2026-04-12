@@ -60,7 +60,7 @@ const LoginForm = () => {
       </Button>
       
       <div className={styles.footer}>
-        Don't have an account? <Link to="/register">Sign up</Link>
+        <span>contact admin</span>
       </div>
     </form>
   );
