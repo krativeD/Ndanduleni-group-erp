@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useRef } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import Loader from '../components/common/Loader';
 
@@ -9,6 +9,14 @@ export const AuthProvider = ({ children }) => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  // Use refs to avoid dependency issues
+  const mountedRef = useRef(true);
+  const loadingRef = useRef(loading);
+  
+  useEffect(() => {
+    loadingRef.current = loading;
+  }, [loading]);
 
   const fetchProfile = async (userId) => {
     try {
@@ -24,41 +32,53 @@ export const AuthProvider = ({ children }) => {
         // If profile doesn't exist, create one
         if (error.code === 'PGRST116') {
           console.log('Profile not found, creating...');
+          // Get current user data
+          const { data: userData } = await supabase.auth.getUser();
+          const userEmail = userData?.user?.email;
+          const userFullName = userData?.user?.user_metadata?.full_name;
+          
           const { data: newProfile, error: insertError } = await supabase
             .from('profiles')
             .insert([{ 
               id: userId, 
-              email: supabase.auth.user()?.email,
-              full_name: supabase.auth.user()?.user_metadata?.full_name,
+              email: userEmail,
+              full_name: userFullName,
               role: 'staff'
             }])
             .select()
             .single();
           
           if (insertError) throw insertError;
-          setProfile(newProfile);
+          if (mountedRef.current) {
+            setProfile(newProfile);
+          }
           return;
         }
         throw error;
       }
       
       console.log('Profile loaded:', data);
-      setProfile(data);
+      if (mountedRef.current) {
+        setProfile(data);
+      }
     } catch (error) {
       console.error('Error in fetchProfile:', error);
-      setError(error.message);
+      if (mountedRef.current) {
+        setError(error.message);
+      }
     } finally {
-      setLoading(false);
+      if (mountedRef.current) {
+        setLoading(false);
+      }
     }
   };
 
   useEffect(() => {
-    let mounted = true;
     let timeoutId;
 
     // Set a timeout to prevent infinite loading (5 seconds max)
     timeoutId = setTimeout(() => {
-      if (mounted && loading) {
+      if (mountedRef.current && loadingRef.current) {
         console.warn('Auth loading timeout - forcing load complete');
         setLoading(false);
       }
@@ -68,7 +88,7 @@ export const AuthProvider = ({ children }) => {
     supabase.auth.getSession()
       .then(({ data: { session } }) => {
         console.log('Initial session:', session ? 'exists' : 'none');
-        if (mounted) {
+        if (mountedRef.current) {
           setUser(session?.user ?? null);
           if (session?.user) {
             fetchProfile(session.user.id);
@@ -79,7 +99,7 @@ export const AuthProvider = ({ children }) => {
       })
       .catch((err) => {
         console.error('getSession error:', err);
-        if (mounted) {
+        if (mountedRef.current) {
           setError(err.message);
           setLoading(false);
         }
@@ -88,7 +108,7 @@ export const AuthProvider = ({ children }) => {
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log('Auth state change:', event);
-      if (mounted) {
+      if (mountedRef.current) {
         setUser(session?.user ?? null);
         if (session?.user) {
           await fetchProfile(session.user.id);
@@ -100,10 +120,11 @@ export const AuthProvider = ({ children }) => {
     });
 
     return () => {
-      mounted = false;
+      mountedRef.current = false;
       clearTimeout(timeoutId);
       subscription?.unsubscribe();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const signUp = async ({ email, password, fullName, role = 'staff' }) => {
