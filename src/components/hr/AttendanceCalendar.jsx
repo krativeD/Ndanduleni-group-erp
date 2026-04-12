@@ -5,6 +5,7 @@ import styles from './AttendanceCalendar.module.css';
 
 const AttendanceCalendar = ({ attendance }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
+  // eslint-disable-next-line no-unused-vars
   const [selectedDate, setSelectedDate] = useState(null);
 
   const daysInMonth = new Date(
