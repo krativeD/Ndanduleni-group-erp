@@ -1,0 +1,134 @@
+.recruitmentCard {
+  padding: var(--space-lg);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-xl);
+}
+
+.header h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.pipeline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-xl);
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.stageHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.stageDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.stageName {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.stageCount {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.stageArrow {
+  color: var(--text-secondary);
+  font-size: 1.25rem;
+  opacity: 0.5;
+}
+
+.candidatesSection {
+  border-top: 1px solid var(--shadow-dark);
+  padding-top: var(--space-lg);
+}
+
+.candidatesSection h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: var(--space-md);
+  color: var(--text-secondary);
+}
+
+.candidateList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.candidateItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-md);
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-inset);
+}
+
+.candidateInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.candidateName {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.candidatePosition {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.candidateMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.candidateStage {
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.candidateDate {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .pipeline {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .stageArrow {
+    transform: rotate(90deg);
+  }
+}
