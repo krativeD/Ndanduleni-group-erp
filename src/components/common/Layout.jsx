@@ -11,7 +11,7 @@ const Layout = ({ children }) => {
         <div className="container flex justify-between items-center">
           <div className={styles.logo}>
             <img src="/logo.png" alt="Ndanduleni group" height="40" />
-            <span>Ndanduleni group</span>
+            <span>NDANDULENI GROUP</span>
           </div>
           {user && (
             <nav className={styles.nav}>
