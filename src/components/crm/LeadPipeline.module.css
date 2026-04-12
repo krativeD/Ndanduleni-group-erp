@@ -1,0 +1,122 @@
+.pipelineCard {
+  padding: var(--space-lg);
+  overflow-x: auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+}
+
+.header h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.pipeline {
+  display: flex;
+  gap: var(--space-md);
+  min-width: 1000px;
+}
+
+.stageColumn {
+  flex: 1;
+  min-width: 180px;
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-inset);
+  padding: var(--space-md);
+}
+
+.stageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: var(--space-sm);
+  margin-bottom: var(--space-md);
+  border-bottom: 3px solid;
+}
+
+.stageName {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+}
+
+.stageCount {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.stageLeads {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-height: 200px;
+}
+
+.leadCard {
+  background: var(--bg-primary);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-raised);
+  padding: var(--space-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.leadCard:hover {
+  box-shadow: var(--shadow-pressed);
+  transform: translateY(-2px);
+}
+
+.leadName {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+.leadCompany {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-xs);
+}
+
+.leadValue {
+  font-weight: 600;
+  color: var(--accent);
+  font-size: 0.875rem;
+  margin-bottom: var(--space-xs);
+}
+
+.leadFooter {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+}
+
+.leadProbability {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.leadOwner {
+  color: var(--text-secondary);
+}
+
+.stageTotal {
+  margin-top: var(--space-md);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--shadow-dark);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
