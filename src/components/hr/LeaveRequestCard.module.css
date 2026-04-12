@@ -1,0 +1,122 @@
+.leaveCard {
+  padding: var(--space-lg);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+}
+
+.header h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.requestList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.requestItem {
+  padding: var(--space-md);
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-inset);
+}
+
+.requestHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+}
+
+.employeeInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.employeeName {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.leaveType {
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.typeAnnual {
+  background: rgba(99, 102, 241, 0.1);
+  color: #6366f1;
+}
+
+.typeSick {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.typeUnpaid {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.status {
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.statusPending {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.statusApproved {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.statusRejected {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.requestDetails {
+  margin-bottom: var(--space-md);
+}
+
+.dateRange {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin-bottom: var(--space-xs);
+}
+
+.days {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.reason {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin-top: var(--space-xs);
+  font-style: italic;
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: flex-end;
+}
