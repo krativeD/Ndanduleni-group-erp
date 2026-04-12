@@ -1,0 +1,193 @@
+.contactCard {
+  padding: var(--space-lg);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+}
+
+.header h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.filters {
+  display: flex;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.searchInput {
+  flex: 2;
+}
+
+.filterSelect {
+  flex: 1;
+  background: var(--bg-surface);
+  border: none;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-inset);
+  padding: 0.75rem 1rem;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.contactGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-md);
+}
+
+.contactItem {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-inset);
+  padding: var(--space-md);
+}
+
+.contactHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-md);
+}
+
+.contactInfo {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.25rem;
+  box-shadow: var(--shadow-raised);
+  flex-shrink: 0;
+}
+
+.contactDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.contactName {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.contactPerson {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.badges {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.typeBadge, .statusBadge {
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.typeClient {
+  background: rgba(99, 102, 241, 0.1);
+  color: #6366f1;
+}
+
+.typeLead {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.typePartner {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.statusActive {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.statusInactive {
+  background: rgba(107, 114, 128, 0.1);
+  color: #6b7280;
+}
+
+.statusProspect {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.statusNew {
+  background: rgba(139, 92, 246, 0.1);
+  color: #8b5cf6;
+}
+
+.statusNegotiation {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.contactBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-md);
+}
+
+.contactField {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.contactFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--shadow-dark);
+}
+
+.lastContact {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.actionBtn {
+  background: var(--bg-surface);
+  border: none;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-raised);
+  padding: 0.4rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.15s ease;
+}
+
+.actionBtn:hover {
+  box-shadow: var(--shadow-pressed);
+}
