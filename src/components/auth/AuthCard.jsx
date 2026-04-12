@@ -7,8 +7,8 @@ const AuthCard = ({ title, children }) => {
     <div className={styles.authContainer}>
       <Card className={styles.authCard}>
         <div className={styles.logoWrapper}>
-          <img src="/logo.png" alt="Ndanduleni" className={styles.logo} />
-          <h1>Ndanduleni ERP</h1>
+          <img src="/logo.png" alt="Ndanduleni group" className={styles.logo} />
+          <h1>Ndanduleni group</h1>
         </div>
         {title && <h2 className={styles.title}>{title}</h2>}
         {children}
