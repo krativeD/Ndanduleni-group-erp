@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import Input from '../common/Input';
+import PasswordInput from '../common/PasswordInput';
 import Button from '../common/Button';
 import { Link } from 'react-router-dom';
 import styles from './AuthForm.module.css';
@@ -35,7 +36,7 @@ const RegisterForm = () => {
         email, 
         password,
         fullName,
-        role: 'staff' // Default role for new registrations
+        role: 'staff'
       });
       if (error) throw error;
     } catch (err) {
@@ -69,9 +70,8 @@ const RegisterForm = () => {
         autoComplete="email"
       />
       
-      <Input
+      <PasswordInput
         label="Password"
-        type="password"
         placeholder="••••••••"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
@@ -79,9 +79,8 @@ const RegisterForm = () => {
         autoComplete="new-password"
       />
       
-      <Input
+      <PasswordInput
         label="Confirm Password"
-        type="password"
         placeholder="••••••••"
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
