@@ -1,0 +1,23 @@
+.profilePage {
+  padding: var(--space-md) 0;
+}
+
+.profileCard {
+  max-width: 500px;
+  margin: var(--space-xl) auto;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.message {
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+  box-shadow: var(--shadow-inset);
+  text-align: center;
+}
