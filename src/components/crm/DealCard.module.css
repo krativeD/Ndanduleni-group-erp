@@ -1,0 +1,102 @@
+.dealCard {
+  padding: var(--space-lg);
+}
+
+.header {
+  margin-bottom: var(--space-lg);
+}
+
+.header h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: var(--space-sm);
+}
+
+.summary {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.totalValue {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.dealList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.dealItem {
+  padding: var(--space-md);
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-inset);
+}
+
+.dealInfo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--space-sm);
+}
+
+.dealName {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.dealClient {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.dealMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+}
+
+.dealValue {
+  font-weight: 600;
+  color: var(--accent);
+  font-size: 1rem;
+}
+
+.dealStage {
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.stageWon {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.stageNegotiation {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.stageProposal {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.stageDefault {
+  background: rgba(107, 114, 128, 0.1);
+  color: #6b7280;
+}
+
+.dealFooter {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
