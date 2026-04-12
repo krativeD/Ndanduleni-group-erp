@@ -1,0 +1,164 @@
+.calendarCard {
+  padding: var(--space-lg);
+}
+
+.calendarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+}
+
+.monthSelector {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.monthSelector h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  min-width: 180px;
+  text-align: center;
+}
+
+.monthBtn {
+  background: var(--bg-surface);
+  border: none;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-raised);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: all 0.15s ease;
+}
+
+.monthBtn:hover {
+  box-shadow: var(--shadow-pressed);
+}
+
+.summaryCards {
+  display: flex;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.summaryItem {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-md);
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-inset);
+}
+
+.summaryLabel {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.summaryValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.calendar {
+  margin-bottom: var(--space-lg);
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: var(--space-sm);
+}
+
+.weekday {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  padding: var(--space-sm) 0;
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.day, .emptyDay {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-raised);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+}
+
+.day:hover {
+  box-shadow: var(--shadow-pressed);
+}
+
+.day span {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.today {
+  border: 2px solid var(--accent);
+}
+
+.present {
+  background: rgba(16, 185, 129, 0.15);
+}
+
+.absent {
+  background: rgba(239, 68, 68, 0.15);
+}
+
+.late {
+  background: rgba(245, 158, 11, 0.15);
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-top: 2px;
+}
+
+.present .statusDot { background: #10b981; }
+.absent .statusDot { background: #ef4444; }
+.late .statusDot { background: #f59e0b; }
+
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-xl);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--shadow-dark);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.legendDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
