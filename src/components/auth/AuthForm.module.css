@@ -1,0 +1,47 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  width: 100%;
+}
+
+.error {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-inset);
+  font-size: 0.875rem;
+  text-align: left;
+}
+
+.success {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-inset);
+  font-size: 0.875rem;
+  text-align: left;
+}
+
+.description {
+  color: var(--text-secondary);
+  margin-bottom: var(--space-sm);
+  text-align: left;
+}
+
+.forgotLink {
+  text-align: right;
+  margin-top: calc(-1 * var(--space-sm));
+}
+
+.footer {
+  margin-top: var(--space-md);
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.footer a {
+  font-weight: 500;
+}
