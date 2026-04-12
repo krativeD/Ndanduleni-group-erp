@@ -1,0 +1,77 @@
+.pageContainer {
+  padding: var(--space-md) 0;
+}
+
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-xl);
+}
+
+.pageHeader h1 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  color: var(--text-primary);
+}
+
+.error {
+  text-align: center;
+  padding: var(--space-xl);
+  color: var(--danger);
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-raised);
+}
+
+.pipelineSection {
+  margin-bottom: var(--space-xl);
+}
+
+.dealsSection {
+  margin-top: var(--space-xl);
+}
+
+.activitiesGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-lg);
+}
+
+.mainSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.sideSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.reportsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-lg);
+}
+
+.reportCard {
+  padding: var(--space-lg);
+}
+
+.reportCard h3 {
+  font-size: 1.125rem;
+  margin-bottom: var(--space-sm);
+}
+
+.reportCard p {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin-bottom: var(--space-lg);
+}
+
+@media (max-width: 768px) {
+  .activitiesGrid {
+    grid-template-columns: 1fr;
+  }
+}
