@@ -1,26 +1,91 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import styles from './Layout.module.css';
 
 const Layout = ({ children }) => {
-  const { user, signOut } = useAuth();
+  const { user, profile, signOut } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const role = profile?.role || 'staff';
+
+  const navItems = {
+    ceo: [
+      { name: 'Dashboard', path: '/dashboard', icon: '🏠' },
+      { name: 'HR Module', path: '/hr/employees', icon: '👥' },
+      { name: 'CRM Module', path: '/crm/contacts', icon: '🤝' },
+      { name: 'Users', path: '/users', icon: '👤' },
+      { name: 'Profile', path: '/profile', icon: '⚙️' }
+    ],
+    admin: [
+      { name: 'Dashboard', path: '/dashboard', icon: '🏠' },
+      { name: 'HR Module', path: '/hr/employees', icon: '👥' },
+      { name: 'CRM Module', path: '/crm/contacts', icon: '🤝' },
+      { name: 'Profile', path: '/profile', icon: '⚙️' }
+    ],
+    staff: [
+      { name: 'Dashboard', path: '/dashboard', icon: '🏠' },
+      { name: 'Attendance', path: '/hr/attendance', icon: '📍' },
+      { name: 'Activities', path: '/crm/activities', icon: '📋' },
+      { name: 'Profile', path: '/profile', icon: '⚙️' }
+    ]
+  };
+
+  const items = navItems[role] || navItems.staff;
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
 
   return (
     <div className={styles.layout}>
-      <header className={styles.header}>
-        <div className="container flex justify-between items-center">
-          <div className={styles.logo}>
-            <img src="/logo.png" alt="Ndanduleni group" height="40" />
-            <span>NDANDULENI GROUP</span>
-          </div>
-          {user && (
-            <nav className={styles.nav}>
-              <span className={styles.userEmail}>{user.email}</span>
-              <button onClick={signOut} className="btn">Sign Out</button>
-            </nav>
-          )}
+      {/* Hamburger Menu Button */}
+      <button className={styles.menuToggle} onClick={toggleSidebar}>
+        ☰
+      </button>
+
+      {/* Sidebar */}
+      <aside className={`${styles.sidebar} ${sidebarOpen ? styles.sidebarOpen : ''}`}>
+        <div className={styles.sidebarHeader}>
+          <img src="/logo.png" alt="Ndanduleni group" height="40" />
+          <span>NDANDULENI GROUP</span>
         </div>
-      </header>
+        
+        <nav className={styles.sidebarNav}>
+          {items.map((item, index) => (
+            <button
+              key={index}
+              className={`${styles.navItem} ${location.pathname === item.path ? styles.navItemActive : ''}`}
+              onClick={() => {
+                navigate(item.path);
+                setSidebarOpen(false);
+              }}
+            >
+              <span className={styles.navIcon}>{item.icon}</span>
+              <span className={styles.navLabel}>{item.name}</span>
+            </button>
+          ))}
+        </nav>
+
+        <div className={styles.sidebarFooter}>
+          <div className={styles.userInfo}>
+            <span className={styles.userName}>{profile?.full_name || user?.email}</span>
+            <span className={styles.userRole}>{role.toUpperCase()}</span>
+          </div>
+          <button onClick={signOut} className={styles.signOutBtn}>
+            🚪 Sign Out
+          </button>
+        </div>
+      </aside>
+
+      {/* Overlay for mobile */}
+      {sidebarOpen && (
+        <div className={styles.overlay} onClick={() => setSidebarOpen(false)} />
+      )}
+
+      {/* Main Content */}
       <main className={styles.main}>
         <div className="container">
           {children}
