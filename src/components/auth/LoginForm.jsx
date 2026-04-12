@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import Input from '../common/Input';
-import PasswordInput from '../common/PasswordInput';
 import Button from '../common/Button';
 import { Link } from 'react-router-dom';
 import styles from './AuthForm.module.css';
@@ -42,8 +41,9 @@ const LoginForm = () => {
         autoComplete="email"
       />
       
-      <PasswordInput
+      <Input
         label="Password"
+        type="password"
         placeholder="••••••••"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
