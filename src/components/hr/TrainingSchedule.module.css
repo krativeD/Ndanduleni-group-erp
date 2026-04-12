@@ -1,0 +1,76 @@
+.trainingCard {
+  padding: var(--space-lg);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+}
+
+.header h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.trainingList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.trainingItem {
+  padding: var(--space-md);
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-inset);
+}
+
+.trainingHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-sm);
+}
+
+.trainingInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.trainingTitle {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.trainingTrainer {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.status {
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.statusUpcoming {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.statusCompleted {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.trainingMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
