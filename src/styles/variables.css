@@ -1,0 +1,43 @@
+:root {
+  /* Light Mode Colors */
+  --bg-primary: #f3f4f8;
+  --bg-surface: #e0e5ec;
+  --shadow-light: #ffffff;
+  --shadow-dark: #a3b1c6;
+  --text-primary: #17181c;
+  --text-secondary: #4a5568;
+  --accent: #6366f1;
+  --accent-light: #818cf8;
+  --danger: #ef4444;
+  --success: #10b981;
+  --warning: #f59e0b;
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+
+  /* Border Radius */
+  --radius-sm: 0.75rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+
+  /* Shadows */
+  --shadow-raised: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+  --shadow-inset: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+  --shadow-pressed: inset 6px 6px 12px var(--shadow-dark), inset -6px -6px 12px var(--shadow-light);
+}
+
+/* Dark Mode Overrides */
+[data-theme='dark'] {
+  --bg-primary: #17181c;
+  --bg-surface: #1f2128;
+  --shadow-light: #2a2d35;
+  --shadow-dark: #0f1115;
+  --text-primary: #f3f4f8;
+  --text-secondary: #a0aec0;
+  --accent: #818cf8;
+}
