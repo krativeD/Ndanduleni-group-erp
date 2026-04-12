@@ -26,13 +26,15 @@
 .logoWrapper h1 {
   font-size: 1.5rem;
   color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .title {
   margin-bottom: var(--space-lg);
   color: var(--text-secondary);
   font-weight: 400;
-  font-size: 1rem;  /* Reduced from default h2 size */
+  font-size: 0.875rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
 }
