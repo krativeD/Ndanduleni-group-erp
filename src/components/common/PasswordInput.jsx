@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Input from './Input';
 import styles from './PasswordInput.module.css';
 
-const PasswordInput = ({ label, placeholder = '••••••••', ...props }) => {
+const PasswordInput = ({ label, placeholder = '••••••••', value, onChange, required, autoComplete, ...props }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePassword = () => {
@@ -15,6 +15,10 @@ const PasswordInput = ({ label, placeholder = '••••••••', ...pro
         label={label}
         type={showPassword ? 'text' : 'password'}
         placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        required={required}
+        autoComplete={autoComplete}
         {...props}
       />
       <button
