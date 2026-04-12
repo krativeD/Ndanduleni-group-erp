@@ -1,0 +1,54 @@
+.usersPage {
+  padding: var(--space-md) 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-xl);
+}
+
+.searchCard {
+  margin-bottom: var(--space-lg);
+  padding: var(--space-md) !important;
+}
+
+.userList {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--text-primary);
+}
+
+.table th {
+  text-align: left;
+  padding: var(--space-md);
+  color: var(--text-secondary);
+  font-weight: 500;
+  border-bottom: 2px solid var(--shadow-dark);
+}
+
+.table td {
+  padding: var(--space-md);
+  border-bottom: 1px solid var(--shadow-dark);
+}
+
+.roleSelect {
+  background: var(--bg-surface);
+  border: none;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-inset);
+  padding: 0.5rem;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.roleSelect:focus {
+  outline: none;
+  box-shadow: var(--shadow-pressed);
+}
