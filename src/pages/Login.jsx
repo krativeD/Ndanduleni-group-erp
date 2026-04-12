@@ -4,7 +4,7 @@ import LoginForm from '../components/auth/LoginForm';
 
 const Login = () => {
   return (
-    <AuthCard title="Welcome Back">
+    <AuthCard title="Enterprise resource planning">
       <LoginForm />
     </AuthCard>
   );
