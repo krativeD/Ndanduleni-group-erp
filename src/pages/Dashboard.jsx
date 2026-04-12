@@ -1,34 +1,28 @@
 import React from 'react';
 import { useAuth } from '../hooks/useAuth';
 import Layout from '../components/common/Layout';
-import Card from '../components/common/Card';
-import styles from './Dashboard.module.css';
+import CEODashboard from '../components/dashboard/CEODashboard';
+import AdminDashboard from '../components/dashboard/AdminDashboard';
+import StaffDashboard from '../components/dashboard/StaffDashboard';
 
 const Dashboard = () => {
-  const { user, profile } = useAuth();
+  const { profile } = useAuth();
+  const role = profile?.role || 'staff';
+
+  const getDashboard = () => {
+    switch (role) {
+      case 'ceo':
+        return <CEODashboard />;
+      case 'admin':
+        return <AdminDashboard />;
+      default:
+        return <StaffDashboard />;
+    }
+  };
 
   return (
     <Layout>
-      <div className={styles.dashboard}>
-        <h1>Dashboard</h1>
-        <p className={styles.welcome}>Welcome back, {profile?.full_name || user?.email}!</p>
-        
-        <div className={styles.grid}>
-          <Card>
-            <h3>Role: {profile?.role?.toUpperCase()}</h3>
-            <p>This is the Module 1 placeholder dashboard.</p>
-            <p>Full dashboards will be built in Module 2.</p>
-          </Card>
-          
-          {profile?.role === 'ceo' && (
-            <Card>
-              <h3>Global Admin Controls</h3>
-              <p>You have full system access.</p>
-              <a href="/users" className="btn btn-primary">Manage Users</a>
-            </Card>
-          )}
-        </div>
-      </div>
+      {getDashboard()}
     </Layout>
   );
 };
