@@ -10,8 +10,8 @@ const Layout = ({ children }) => {
       <header className={styles.header}>
         <div className="container flex justify-between items-center">
           <div className={styles.logo}>
-            <img src="/logo.png" alt="Ndanduleni" height="40" />
-            <span>Ndanduleni ERP</span>
+            <img src="/logo.png" alt="Ndanduleni group" height="40" />
+            <span>Ndanduleni group</span>
           </div>
           {user && (
             <nav className={styles.nav}>
