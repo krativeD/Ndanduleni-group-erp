@@ -1,0 +1,35 @@
+.authContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+  background: var(--bg-primary);
+}
+
+.authCard {
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+.logoWrapper {
+  margin-bottom: var(--space-lg);
+}
+
+.logo {
+  width: 80px;
+  height: auto;
+  margin-bottom: var(--space-sm);
+}
+
+.logoWrapper h1 {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+}
+
+.title {
+  margin-bottom: var(--space-lg);
+  color: var(--text-secondary);
+  font-weight: 400;
+}
