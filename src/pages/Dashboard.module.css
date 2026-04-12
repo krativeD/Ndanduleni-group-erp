@@ -1,0 +1,15 @@
+.dashboard {
+  padding: var(--space-md) 0;
+}
+
+.welcome {
+  color: var(--text-secondary);
+  margin-bottom: var(--space-xl);
+  font-size: 1.125rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-lg);
+}
