@@ -1,16 +1,24 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDashboard } from '../../hooks/useDashboard';
 import StatCard from './StatCard';
 import RecentActivity from './RecentActivity';
 import QuickActions from './QuickActions';
 import Loader from '../common/Loader';
+import Card from '../common/Card';
 import styles from './Dashboard.module.css';
 
 const StaffDashboard = () => {
+  const navigate = useNavigate();
   const { stats, recentActivity, loading, error } = useDashboard('staff');
 
   if (loading) return <Loader />;
   if (error) return <div className={styles.error}>Error: {error}</div>;
+
+  const modules = [
+    { name: 'HR Portal', description: 'Attendance, Leave, Profile', path: '/hr/attendance', icon: '👤' },
+    { name: 'My Tasks', description: 'View assigned tasks', path: '/crm/activities', icon: '✅' }
+  ];
 
   return (
     <div className={styles.dashboard}>
@@ -45,6 +53,24 @@ const StaffDashboard = () => {
           color="info"
         />
       </div>
+
+      {/* Module Quick Access */}
+      <Card className={styles.moduleGrid}>
+        <h3 style={{ gridColumn: '1/-1', marginBottom: '16px' }}>Quick Access</h3>
+        <div className={styles.moduleCards}>
+          {modules.map((module, index) => (
+            <div 
+              key={index} 
+              className={styles.moduleCard}
+              onClick={() => navigate(module.path)}
+            >
+              <span className={styles.moduleIcon}>{module.icon}</span>
+              <span className={styles.moduleName}>{module.name}</span>
+              <span className={styles.moduleDesc}>{module.description}</span>
+            </div>
+          ))}
+        </div>
+      </Card>
 
       <div className={styles.bottomSection}>
         <RecentActivity activities={recentActivity} />
