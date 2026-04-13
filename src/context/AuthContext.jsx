@@ -154,15 +154,18 @@ export const AuthProvider = ({ children }) => {
     return { error };
   };
 
+  // Convert role to lowercase for consistent comparison
+  const normalizedRole = profile?.role?.toLowerCase();
+
   const value = {
     user,
     profile,
     signUp,
     signIn,
     signOut,
-    isCEO: profile?.role === 'ceo',
-    isAdmin: profile?.role === 'admin' || profile?.role === 'ceo',
-    isStaff: profile?.role === 'staff',
+    isCEO: normalizedRole === 'ceo',
+    isAdmin: normalizedRole === 'admin' || normalizedRole === 'ceo',
+    isStaff: normalizedRole === 'staff' || !normalizedRole,
   };
 
   // Show loading spinner
