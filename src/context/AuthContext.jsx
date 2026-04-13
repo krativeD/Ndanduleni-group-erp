@@ -221,3 +221,25 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+  // Convert role to lowercase for consistent comparison
+  const normalizedRole = profile?.role?.toLowerCase();
+  
+  // DEBUG: Log the profile data
+  console.log('=== AUTH CONTEXT DEBUG ===');
+  console.log('Profile:', profile);
+  console.log('Raw role from DB:', profile?.role);
+  console.log('Normalized role:', normalizedRole);
+  console.log('isCEO:', normalizedRole === 'ceo');
+  console.log('isAdmin:', normalizedRole === 'admin' || normalizedRole === 'ceo');
+  console.log('===========================');
+
+  const value = {
+    user,
+    profile,
+    signUp,
+    signIn,
+    signOut,
+    isCEO: normalizedRole === 'ceo',
+    isAdmin: normalizedRole === 'admin' || normalizedRole === 'ceo',
+    isStaff: normalizedRole === 'staff' || !normalizedRole,
+  };
