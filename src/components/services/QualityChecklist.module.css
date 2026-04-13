@@ -1,0 +1,120 @@
+.qualityCard {
+  padding: var(--space-lg);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+}
+
+.header h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.checksList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.checkItem {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-inset);
+  padding: var(--space-md);
+}
+
+.checkHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-sm);
+}
+
+.client {
+  font-weight: 600;
+  color: var(--text-primary);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.inspector {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.score {
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: var(--radius-md);
+}
+
+.scoreExcellent {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.scoreGood {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+}
+
+.scoreFair {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+}
+
+.checkDetails {
+  display: flex;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+  font-size: 0.8rem;
+}
+
+.date {
+  color: var(--text-secondary);
+}
+
+.status {
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.65rem;
+  font-weight: 600;
+}
+
+.passed {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.failed {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.checklistItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-sm);
+}
+
+.checkItemTag {
+  background: var(--bg-primary);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  color: var(--text-primary);
+}
+
+.notes {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--shadow-dark);
+}
