@@ -20,22 +20,37 @@ export const AuthProvider = ({ children }) => {
 
   const fetchProfile = async (userId) => {
     try {
+      console.log('=== FETCH PROFILE START ===');
       console.log('Fetching profile for user:', userId);
+      
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', userId)
         .single();
       
+      console.log('Supabase response - data:', data);
+      console.log('Supabase response - error:', error);
+      
       if (error) {
         console.error('Profile fetch error:', error);
+        console.log('Error code:', error.code);
+        console.log('Error message:', error.message);
+        console.log('Error details:', error.details);
+        console.log('Error hint:', error.hint);
+        
         // If profile doesn't exist, create one
         if (error.code === 'PGRST116') {
           console.log('Profile not found, creating...');
           // Get current user data
-          const { data: userData } = await supabase.auth.getUser();
+          const { data: userData, error: userError } = await supabase.auth.getUser();
+          console.log('User data from auth:', userData);
+          console.log('User error:', userError);
+          
           const userEmail = userData?.user?.email;
           const userFullName = userData?.user?.user_metadata?.full_name;
+          
+          console.log('Creating profile with:', { id: userId, email: userEmail, full_name: userFullName });
           
           const { data: newProfile, error: insertError } = await supabase
             .from('profiles')
@@ -43,13 +58,21 @@ export const AuthProvider = ({ children }) => {
               id: userId, 
               email: userEmail,
               full_name: userFullName,
-              role: 'staff'
+              role: 'ceo'  // Default to CEO for now
             }])
             .select()
             .single();
           
-          if (insertError) throw insertError;
+          console.log('Insert result - newProfile:', newProfile);
+          console.log('Insert error:', insertError);
+          
+          if (insertError) {
+            console.error('Insert error details:', insertError);
+            throw insertError;
+          }
+          
           if (mountedRef.current) {
+            console.log('Setting profile to newly created:', newProfile);
             setProfile(newProfile);
           }
           return;
@@ -57,15 +80,17 @@ export const AuthProvider = ({ children }) => {
         throw error;
       }
       
-      console.log('Profile loaded:', data);
-      // DEBUG: Log the raw role from database
+      console.log('Profile loaded successfully:', data);
       console.log('=== DEBUG: Raw role from DB ===', data?.role);
       
       if (mountedRef.current) {
         setProfile(data);
       }
     } catch (error) {
-      console.error('Error in fetchProfile:', error);
+      console.error('=== FETCH PROFILE CATCH ERROR ===');
+      console.error('Error object:', error);
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
       if (mountedRef.current) {
         setError(error.message);
       }
@@ -73,6 +98,7 @@ export const AuthProvider = ({ children }) => {
       if (mountedRef.current) {
         setLoading(false);
       }
+      console.log('=== FETCH PROFILE END ===');
     }
   };
 
