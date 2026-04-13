@@ -22,6 +22,23 @@ const Dashboard = () => {
 
   return (
     <Layout>
+      {/* Role indicator - helpful for debugging */}
+      <div style={{ 
+        marginBottom: '16px', 
+        padding: '8px 16px', 
+        background: 'var(--bg-surface)', 
+        borderRadius: 'var(--radius-md)',
+        boxShadow: 'var(--shadow-inset)',
+        display: 'inline-block',
+        fontSize: '0.875rem'
+      }}>
+        Current Role: <strong style={{ color: 'var(--accent)' }}>{role.toUpperCase()}</strong>
+        {role === 'staff' && (
+          <span style={{ marginLeft: '12px', color: 'var(--text-secondary)' }}>
+            (Limited access. Contact admin to upgrade role.)
+          </span>
+        )}
+      </div>
       {getDashboard()}
     </Layout>
   );
