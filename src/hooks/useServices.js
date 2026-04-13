@@ -1,0 +1,147 @@
+import { useState, useEffect } from 'react';
+import { 
+  getMockScheduledJobs, 
+  getMockTeams, 
+  getMockEquipment, 
+  getMockChemicals,
+  getMockQualityChecks,
+  getMockFeedback 
+} from '../lib/servicesService';
+
+export const useScheduledJobs = () => {
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const data = getMockScheduledJobs();
+        setJobs(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  return { jobs, loading, error };
+};
+
+export const useTeams = () => {
+  const [teams, setTeams] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const data = getMockTeams();
+        setTeams(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  return { teams, loading, error };
+};
+
+export const useEquipment = () => {
+  const [equipment, setEquipment] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const data = getMockEquipment();
+        setEquipment(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  return { equipment, loading, error };
+};
+
+export const useChemicals = () => {
+  const [chemicals, setChemicals] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const data = getMockChemicals();
+        setChemicals(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  return { chemicals, loading, error };
+};
+
+export const useQualityChecks = () => {
+  const [checks, setChecks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const data = getMockQualityChecks();
+        setChecks(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  return { checks, loading, error };
+};
+
+export const useFeedback = () => {
+  const [feedback, setFeedback] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const data = getMockFeedback();
+        setFeedback(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  return { feedback, loading, error };
+};
