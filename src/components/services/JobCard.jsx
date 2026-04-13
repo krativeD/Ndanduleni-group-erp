@@ -3,7 +3,7 @@ import Card from '../common/Card';
 import Button from '../common/Button';
 import styles from './JobCard.module.css';
 
-const JobCard = ({ job, onClose, onStatusChange }) => {
+const JobCard = ({ job, onClose, onStatusChange, onEdit, onDelete }) => {
   const getStatusBadge = (status) => {
     const badges = {
       'scheduled': styles.statusScheduled,
@@ -73,15 +73,21 @@ const JobCard = ({ job, onClose, onStatusChange }) => {
       </div>
 
       <div className={styles.actions}>
+        <Button variant="danger" size="small" onClick={onDelete}>
+          🗑️ Delete
+        </Button>
+        <Button variant="default" size="small" onClick={onEdit}>
+          ✏️ Edit
+        </Button>
         <Button variant="default" onClick={onClose}>Cancel</Button>
         {job.status === 'scheduled' && (
           <Button variant="primary" onClick={() => onStatusChange(job.id, 'in-progress')}>
-            Start Job
+            ▶ Start Job
           </Button>
         )}
         {job.status === 'in-progress' && (
           <Button variant="success" onClick={() => onStatusChange(job.id, 'completed')}>
-            Complete Job
+            ✓ Complete Job
           </Button>
         )}
       </div>
