@@ -1,0 +1,122 @@
+.chemicalCard {
+  padding: var(--space-lg);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+}
+
+.header h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.chemicalGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-md);
+}
+
+.chemicalItem {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-inset);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+}
+
+.chemicalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+}
+
+.chemicalName {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.chemicalType {
+  padding: 2px 8px;
+  background: var(--bg-primary);
+  border-radius: var(--radius-sm);
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.chemicalDetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+}
+
+.quantity {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.quantityValue {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.quantityUnit {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.stockIndicator {
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.stockGood {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.stockLow {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.stockCritical {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.chemicalMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-sm);
+}
+
+.supplier {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-md);
+}
+
+.lastOrdered {
+  display: block;
+  font-size: 0.65rem;
+  margin-top: 2px;
+}
+
+.orderBtn {
+  margin-top: auto;
+  width: 100%;
+}
