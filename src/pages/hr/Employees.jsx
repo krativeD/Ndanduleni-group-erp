@@ -8,7 +8,7 @@ import Loader from '../../components/common/Loader';
 import styles from './HRStyles.module.css';
 
 const Employees = () => {
-  const { employees, loading, error } = useEmployees();
+  const { employees, loading, error, addEmployee, updateEmployee, deleteEmployee } = useEmployees();
   const [showForm, setShowForm] = useState(false);
   const [editingEmployee, setEditingEmployee] = useState(null);
 
@@ -24,12 +24,16 @@ const Employees = () => {
 
   const handleDelete = (id) => {
     if (window.confirm('Are you sure you want to delete this employee?')) {
-      console.log('Delete employee:', id);
+      deleteEmployee(id);
     }
   };
 
   const handleSubmit = async (data) => {
-    console.log('Submit employee:', data);
+    if (editingEmployee) {
+      updateEmployee(editingEmployee.id, data);
+    } else {
+      addEmployee(data);
+    }
     setShowForm(false);
     setEditingEmployee(null);
   };
@@ -42,7 +46,9 @@ const Employees = () => {
       <div className={styles.pageContainer}>
         <div className={styles.pageHeader}>
           <h1>Employees</h1>
-          <Button variant="primary" onClick={handleAdd}>+ Add Employee</Button>
+          {!showForm && (
+            <Button variant="primary" onClick={handleAdd}>+ Add Employee</Button>
+          )}
         </div>
 
         {showForm ? (
