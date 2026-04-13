@@ -16,8 +16,10 @@ const StaffDashboard = () => {
   if (error) return <div className={styles.error}>Error: {error}</div>;
 
   const modules = [
-    { name: 'HR Portal', description: 'Attendance, Leave, Profile', path: '/hr/attendance', icon: '👤' },
-    { name: 'My Tasks', description: 'View assigned tasks', path: '/crm/activities', icon: '✅' }
+    { name: 'My Attendance', description: 'Clock in/out & view history', path: '/hr/attendance', icon: '📍' },
+    { name: 'My Tasks', description: 'View assigned tasks', path: '/crm/activities', icon: '📋' },
+    { name: 'Service Jobs', description: 'View cleaning jobs', path: '/services/jobs', icon: '🧹' },
+    { name: 'My Profile', description: 'Update personal info', path: '/profile', icon: '👤' }
   ];
 
   return (
