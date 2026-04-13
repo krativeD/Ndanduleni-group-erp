@@ -7,7 +7,7 @@ import Loader from '../../components/common/Loader';
 import styles from './ServicesStyles.module.css';
 
 const Schedule = () => {
-  const { jobs, loading, error } = useScheduledJobs();
+  const { jobs, loading, error, updateJobStatus } = useScheduledJobs();
   const [selectedJob, setSelectedJob] = useState(null);
 
   const handleJobClick = (job) => {
@@ -15,7 +15,7 @@ const Schedule = () => {
   };
 
   const handleStatusChange = (jobId, newStatus) => {
-    console.log('Change job status:', jobId, newStatus);
+    updateJobStatus(jobId, newStatus);
     setSelectedJob(null);
   };
 
