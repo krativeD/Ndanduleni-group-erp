@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { 
-  getMockScheduledJobs, 
-  getMockTeams, 
-  getMockEquipment, 
+import {
+  getMockScheduledJobs,
+  getMockTeams,
+  getMockEquipment,
   getMockChemicals,
   getMockQualityChecks,
-  getMockFeedback 
+  getMockFeedback
 } from '../lib/servicesService';
 
 // Global state for jobs
@@ -37,7 +37,7 @@ export const useScheduledJobs = () => {
   }, []);
 
   const updateJobStatus = (id, newStatus) => {
-    const updated = jobs.map(job => 
+    const updated = jobs.map(job =>
       job.id === id ? { ...job, status: newStatus } : job
     );
     globalJobs = updated;
@@ -56,7 +56,22 @@ export const useScheduledJobs = () => {
     return newJob;
   };
 
-  return { jobs, loading, error, updateJobStatus, addJob };
+  const deleteJob = (id) => {
+    const updated = jobs.filter(job => job.id !== id);
+    globalJobs = updated;
+    setJobs(updated);
+  };
+
+  const updateJob = (id, updates) => {
+    const updated = jobs.map(job =>
+      job.id === id ? { ...job, ...updates } : job
+    );
+    globalJobs = updated;
+    setJobs(updated);
+    return updated.find(j => j.id === id);
+  };
+
+  return { jobs, loading, error, updateJobStatus, addJob, deleteJob, updateJob };
 };
 
 export const useTeams = () => {
