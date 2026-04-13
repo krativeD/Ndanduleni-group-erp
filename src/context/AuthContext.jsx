@@ -58,6 +58,9 @@ export const AuthProvider = ({ children }) => {
       }
       
       console.log('Profile loaded:', data);
+      // DEBUG: Log the raw role from database
+      console.log('=== DEBUG: Raw role from DB ===', data?.role);
+      
       if (mountedRef.current) {
         setProfile(data);
       }
@@ -156,6 +159,15 @@ export const AuthProvider = ({ children }) => {
 
   // Convert role to lowercase for consistent comparison
   const normalizedRole = profile?.role?.toLowerCase();
+  
+  // DEBUG: Log the role detection
+  console.log('=== AUTH CONTEXT ROLE DETECTION ===');
+  console.log('Profile:', profile);
+  console.log('Raw role from DB:', profile?.role);
+  console.log('Normalized role:', normalizedRole);
+  console.log('isCEO:', normalizedRole === 'ceo');
+  console.log('isAdmin:', normalizedRole === 'admin' || normalizedRole === 'ceo');
+  console.log('===================================');
 
   const value = {
     user,
@@ -221,25 +233,3 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-  // Convert role to lowercase for consistent comparison
-  const normalizedRole = profile?.role?.toLowerCase();
-  
-  // DEBUG: Log the profile data
-  console.log('=== AUTH CONTEXT DEBUG ===');
-  console.log('Profile:', profile);
-  console.log('Raw role from DB:', profile?.role);
-  console.log('Normalized role:', normalizedRole);
-  console.log('isCEO:', normalizedRole === 'ceo');
-  console.log('isAdmin:', normalizedRole === 'admin' || normalizedRole === 'ceo');
-  console.log('===========================');
-
-  const value = {
-    user,
-    profile,
-    signUp,
-    signIn,
-    signOut,
-    isCEO: normalizedRole === 'ceo',
-    isAdmin: normalizedRole === 'admin' || normalizedRole === 'ceo',
-    isStaff: normalizedRole === 'staff' || !normalizedRole,
-  };
