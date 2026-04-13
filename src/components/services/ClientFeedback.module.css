@@ -1,0 +1,65 @@
+.feedbackCard {
+  padding: var(--space-lg);
+}
+
+.header {
+  margin-bottom: var(--space-lg);
+}
+
+.header h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.feedbackList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.feedbackItem {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-inset);
+  padding: var(--space-md);
+}
+
+.feedbackHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+}
+
+.clientName {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+}
+
+.starFilled {
+  color: #f59e0b;
+  font-size: 1rem;
+}
+
+.starEmpty {
+  color: var(--shadow-dark);
+  font-size: 1rem;
+}
+
+.comment {
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  font-style: italic;
+  margin-bottom: var(--space-sm);
+  line-height: 1.5;
+}
+
+.date {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
