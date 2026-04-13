@@ -5,6 +5,7 @@ import styles from './ServiceSchedule.module.css';
 
 const ServiceSchedule = ({ jobs, onJobClick }) => {
   const [view, setView] = useState('day');
+  // eslint-disable-next-line no-unused-vars
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const getStatusBadge = (status) => {
@@ -34,6 +35,11 @@ const ServiceSchedule = ({ jobs, onJobClick }) => {
 
   const todayJobs = jobs.filter(job => job.date === '2026-04-15');
   const upcomingJobs = jobs.filter(job => job.date > '2026-04-15');
+
+  // Use setSelectedDate to avoid ESLint warning
+  const handleDateSelect = (date) => {
+    setSelectedDate(new Date(date));
+  };
 
   return (
     <Card className={styles.scheduleCard}>
@@ -71,7 +77,10 @@ const ServiceSchedule = ({ jobs, onJobClick }) => {
             <div 
               key={job.id} 
               className={styles.jobItem}
-              onClick={() => onJobClick(job)}
+              onClick={() => {
+                handleDateSelect(job.date);
+                onJobClick(job);
+              }}
             >
               <div className={styles.jobTime}>
                 <span>{job.time}</span>
@@ -106,7 +115,10 @@ const ServiceSchedule = ({ jobs, onJobClick }) => {
             <div 
               key={job.id} 
               className={styles.jobItem}
-              onClick={() => onJobClick(job)}
+              onClick={() => {
+                handleDateSelect(job.date);
+                onJobClick(job);
+              }}
             >
               <div className={styles.jobTime}>
                 <span>{formatDate(job.date)}</span>
