@@ -17,12 +17,17 @@ const CEODashboard = () => {
   if (error) return <div className={styles.error}>Error: {error}</div>;
 
   const modules = [
-    { name: 'HR Module', description: 'Employees, Attendance, Payroll', path: '/hr/employees', icon: '👥' },
-    { name: 'CRM Module', description: 'Contacts, Leads, Deals', path: '/crm/contacts', icon: '🤝' },
-    { name: 'Services', description: 'Cleaning Operations', path: '/services', icon: '🧹' },
-    { name: 'Inventory', description: 'Stock & Supplies', path: '/inventory', icon: '📦' },
-    { name: 'Finance', description: 'Accounting & Reports', path: '/finance', icon: '💰' },
-    { name: 'Settings', description: 'System Configuration', path: '/settings', icon: '⚙️' }
+    { name: 'HR Module', description: 'Employees, Attendance, Payroll, Leave', path: '/hr/employees', icon: '👥', status: 'active' },
+    { name: 'CRM Module', description: 'Contacts, Leads, Deals, Pipeline', path: '/crm/contacts', icon: '🤝', status: 'active' },
+    { name: 'Services', description: 'Cleaning Operations & Scheduling', path: '/services/schedule', icon: '🧹', status: 'active' },
+    { name: 'Inventory', description: 'Stock, Equipment & Supplies', path: '/inventory', icon: '📦', status: 'coming-soon' },
+    { name: 'Manufacturing', description: 'Product & Production', path: '/manufacturing', icon: '🏭', status: 'coming-soon' },
+    { name: 'Sales & Orders', description: 'Sales Pipeline & Orders', path: '/sales', icon: '🛒', status: 'coming-soon' },
+    { name: 'Finance', description: 'Accounting & Financial Reports', path: '/finance', icon: '💰', status: 'coming-soon' },
+    { name: 'Procurement', description: 'Purchasing & Suppliers', path: '/procurement', icon: '📋', status: 'coming-soon' },
+    { name: 'Reports', description: 'Analytics & Business Intelligence', path: '/reports', icon: '📊', status: 'coming-soon' },
+    { name: 'Documents', description: 'File Management System', path: '/documents', icon: '📁', status: 'coming-soon' },
+    { name: 'Settings', description: 'System Configuration', path: '/settings', icon: '⚙️', status: 'coming-soon' }
   ];
 
   return (
@@ -69,17 +74,24 @@ const CEODashboard = () => {
 
       {/* Module Quick Access */}
       <Card className={styles.moduleGrid}>
-        <h3 style={{ gridColumn: '1/-1', marginBottom: '16px' }}>Quick Module Access</h3>
+        <h3 style={{ gridColumn: '1/-1', marginBottom: '16px' }}>System Modules</h3>
         <div className={styles.moduleCards}>
           {modules.map((module, index) => (
             <div 
               key={index} 
-              className={styles.moduleCard}
-              onClick={() => navigate(module.path)}
+              className={`${styles.moduleCard} ${module.status === 'coming-soon' ? styles.moduleCardDisabled : ''}`}
+              onClick={() => {
+                if (module.status === 'active') {
+                  navigate(module.path);
+                }
+              }}
             >
               <span className={styles.moduleIcon}>{module.icon}</span>
               <span className={styles.moduleName}>{module.name}</span>
               <span className={styles.moduleDesc}>{module.description}</span>
+              {module.status === 'coming-soon' && (
+                <span className={styles.comingSoonBadge}>Coming Soon</span>
+              )}
             </div>
           ))}
         </div>
