@@ -17,10 +17,11 @@ const AdminDashboard = () => {
   if (error) return <div className={styles.error}>Error: {error}</div>;
 
   const modules = [
-    { name: 'HR Module', description: 'Employees, Attendance, Leave', path: '/hr/employees', icon: '👥' },
-    { name: 'CRM Module', description: 'Contacts & Leads', path: '/crm/contacts', icon: '🤝' },
-    { name: 'Services', description: 'Operations Management', path: '/services', icon: '🧹' },
-    { name: 'Inventory', description: 'Stock Management', path: '/inventory', icon: '📦' }
+    { name: 'HR Module', description: 'Employees, Attendance, Leave', path: '/hr/employees', icon: '👥', status: 'active' },
+    { name: 'CRM Module', description: 'Contacts & Leads Management', path: '/crm/contacts', icon: '🤝', status: 'active' },
+    { name: 'Services', description: 'Cleaning Operations', path: '/services/schedule', icon: '🧹', status: 'active' },
+    { name: 'Inventory', description: 'Stock Management', path: '/inventory', icon: '📦', status: 'coming-soon' },
+    { name: 'Reports', description: 'Analytics & Reports', path: '/reports', icon: '📊', status: 'coming-soon' }
   ];
 
   return (
@@ -72,12 +73,19 @@ const AdminDashboard = () => {
           {modules.map((module, index) => (
             <div 
               key={index} 
-              className={styles.moduleCard}
-              onClick={() => navigate(module.path)}
+              className={`${styles.moduleCard} ${module.status === 'coming-soon' ? styles.moduleCardDisabled : ''}`}
+              onClick={() => {
+                if (module.status === 'active') {
+                  navigate(module.path);
+                }
+              }}
             >
               <span className={styles.moduleIcon}>{module.icon}</span>
               <span className={styles.moduleName}>{module.name}</span>
               <span className={styles.moduleDesc}>{module.description}</span>
+              {module.status === 'coming-soon' && (
+                <span className={styles.comingSoonBadge}>Coming Soon</span>
+              )}
             </div>
           ))}
         </div>
