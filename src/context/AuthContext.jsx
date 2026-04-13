@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useRef } from 'react';
+import React, { createContext, useState, useEffect, useRef, useCallback } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import Loader from '../components/common/Loader';
 
@@ -12,13 +12,14 @@ export const AuthProvider = ({ children }) => {
   
   // Use refs to avoid dependency issues
   const mountedRef = useRef(true);
-  const loadingRef = useRef(loading);
+  const profileRef = useRef(null);
   
+  // Keep profileRef in sync with profile state
   useEffect(() => {
-    loadingRef.current = loading;
-  }, [loading]);
+    profileRef.current = profile;
+  }, [profile]);
 
-  const fetchProfile = async (userId) => {
+  const fetchProfile = useCallback(async (userId) => {
     try {
       console.log('=== FETCH PROFILE START ===');
       console.log('Fetching profile for user:', userId);
@@ -56,30 +57,32 @@ export const AuthProvider = ({ children }) => {
         }
       } catch (bgError) {
         console.log('Background fetch failed, using hardcoded profile:', bgError);
+      } finally {
+        if (mountedRef.current) {
+          setLoading(false);
+        }
       }
       
     } catch (error) {
       console.error('=== FETCH PROFILE CATCH ERROR ===');
       console.error('Error object:', error);
-      console.error('Error message:', error.message);
-      console.error('Error stack:', error.stack);
       if (mountedRef.current) {
         setLoading(false);
       }
     }
     console.log('=== FETCH PROFILE END ===');
-  };
+  }, []);
 
   useEffect(() => {
     let timeoutId;
 
-    // Set a timeout to prevent infinite loading (15 seconds max)
+    // Set a timeout to prevent infinite loading (10 seconds max)
     timeoutId = setTimeout(() => {
-      if (mountedRef.current && loadingRef.current) {
+      if (mountedRef.current) {
         console.warn('Auth loading timeout - forcing load complete');
         setLoading(false);
       }
-    }, 15000);
+    }, 10000);
 
     // Get initial session
     supabase.auth.getSession()
@@ -108,8 +111,8 @@ export const AuthProvider = ({ children }) => {
       if (mountedRef.current) {
         setUser(session?.user ?? null);
         if (session?.user) {
-          // Only fetch profile if we don't already have it for this user
-          if (!profile || profile.id !== session.user.id) {
+          // Use ref to check current profile without dependency
+          if (!profileRef.current || profileRef.current.id !== session.user.id) {
             await fetchProfile(session.user.id);
           } else {
             console.log('Profile already loaded for this user, skipping fetch');
@@ -127,8 +130,7 @@ export const AuthProvider = ({ children }) => {
       clearTimeout(timeoutId);
       subscription?.unsubscribe();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fetchProfile]);
 
   const signUp = async ({ email, password, fullName, role = 'staff' }) => {
     const { data, error } = await supabase.auth.signUp({
@@ -145,10 +147,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signIn = async ({ email, password }) => {
+    setLoading(true);
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
+    if (error) {
+      setLoading(false);
+    }
     return { data, error };
   };
 
@@ -167,6 +173,7 @@ export const AuthProvider = ({ children }) => {
   console.log('Normalized role:', normalizedRole);
   console.log('isCEO:', normalizedRole === 'ceo');
   console.log('isAdmin:', normalizedRole === 'admin' || normalizedRole === 'ceo');
+  console.log('Loading state:', loading);
   console.log('===================================');
 
   const value = {
