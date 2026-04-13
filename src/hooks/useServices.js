@@ -8,6 +8,9 @@ import {
   getMockFeedback 
 } from '../lib/servicesService';
 
+// Global state for jobs
+let globalJobs = null;
+
 export const useScheduledJobs = () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -17,8 +20,13 @@ export const useScheduledJobs = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const data = getMockScheduledJobs();
-        setJobs(data);
+        if (globalJobs) {
+          setJobs(globalJobs);
+        } else {
+          const data = getMockScheduledJobs();
+          globalJobs = data;
+          setJobs(data);
+        }
       } catch (err) {
         setError(err.message);
       } finally {
@@ -28,7 +36,27 @@ export const useScheduledJobs = () => {
     fetchData();
   }, []);
 
-  return { jobs, loading, error };
+  const updateJobStatus = (id, newStatus) => {
+    const updated = jobs.map(job => 
+      job.id === id ? { ...job, status: newStatus } : job
+    );
+    globalJobs = updated;
+    setJobs(updated);
+    return updated.find(j => j.id === id);
+  };
+
+  const addJob = (job) => {
+    const newJob = {
+      ...job,
+      id: Math.max(...jobs.map(j => j.id), 0) + 1
+    };
+    const updated = [...jobs, newJob];
+    globalJobs = updated;
+    setJobs(updated);
+    return newJob;
+  };
+
+  return { jobs, loading, error, updateJobStatus, addJob };
 };
 
 export const useTeams = () => {
