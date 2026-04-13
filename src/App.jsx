@@ -25,6 +25,14 @@ import Deals from './pages/crm/Deals';
 import Activities from './pages/crm/Activities';
 import CRMReports from './pages/crm/Reports';
 
+// Services Module Imports
+import Schedule from './pages/services/Schedule';
+import Jobs from './pages/services/Jobs';
+import Teams from './pages/services/Teams';
+import Quality from './pages/services/Quality';
+import Equipment from './pages/services/Equipment';
+import Chemicals from './pages/services/Chemicals';
+
 import './styles/global.css';
 
 // Protected Route wrapper
@@ -140,6 +148,38 @@ const AppRoutes = () => {
         </ProtectedRoute>
       } />
       
+      {/* Services Module Routes */}
+      <Route path="/services/schedule" element={
+        <ProtectedRoute>
+          <Schedule />
+        </ProtectedRoute>
+      } />
+      <Route path="/services/jobs" element={
+        <ProtectedRoute>
+          <Jobs />
+        </ProtectedRoute>
+      } />
+      <Route path="/services/teams" element={
+        <ProtectedRoute>
+          <Teams />
+        </ProtectedRoute>
+      } />
+      <Route path="/services/quality" element={
+        <ProtectedRoute>
+          <Quality />
+        </ProtectedRoute>
+      } />
+      <Route path="/services/equipment" element={
+        <ProtectedRoute>
+          <Equipment />
+        </ProtectedRoute>
+      } />
+      <Route path="/services/chemicals" element={
+        <ProtectedRoute>
+          <Chemicals />
+        </ProtectedRoute>
+      } />
+      
       {/* Default Redirect */}
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
     </Routes>
@@ -157,42 +197,3 @@ function App() {
 }
 
 export default App;
-// Add these imports
-import Schedule from './pages/services/Schedule';
-import Jobs from './pages/services/Jobs';
-import Teams from './pages/services/Teams';
-import Quality from './pages/services/Quality';
-import Equipment from './pages/services/Equipment';
-import Chemicals from './pages/services/Chemicals';
-
-// Add these routes inside the Routes component
-<Route path="/services/schedule" element={
-  <ProtectedRoute>
-    <Schedule />
-  </ProtectedRoute>
-} />
-<Route path="/services/jobs" element={
-  <ProtectedRoute>
-    <Jobs />
-  </ProtectedRoute>
-} />
-<Route path="/services/teams" element={
-  <ProtectedRoute>
-    <Teams />
-  </ProtectedRoute>
-} />
-<Route path="/services/quality" element={
-  <ProtectedRoute>
-    <Quality />
-  </ProtectedRoute>
-} />
-<Route path="/services/equipment" element={
-  <ProtectedRoute>
-    <Equipment />
-  </ProtectedRoute>
-} />
-<Route path="/services/chemicals" element={
-  <ProtectedRoute>
-    <Chemicals />
-  </ProtectedRoute>
-} />
