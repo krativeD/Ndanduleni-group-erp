@@ -16,20 +16,29 @@ const Layout = ({ children }) => {
       { name: 'Dashboard', path: '/dashboard', icon: '🏠' },
       { name: 'HR Module', path: '/hr/employees', icon: '👥' },
       { name: 'CRM Module', path: '/crm/contacts', icon: '🤝' },
+      { name: 'Services', path: '/services/schedule', icon: '🧹' },
+      { name: 'Inventory', path: '/inventory', icon: '📦' },
+      { name: 'Finance', path: '/finance', icon: '💰' },
+      { name: 'Reports', path: '/reports', icon: '📊' },
       { name: 'Users', path: '/users', icon: '👤' },
-      { name: 'Profile', path: '/profile', icon: '⚙️' }
+      { name: 'Settings', path: '/settings', icon: '⚙️' },
+      { name: 'Profile', path: '/profile', icon: '👤' }
     ],
     admin: [
       { name: 'Dashboard', path: '/dashboard', icon: '🏠' },
       { name: 'HR Module', path: '/hr/employees', icon: '👥' },
       { name: 'CRM Module', path: '/crm/contacts', icon: '🤝' },
-      { name: 'Profile', path: '/profile', icon: '⚙️' }
+      { name: 'Services', path: '/services/schedule', icon: '🧹' },
+      { name: 'Inventory', path: '/inventory', icon: '📦' },
+      { name: 'Reports', path: '/reports', icon: '📊' },
+      { name: 'Profile', path: '/profile', icon: '👤' }
     ],
     staff: [
       { name: 'Dashboard', path: '/dashboard', icon: '🏠' },
-      { name: 'Attendance', path: '/hr/attendance', icon: '📍' },
-      { name: 'Activities', path: '/crm/activities', icon: '📋' },
-      { name: 'Profile', path: '/profile', icon: '⚙️' }
+      { name: 'My Attendance', path: '/hr/attendance', icon: '📍' },
+      { name: 'My Tasks', path: '/crm/activities', icon: '📋' },
+      { name: 'Services', path: '/services/jobs', icon: '🧹' },
+      { name: 'Profile', path: '/profile', icon: '👤' }
     ]
   };
 
@@ -57,7 +66,7 @@ const Layout = ({ children }) => {
           {items.map((item, index) => (
             <button
               key={index}
-              className={`${styles.navItem} ${location.pathname === item.path ? styles.navItemActive : ''}`}
+              className={`${styles.navItem} ${location.pathname === item.path || location.pathname.startsWith(item.path + '/') ? styles.navItemActive : ''}`}
               onClick={() => {
                 navigate(item.path);
                 setSidebarOpen(false);
