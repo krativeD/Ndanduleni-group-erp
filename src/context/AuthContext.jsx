@@ -105,13 +105,13 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     let timeoutId;
 
-    // Set a timeout to prevent infinite loading (5 seconds max)
+    // Set a timeout to prevent infinite loading (15 seconds max)
     timeoutId = setTimeout(() => {
       if (mountedRef.current && loadingRef.current) {
         console.warn('Auth loading timeout - forcing load complete');
         setLoading(false);
       }
-    }, 5000);
+    }, 15000);
 
     // Get initial session
     supabase.auth.getSession()
@@ -140,7 +140,13 @@ export const AuthProvider = ({ children }) => {
       if (mountedRef.current) {
         setUser(session?.user ?? null);
         if (session?.user) {
-          await fetchProfile(session.user.id);
+          // Only fetch profile if we don't already have it for this user
+          if (!profile || profile.id !== session.user.id) {
+            await fetchProfile(session.user.id);
+          } else {
+            console.log('Profile already loaded for this user, skipping fetch');
+            setLoading(false);
+          }
         } else {
           setProfile(null);
           setLoading(false);
