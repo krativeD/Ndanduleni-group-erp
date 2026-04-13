@@ -28,6 +28,7 @@
   transform: translateY(-3px);
 }
 
+
 .moduleCard:active {
   box-shadow: var(--shadow-pressed);
   transform: translateY(0);
@@ -47,4 +48,27 @@
 .moduleDesc {
   font-size: 0.75rem;
   color: var(--text-secondary);
+}
+.moduleCardDisabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  position: relative;
+}
+
+.moduleCardDisabled:hover {
+  transform: none;
+  box-shadow: var(--shadow-raised);
+}
+
+.comingSoonBadge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--accent);
+  color: white;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
 }
