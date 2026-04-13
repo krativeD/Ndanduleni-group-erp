@@ -8,7 +8,7 @@ import Loader from '../../components/common/Loader';
 import styles from './CRMStyles.module.css';
 
 const Contacts = () => {
-  const { contacts, loading, error } = useContacts();
+  const { contacts, loading, error, addContact, updateContact, deleteContact } = useContacts();
   const [showForm, setShowForm] = useState(false);
   const [editingContact, setEditingContact] = useState(null);
 
@@ -24,12 +24,16 @@ const Contacts = () => {
 
   const handleDelete = (id) => {
     if (window.confirm('Are you sure you want to delete this contact?')) {
-      console.log('Delete contact:', id);
+      deleteContact(id);
     }
   };
 
   const handleSubmit = async (data) => {
-    console.log('Submit contact:', data);
+    if (editingContact) {
+      updateContact(editingContact.id, data);
+    } else {
+      addContact(data);
+    }
     setShowForm(false);
     setEditingContact(null);
   };
