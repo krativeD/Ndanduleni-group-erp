@@ -6,7 +6,7 @@ import Loader from '../../components/common/Loader';
 import styles from './ManufacturingStyles.module.css';
 
 const Products = () => {
-  const { products, loading, error, updateProduct, deleteProduct, addProduct } = useProducts();
+  const { products, loading, error, deleteProduct } = useProducts();
 
   const handleEdit = (product) => console.log('Edit product:', product);
   const handleDelete = (id) => { if (window.confirm('Delete this product?')) deleteProduct(id); };
