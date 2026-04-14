@@ -21,8 +21,8 @@ const CEODashboard = () => {
     { name: 'CRM Module', description: 'Contacts, Leads, Deals, Pipeline', path: '/crm/contacts', icon: '🤝', status: 'active' },
     { name: 'Services', description: 'Cleaning Operations & Scheduling', path: '/services/schedule', icon: '🧹', status: 'active' },
     { name: 'Inventory', description: 'Stock, Suppliers & Movements', path: '/inventory/stock', icon: '📦', status: 'active' },
-    { name: 'Manufacturing', description: 'Product & Production', path: '/manufacturing', icon: '🏭', status: 'coming-soon' },
-    { name: 'Sales & Orders', description: 'Sales Pipeline & Orders', path: '/sales', icon: '🛒', status: 'coming-soon' },
+    { name: 'Manufacturing', description: 'Product & Production', path: '/manufacturing/products', icon: '🏭', status: 'active' },
+    { name: 'Sales & Orders', description: 'Orders, Quotations, Invoices, Payments', path: '/sales', icon: '🛒', status: 'active' },
     { name: 'Finance', description: 'Accounting & Financial Reports', path: '/finance', icon: '💰', status: 'coming-soon' },
     { name: 'Procurement', description: 'Purchasing & Suppliers', path: '/procurement', icon: '📋', status: 'coming-soon' },
     { name: 'Reports', description: 'Analytics & Business Intelligence', path: '/reports', icon: '📊', status: 'coming-soon' },
@@ -48,7 +48,7 @@ const CEODashboard = () => {
         />
         <StatCard
           title="Total Revenue"
-          value={`$${(stats.totalRevenue / 1000).toFixed(0)}k`}
+          value={`R ${(stats.totalRevenue / 1000).toFixed(0)}k`}
           icon="💰"
           trend="up"
           trendValue={12.5}
