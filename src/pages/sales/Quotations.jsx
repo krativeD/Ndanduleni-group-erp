@@ -58,7 +58,12 @@ const Quotations = () => {
   return (
     <>
       {showForm ? (
-        <QuotationForm quotation={editingQuotation} onSubmit={handleSubmit} onCancel={() => { setShowForm(false); setEditingQuotation(null); }} />
+        <QuotationForm 
+          quotation={editingQuotation} 
+          onSubmit={handleSubmit} 
+          onCancel={() => { setShowForm(false); setEditingQuotation(null); }}
+          onConvertToInvoice={editingQuotation ? () => handleConvertToInvoice(editingQuotation) : null}
+        />
       ) : (
         <>
           <div className={styles.subHeader}>
@@ -91,16 +96,6 @@ const Quotations = () => {
                       <td><span className={`${styles.statusBadge} ${getStatusBadge(q.status)}`}>{q.status}</span></td>
                       <td>
                         <div className={styles.actions}>
-                          {q.status === 'accepted' && (
-                            <button 
-                              className={styles.actionBtn} 
-                              onClick={() => handleConvertToInvoice(q)}
-                              title="Convert to Invoice"
-                              style={{ background: '#10b981', color: 'white' }}
-                            >
-                              📄→🧾
-                            </button>
-                          )}
                           <button className={styles.actionBtn} onClick={() => handleEdit(q)} title="Edit">✏️</button>
                           <button className={styles.actionBtn} onClick={() => handleDelete(q.id)} title="Delete">🗑️</button>
                         </div>
