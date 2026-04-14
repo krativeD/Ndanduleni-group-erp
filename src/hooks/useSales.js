@@ -120,7 +120,6 @@ export const useInvoices = () => {
   const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Helper to generate next invoice number
   const generateInvoiceNumber = () => {
     const currentYear = new Date().getFullYear();
     const existingInvoices = invoices.filter(inv => 
@@ -197,6 +196,45 @@ export const useInvoices = () => {
     convertQuotationToInvoice,
     generateInvoiceNumber 
   };
+};
+
+// PAYMENTS HOOK
+export const usePayments = () => {
+  const [payments, setPayments] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    if (globalPayments) {
+      setPayments(globalPayments);
+    } else {
+      const data = getMockPayments();
+      globalPayments = data;
+      setPayments(data);
+    }
+    setLoading(false);
+  }, []);
+
+  const addPayment = (payment) => {
+    const newPayment = {
+      ...payment,
+      id: Math.max(...payments.map(p => p.id), 0) + 1,
+      date: new Date().toISOString().split('T')[0],
+      reference: `PAY-${String(payments.length + 1).padStart(3, '0')}`
+    };
+    const updated = [...payments, newPayment];
+    globalPayments = updated;
+    setPayments(updated);
+    return newPayment;
+  };
+
+  const deletePayment = (id) => {
+    const updated = payments.filter(p => p.id !== id);
+    globalPayments = updated;
+    setPayments(updated);
+  };
+
+  return { payments, loading, addPayment, deletePayment };
 };
 
 // DELIVERIES HOOK
