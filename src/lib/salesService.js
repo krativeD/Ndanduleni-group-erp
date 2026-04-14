@@ -9,10 +9,66 @@ export const getMockOrders = () => [
 ];
 
 export const getMockQuotations = () => [
-  { id: 1, quoteNumber: 'QUO-2026-001', customer: 'Clearwater Mall', date: '2026-04-10', items: 6, total: 18500.00, validUntil: '2026-05-10', status: 'sent' },
-  { id: 2, quoteNumber: 'QUO-2026-002', customer: 'Brooklyn Mall', date: '2026-04-11', items: 3, total: 7200.00, validUntil: '2026-05-11', status: 'accepted' },
-  { id: 3, quoteNumber: 'QUO-2026-003', customer: 'Canal Walk', date: '2026-04-12', items: 5, total: 22300.00, validUntil: '2026-05-12', status: 'draft' },
-  { id: 4, quoteNumber: 'QUO-2026-004', customer: 'Eastgate', date: '2026-04-08', items: 4, total: 9500.00, validUntil: '2026-05-08', status: 'rejected' }
+  { 
+    id: 1, 
+    quoteNumber: 'QUO-2026-001', 
+    customer: 'Clearwater Mall', 
+    customerAddress: 'Hendrik Potgieter Road, Roodepoort, 1709',
+    customerEmail: 'procurement@clearwatermall.co.za',
+    date: '2026-04-10', 
+    items: 6, 
+    total: 18500.00, 
+    validUntil: '2026-05-10', 
+    status: 'sent' 
+  },
+  { 
+    id: 2, 
+    quoteNumber: 'QUO-2026-002', 
+    customer: 'Brooklyn Mall', 
+    customerAddress: 'Fehrsen Street, Brooklyn, Pretoria, 0181',
+    customerEmail: 'finance@brooklynmall.co.za',
+    date: '2026-04-11', 
+    items: 3, 
+    total: 7200.00, 
+    validUntil: '2026-05-11', 
+    status: 'accepted' 
+  },
+  { 
+    id: 3, 
+    quoteNumber: 'QUO-2026-003', 
+    customer: 'Canal Walk', 
+    customerAddress: 'Century Boulevard, Century City, Cape Town, 7441',
+    customerEmail: 'accounts@canalwalk.co.za',
+    date: '2026-04-12', 
+    items: 5, 
+    total: 22300.00, 
+    validUntil: '2026-05-12', 
+    status: 'draft' 
+  },
+  { 
+    id: 4, 
+    quoteNumber: 'QUO-2026-004', 
+    customer: 'Eastgate', 
+    customerAddress: '43 Bradford Road, Bedfordview, Germiston, 2008',
+    customerEmail: 'billing@eastgate.co.za',
+    date: '2026-04-08', 
+    items: 4, 
+    total: 9500.00, 
+    validUntil: '2026-05-08', 
+    status: 'rejected' 
+  },
+  { 
+    id: 5, 
+    quoteNumber: 'QUO-2026-005', 
+    customer: 'Mall of Africa', 
+    customerAddress: 'Lone Creek Crescent, Waterfall City, Midrand, 1685',
+    customerEmail: 'finance@mallofafrica.co.za',
+    date: '2026-04-14', 
+    items: 8, 
+    total: 32500.00, 
+    validUntil: '2026-05-14', 
+    status: 'accepted' 
+  }
 ];
 
 export const getMockInvoices = () => [
@@ -101,66 +157,4 @@ export const getMockCommissions = () => [
   { id: 1, salesperson: 'John Mbeki', month: 'April 2026', orders: 8, totalSales: 45800.00, commissionRate: 5, commission: 2290.00, status: 'pending' },
   { id: 2, salesperson: 'Emily Zulu', month: 'April 2026', orders: 6, totalSales: 32400.00, commissionRate: 5, commission: 1620.00, status: 'paid' },
   { id: 3, salesperson: 'Sarah Ndlovu', month: 'April 2026', orders: 5, totalSales: 21500.00, commissionRate: 5, commission: 1075.00, status: 'pending' }
-];
-export const getMockQuotations = () => [
-  { 
-    id: 1, 
-    quoteNumber: 'QUO-2026-001', 
-    customer: 'Clearwater Mall', 
-    customerAddress: 'Hendrik Potgieter Road, Roodepoort, 1709',
-    customerEmail: 'procurement@clearwatermall.co.za',
-    date: '2026-04-10', 
-    items: 6, 
-    total: 18500.00, 
-    validUntil: '2026-05-10', 
-    status: 'sent' 
-  },
-  { 
-    id: 2, 
-    quoteNumber: 'QUO-2026-002', 
-    customer: 'Brooklyn Mall', 
-    customerAddress: 'Fehrsen Street, Brooklyn, Pretoria, 0181',
-    customerEmail: 'finance@brooklynmall.co.za',
-    date: '2026-04-11', 
-    items: 3, 
-    total: 7200.00, 
-    validUntil: '2026-05-11', 
-    status: 'accepted' 
-  },
-  { 
-    id: 3, 
-    quoteNumber: 'QUO-2026-003', 
-    customer: 'Canal Walk', 
-    customerAddress: 'Century Boulevard, Century City, Cape Town, 7441',
-    customerEmail: 'accounts@canalwalk.co.za',
-    date: '2026-04-12', 
-    items: 5, 
-    total: 22300.00, 
-    validUntil: '2026-05-12', 
-    status: 'draft' 
-  },
-  { 
-    id: 4, 
-    quoteNumber: 'QUO-2026-004', 
-    customer: 'Eastgate', 
-    customerAddress: '43 Bradford Road, Bedfordview, Germiston, 2008',
-    customerEmail: 'billing@eastgate.co.za',
-    date: '2026-04-08', 
-    items: 4, 
-    total: 9500.00, 
-    validUntil: '2026-05-08', 
-    status: 'rejected' 
-  },
-  { 
-    id: 5, 
-    quoteNumber: 'QUO-2026-005', 
-    customer: 'Mall of Africa', 
-    customerAddress: 'Lone Creek Crescent, Waterfall City, Midrand, 1685',
-    customerEmail: 'finance@mallofafrica.co.za',
-    date: '2026-04-14', 
-    items: 8, 
-    total: 32500.00, 
-    validUntil: '2026-05-14', 
-    status: 'accepted' 
-  }
 ];
