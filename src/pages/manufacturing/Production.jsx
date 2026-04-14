@@ -7,8 +7,12 @@ import Loader from '../../components/common/Loader';
 import styles from './ManufacturingStyles.module.css';
 
 const Production = () => {
-  const { orders, loading: ordersLoading, updateOrderStatus, addOrder } = useProductionOrders();
+  const { orders, loading: ordersLoading, updateOrderStatus } = useProductionOrders();
   const { workCenters, loading: wcLoading } = useWorkCenters();
+
+  const handleAddOrder = () => {
+    console.log('Add order');
+  };
 
   if (ordersLoading || wcLoading) return <Layout><Loader /></Layout>;
 
@@ -17,7 +21,7 @@ const Production = () => {
       <div className={styles.pageContainer}>
         <div className={styles.pageHeader}><h1>Production Management</h1></div>
         <div className={styles.productionGrid}>
-          <ProductionOrders orders={orders} onStatusChange={updateOrderStatus} onAdd={() => console.log('Add order')} />
+          <ProductionOrders orders={orders} onStatusChange={updateOrderStatus} onAdd={handleAddOrder} />
           <WorkCenters workCenters={workCenters} />
         </div>
       </div>
