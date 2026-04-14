@@ -6,7 +6,7 @@ import Loader from '../../components/common/Loader';
 import styles from './InventoryStyles.module.css';
 
 const Suppliers = () => {
-  const { suppliers, loading, error, addSupplier, updateSupplier, deleteSupplier } = useSuppliers();
+  const { suppliers, loading, error, deleteSupplier } = useSuppliers();
 
   const handleEdit = (supplier) => {
     console.log('Edit supplier:', supplier);
