@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Card from '../../components/common/Card';
 import Button from '../../components/common/Button';
 import QuotationForm from '../../components/sales/QuotationForm';
+import QuotationView from '../../components/sales/QuotationView';
 import { useQuotations, useInvoices } from '../../hooks/useSales';
 import Loader from '../../components/common/Loader';
 import styles from './SalesStyles.module.css';
@@ -13,6 +14,7 @@ const Quotations = () => {
   const { convertQuotationToInvoice } = useInvoices();
   const [showForm, setShowForm] = useState(false);
   const [editingQuotation, setEditingQuotation] = useState(null);
+  const [viewingQuotation, setViewingQuotation] = useState(null);
 
   const getStatusBadge = (status) => {
     const badges = { 'draft': styles.statusDraft, 'sent': styles.statusSent, 'accepted': styles.statusAccepted, 'rejected': styles.statusRejected };
@@ -27,6 +29,10 @@ const Quotations = () => {
   const handleEdit = (quote) => {
     setEditingQuotation(quote);
     setShowForm(true);
+  };
+
+  const handleView = (quote) => {
+    setViewingQuotation(quote);
   };
 
   const handleDelete = (id) => {
@@ -54,6 +60,16 @@ const Quotations = () => {
   };
 
   if (loading) return <Loader />;
+
+  // Show quotation view if viewing
+  if (viewingQuotation) {
+    return (
+      <QuotationView 
+        quotation={viewingQuotation} 
+        onClose={() => setViewingQuotation(null)} 
+      />
+    );
+  }
 
   return (
     <>
@@ -96,6 +112,7 @@ const Quotations = () => {
                       <td><span className={`${styles.statusBadge} ${getStatusBadge(q.status)}`}>{q.status}</span></td>
                       <td>
                         <div className={styles.actions}>
+                          <button className={styles.actionBtn} onClick={() => handleView(q)} title="View/Print">👁️</button>
                           <button className={styles.actionBtn} onClick={() => handleEdit(q)} title="Edit">✏️</button>
                           <button className={styles.actionBtn} onClick={() => handleDelete(q.id)} title="Delete">🗑️</button>
                         </div>
