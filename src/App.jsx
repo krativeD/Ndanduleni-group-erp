@@ -40,6 +40,14 @@ import Suppliers from './pages/inventory/Suppliers';
 import PurchaseOrders from './pages/inventory/PurchaseOrders';
 import StockTake from './pages/inventory/StockTake';
 
+// Manufacturing Module Imports
+import Products from './pages/manufacturing/Products';
+import BOM from './pages/manufacturing/BOM';
+import Production from './pages/manufacturing/Production';
+import WorkCentersPage from './pages/manufacturing/WorkCenters';
+import QualityControl from './pages/manufacturing/Quality';
+import Costs from './pages/manufacturing/Costs';
+
 import './styles/global.css';
 
 // Protected Route wrapper
@@ -211,6 +219,38 @@ const AppRoutes = () => {
       <Route path="/inventory/stocktake" element={
         <ProtectedRoute>
           <StockTake />
+        </ProtectedRoute>
+      } />
+      
+      {/* Manufacturing Module Routes */}
+      <Route path="/manufacturing/products" element={
+        <ProtectedRoute>
+          <Products />
+        </ProtectedRoute>
+      } />
+      <Route path="/manufacturing/bom" element={
+        <ProtectedRoute>
+          <BOM />
+        </ProtectedRoute>
+      } />
+      <Route path="/manufacturing/production" element={
+        <ProtectedRoute>
+          <Production />
+        </ProtectedRoute>
+      } />
+      <Route path="/manufacturing/workcenters" element={
+        <ProtectedRoute>
+          <WorkCentersPage />
+        </ProtectedRoute>
+      } />
+      <Route path="/manufacturing/quality" element={
+        <ProtectedRoute>
+          <QualityControl />
+        </ProtectedRoute>
+      } />
+      <Route path="/manufacturing/costs" element={
+        <ProtectedRoute>
+          <Costs />
         </ProtectedRoute>
       } />
       
