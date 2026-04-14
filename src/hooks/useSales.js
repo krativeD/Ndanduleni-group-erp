@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
-import { getMockOrders, getMockQuotations, getMockInvoices, getMockPayments, getMockDeliveries, getMockCommissions } from '../lib/salesService';
+import { getMockOrders, getMockQuotations, getMockInvoices, getMockPayments, getMockCommissions } from '../lib/salesService';
 
 let globalOrders = null;
 let globalQuotations = null;
 let globalInvoices = null;
 let globalPayments = null;
-let globalDeliveries = null;
 
 // ORDERS HOOK
 export const useOrders = () => {
@@ -167,7 +166,7 @@ export const useInvoices = () => {
       total: quotation.total,
       paid: 0,
       status: 'unpaid',
-      items: quotation.items || [{ description: 'Cleaning Services', quantity: 1, unitPrice: quotation.total }]
+      items: quotation.lineItems || [{ description: 'Cleaning Services', quantity: 1, unitPrice: quotation.total }]
     };
     const updated = [...invoices, newInvoice];
     globalInvoices = updated;
@@ -235,50 +234,6 @@ export const usePayments = () => {
   };
 
   return { payments, loading, addPayment, deletePayment };
-};
-
-// DELIVERIES HOOK
-export const useDeliveries = () => {
-  const [deliveries, setDeliveries] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(true);
-    if (globalDeliveries) {
-      setDeliveries(globalDeliveries);
-    } else {
-      const data = getMockDeliveries();
-      globalDeliveries = data;
-      setDeliveries(data);
-    }
-    setLoading(false);
-  }, []);
-
-  const addDelivery = (delivery) => {
-    const newDelivery = {
-      ...delivery,
-      id: Math.max(...deliveries.map(d => d.id), 0) + 1,
-      status: 'scheduled'
-    };
-    const updated = [...deliveries, newDelivery];
-    globalDeliveries = updated;
-    setDeliveries(updated);
-    return newDelivery;
-  };
-
-  const updateDeliveryStatus = (id, status, delivered = null) => {
-    const updated = deliveries.map(d => d.id === id ? { ...d, status, delivered } : d);
-    globalDeliveries = updated;
-    setDeliveries(updated);
-  };
-
-  const deleteDelivery = (id) => {
-    const updated = deliveries.filter(d => d.id !== id);
-    globalDeliveries = updated;
-    setDeliveries(updated);
-  };
-
-  return { deliveries, loading, addDelivery, updateDeliveryStatus, deleteDelivery };
 };
 
 // COMMISSIONS HOOK
