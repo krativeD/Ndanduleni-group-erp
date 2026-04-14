@@ -8,7 +8,7 @@ import Loader from '../../components/common/Loader';
 import styles from './SalesStyles.module.css';
 
 const Invoices = () => {
-  const { invoices, loading, addInvoice, updateInvoice, deleteInvoice } = useInvoices();
+  const { invoices, loading, addInvoice, updateInvoice, deleteInvoice, generateInvoiceNumber } = useInvoices();
   const [showForm, setShowForm] = useState(false);
   const [editingInvoice, setEditingInvoice] = useState(null);
   const [viewingInvoice, setViewingInvoice] = useState(null);
@@ -51,6 +51,7 @@ const Invoices = () => {
   if (loading) return <Loader />;
 
   const totalOutstanding = invoices.filter(i => i.status !== 'paid').reduce((sum, i) => sum + (i.total - i.paid), 0);
+  const nextInvoiceNumber = generateInvoiceNumber();
 
   // Show invoice view if viewing
   if (viewingInvoice) {
@@ -65,7 +66,12 @@ const Invoices = () => {
   return (
     <>
       {showForm ? (
-        <InvoiceForm invoice={editingInvoice} onSubmit={handleSubmit} onCancel={() => { setShowForm(false); setEditingInvoice(null); }} />
+        <InvoiceForm 
+          invoice={editingInvoice} 
+          onSubmit={handleSubmit} 
+          onCancel={() => { setShowForm(false); setEditingInvoice(null); }}
+          nextInvoiceNumber={nextInvoiceNumber}
+        />
       ) : (
         <>
           <div className={styles.subHeader}>
