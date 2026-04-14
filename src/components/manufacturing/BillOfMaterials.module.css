@@ -1,0 +1,15 @@
+.bomCard { padding: var(--space-lg); }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg); }
+.header h3 { font-size: 1.125rem; font-weight: 600; }
+.bomList { display: flex; flex-direction: column; gap: var(--space-sm); }
+.bomItem { background: var(--bg-surface); border-radius: var(--radius-md); box-shadow: var(--shadow-inset); overflow: hidden; }
+.bomHeader { display: flex; justify-content: space-between; align-items: center; padding: var(--space-md); cursor: pointer; transition: background 0.15s ease; }
+.bomHeader:hover { background: var(--bg-primary); }
+.bomName { font-weight: 600; color: var(--text-primary); display: block; }
+.componentCount { font-size: 0.75rem; color: var(--text-secondary); }
+.expandIcon { color: var(--text-secondary); }
+.bomDetails { padding: 0 var(--space-md) var(--space-md); }
+.componentsTable { width: 100%; border-collapse: collapse; margin-bottom: var(--space-md); }
+.componentsTable th { text-align: left; padding: var(--space-xs); color: var(--text-secondary); font-size: 0.7rem; text-transform: uppercase; border-bottom: 1px solid var(--shadow-dark); }
+.componentsTable td { padding: var(--space-xs); font-size: 0.8rem; color: var(--text-primary); }
+.bomActions { display: flex; justify-content: flex-end; }
