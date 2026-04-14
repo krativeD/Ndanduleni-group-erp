@@ -6,7 +6,7 @@ import Loader from '../../components/common/Loader';
 import styles from './InventoryStyles.module.css';
 
 const Movements = () => {
-  const { movements, loading, error, addMovement } = useStockMovements();
+  const { movements, loading, error } = useStockMovements();
 
   const handleNewMovement = () => {
     console.log('New movement');
