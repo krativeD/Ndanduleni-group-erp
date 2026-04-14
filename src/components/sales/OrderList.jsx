@@ -4,7 +4,7 @@ import Input from '../common/Input';
 import Button from '../common/Button';
 import styles from './OrderList.module.css';
 
-const OrderList = ({ orders, onStatusChange, onAdd }) => {
+const OrderList = ({ orders, onStatusChange, onAdd, onEdit, onDelete }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
 
@@ -47,13 +47,19 @@ const OrderList = ({ orders, onStatusChange, onAdd }) => {
 
       <div className={styles.tableWrapper}>
         <table className={styles.table}>
-          <thead><tr><th>Order #</th><th>Customer</th><th>Date</th><th>Items</th><th>Total</th><th>Status</th><th>Payment</th></tr></thead>
+          <thead><tr><th>Order #</th><th>Customer</th><th>Date</th><th>Items</th><th>Total</th><th>Status</th><th>Payment</th><th>Actions</th></tr></thead>
           <tbody>
             {filteredOrders.map(order => (
               <tr key={order.id}>
                 <td>{order.orderNumber}</td><td>{order.customer}</td><td>{order.date}</td><td>{order.items}</td><td>R {order.total.toLocaleString()}</td>
                 <td><span className={`${styles.statusBadge} ${getStatusBadge(order.status)}`}>{order.status}</span></td>
                 <td><span className={`${styles.paymentBadge} ${getPaymentBadge(order.paymentStatus)}`}>{order.paymentStatus}</span></td>
+                <td>
+                  <div className={styles.actions}>
+                    <button className={styles.actionBtn} onClick={() => onEdit(order)}>✏️</button>
+                    <button className={styles.actionBtn} onClick={() => onDelete(order.id)}>🗑️</button>
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>
