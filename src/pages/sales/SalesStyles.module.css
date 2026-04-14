@@ -58,3 +58,11 @@
   background: rgba(245, 158, 11, 0.1);
   color: #f59e0b;
 }
+.actions { display: flex; gap: var(--space-xs); }
+.actionBtn { background: var(--bg-surface); border: none; border-radius: var(--radius-sm); box-shadow: var(--shadow-raised); padding: 0.4rem 0.6rem; cursor: pointer; font-size: 0.875rem; transition: all 0.15s ease; }
+.actionBtn:hover { box-shadow: var(--shadow-pressed); }
+.invoiceCard { padding: var(--space-lg); }
+.paymentCard { padding: var(--space-lg); }
+.summary { margin-bottom: var(--space-md); color: var(--text-secondary); }
+.statusPartial { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+.statusUnpaid { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
