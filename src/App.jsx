@@ -33,6 +33,13 @@ import Quality from './pages/services/Quality';
 import Equipment from './pages/services/Equipment';
 import Chemicals from './pages/services/Chemicals';
 
+// Inventory Module Imports
+import Stock from './pages/inventory/Stock';
+import Movements from './pages/inventory/Movements';
+import Suppliers from './pages/inventory/Suppliers';
+import PurchaseOrders from './pages/inventory/PurchaseOrders';
+import StockTake from './pages/inventory/StockTake';
+
 import './styles/global.css';
 
 // Protected Route wrapper
@@ -177,6 +184,33 @@ const AppRoutes = () => {
       <Route path="/services/chemicals" element={
         <ProtectedRoute>
           <Chemicals />
+        </ProtectedRoute>
+      } />
+      
+      {/* Inventory Module Routes */}
+      <Route path="/inventory/stock" element={
+        <ProtectedRoute>
+          <Stock />
+        </ProtectedRoute>
+      } />
+      <Route path="/inventory/movements" element={
+        <ProtectedRoute>
+          <Movements />
+        </ProtectedRoute>
+      } />
+      <Route path="/inventory/suppliers" element={
+        <ProtectedRoute>
+          <Suppliers />
+        </ProtectedRoute>
+      } />
+      <Route path="/inventory/orders" element={
+        <ProtectedRoute>
+          <PurchaseOrders />
+        </ProtectedRoute>
+      } />
+      <Route path="/inventory/stocktake" element={
+        <ProtectedRoute>
+          <StockTake />
         </ProtectedRoute>
       } />
       
