@@ -8,6 +8,7 @@ import styles from './InventoryStyles.module.css';
 
 const Stock = () => {
   const { items, loading, error } = useStockItems();
+  // eslint-disable-next-line no-unused-vars
   const [selectedItem, setSelectedItem] = useState(null);
 
   const handleItemClick = (item) => {
