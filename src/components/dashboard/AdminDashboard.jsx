@@ -20,7 +20,7 @@ const AdminDashboard = () => {
     { name: 'HR Module', description: 'Employees, Attendance, Leave', path: '/hr/employees', icon: '👥', status: 'active' },
     { name: 'CRM Module', description: 'Contacts & Leads Management', path: '/crm/contacts', icon: '🤝', status: 'active' },
     { name: 'Services', description: 'Cleaning Operations', path: '/services/schedule', icon: '🧹', status: 'active' },
-    { name: 'Inventory', description: 'Stock Management', path: '/inventory', icon: '📦', status: 'coming-soon' },
+    { name: 'Inventory', description: 'Stock & Suppliers', path: '/inventory/stock', icon: '📦', status: 'active' },
     { name: 'Reports', description: 'Analytics & Reports', path: '/reports', icon: '📊', status: 'coming-soon' }
   ];
 
@@ -32,35 +32,35 @@ const AdminDashboard = () => {
       </div>
 
       <div className={styles.statsGrid}>
-        <StatCard 
-          title="Department Staff" 
-          value={stats.totalEmployees} 
-          icon="👥" 
-          trend="up" 
+        <StatCard
+          title="Department Staff"
+          value={stats.totalEmployees}
+          icon="👥"
+          trend="up"
           trendValue={1.8}
           color="primary"
         />
-        <StatCard 
-          title="Department Revenue" 
-          value={`$${(stats.totalRevenue / 1000).toFixed(0)}k`} 
-          icon="💰" 
-          trend="up" 
+        <StatCard
+          title="Department Revenue"
+          value={`$${(stats.totalRevenue / 1000).toFixed(0)}k`}
+          icon="💰"
+          trend="up"
           trendValue={8.3}
           color="success"
         />
-        <StatCard 
-          title="Active Projects" 
-          value={stats.activeProjects} 
-          icon="📊" 
-          trend="up" 
+        <StatCard
+          title="Active Projects"
+          value={stats.activeProjects}
+          icon="📊"
+          trend="up"
           trendValue={4.1}
           color="info"
         />
-        <StatCard 
-          title="Attendance Rate" 
-          value={`${stats.attendanceRate}%`} 
-          icon="📅" 
-          trend="up" 
+        <StatCard
+          title="Attendance Rate"
+          value={`${stats.attendanceRate}%`}
+          icon="📅"
+          trend="up"
           trendValue={1.5}
           color="success"
         />
@@ -71,8 +71,8 @@ const AdminDashboard = () => {
         <h3 style={{ gridColumn: '1/-1', marginBottom: '16px' }}>Available Modules</h3>
         <div className={styles.moduleCards}>
           {modules.map((module, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className={`${styles.moduleCard} ${module.status === 'coming-soon' ? styles.moduleCardDisabled : ''}`}
               onClick={() => {
                 if (module.status === 'active') {
