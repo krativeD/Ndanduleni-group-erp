@@ -11,9 +11,7 @@ const Orders = () => {
   if (error) return <div className={styles.error}>Error: {error}</div>;
 
   return (
-    <>
-      <OrderList orders={orders} onStatusChange={updateOrderStatus} onAdd={() => console.log('Add order')} />
-    </>
+    <OrderList orders={orders} onStatusChange={updateOrderStatus} onAdd={() => console.log('Add order')} />
   );
 };
 
