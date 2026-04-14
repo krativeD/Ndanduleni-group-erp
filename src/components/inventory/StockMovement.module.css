@@ -1,0 +1,80 @@
+.movementCard {
+  padding: var(--space-lg);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+}
+
+.header h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.movementList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.movementItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-inset);
+}
+
+.movementIcon {
+  font-size: 1.5rem;
+}
+
+.movementInfo {
+  flex: 1;
+}
+
+.movementHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: 4px;
+}
+
+.itemName {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.typeBadge {
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.typeIn {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.typeOut {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.movementMeta {
+  display: flex;
+  gap: var(--space-md);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.movementDate {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
