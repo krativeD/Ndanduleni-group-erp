@@ -1,0 +1,18 @@
+.ordersCard { padding: var(--space-lg); }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg); }
+.header h3 { font-size: 1.125rem; font-weight: 600; }
+.orderList { display: flex; flex-direction: column; gap: var(--space-md); }
+.orderItem { background: var(--bg-surface); border-radius: var(--radius-md); box-shadow: var(--shadow-inset); padding: var(--space-md); }
+.orderHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-sm); }
+.orderNumber { font-weight: 600; color: var(--accent); display: block; font-size: 0.875rem; }
+.productName { font-weight: 500; color: var(--text-primary); }
+.statusBadge { padding: 4px 10px; border-radius: var(--radius-sm); font-size: 0.7rem; font-weight: 600; text-transform: capitalize; }
+.statusPlanned { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+.statusProgress { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+.statusCompleted { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+.orderDetails { margin-bottom: var(--space-md); }
+.progressBar { height: 6px; background: var(--shadow-dark); border-radius: 3px; margin-bottom: var(--space-sm); overflow: hidden; }
+.progressFill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.3s ease; }
+.orderMeta { display: flex; gap: var(--space-md); font-size: 0.75rem; color: var(--text-secondary); margin-bottom: var(--space-xs); }
+.orderDates { display: flex; gap: var(--space-md); font-size: 0.75rem; color: var(--text-secondary); }
+.orderActions { display: flex; justify-content: flex-end; }
