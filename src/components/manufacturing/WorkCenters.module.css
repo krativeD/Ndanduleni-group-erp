@@ -1,0 +1,15 @@
+.workCenterCard { padding: var(--space-lg); }
+.header { margin-bottom: var(--space-lg); }
+.header h3 { font-size: 1.125rem; font-weight: 600; }
+.workCenterGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-md); }
+.workCenterItem { background: var(--bg-surface); border-radius: var(--radius-md); box-shadow: var(--shadow-inset); padding: var(--space-md); }
+.workCenterHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md); }
+.workCenterName { font-weight: 600; color: var(--text-primary); }
+.statusBadge { padding: 4px 10px; border-radius: var(--radius-sm); font-size: 0.65rem; font-weight: 600; text-transform: capitalize; }
+.statusActive { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+.statusMaintenance { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+.statusIdle { background: rgba(107, 114, 128, 0.1); color: #6b7280; }
+.workCenterDetails { display: flex; flex-direction: column; gap: var(--space-sm); }
+.detailRow { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-secondary); }
+.loadBar { flex: 1; height: 6px; background: var(--shadow-dark); border-radius: 3px; margin: 0 var(--space-sm); overflow: hidden; }
+.loadFill { height: 100%; background: var(--accent); border-radius: 3px; }
