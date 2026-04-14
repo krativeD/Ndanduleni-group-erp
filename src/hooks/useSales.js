@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getMockOrders, getMockQuotations, getMockInvoices, getMockPayments, getMockCommissions } from '../lib/salesService';
+import { getMockOrders, getMockQuotations, getMockInvoices, getMockPayments } from '../lib/salesService';
 
 let globalOrders = null;
 let globalQuotations = null;
@@ -234,23 +234,4 @@ export const usePayments = () => {
   };
 
   return { payments, loading, addPayment, deletePayment };
-};
-
-// COMMISSIONS HOOK
-export const useCommissions = () => {
-  const [commissions, setCommissions] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(true);
-    const data = getMockCommissions();
-    setCommissions(data);
-    setLoading(false);
-  }, []);
-
-  const updateCommissionStatus = (id, status) => {
-    setCommissions(prev => prev.map(c => c.id === id ? { ...c, status } : c));
-  };
-
-  return { commissions, loading, updateCommissionStatus };
 };
