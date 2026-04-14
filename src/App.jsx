@@ -54,9 +54,6 @@ import Orders from './pages/sales/Orders';
 import Quotations from './pages/sales/Quotations';
 import Invoices from './pages/sales/Invoices';
 import Payments from './pages/sales/Payments';
-import Deliveries from './pages/sales/Deliveries';
-import Pipeline from './pages/sales/Pipeline';
-import Commissions from './pages/sales/Commissions';
 
 import './styles/global.css';
 
@@ -275,9 +272,6 @@ const AppRoutes = () => {
         <Route path="quotations" element={<Quotations />} />
         <Route path="invoices" element={<Invoices />} />
         <Route path="payments" element={<Payments />} />
-        <Route path="deliveries" element={<Deliveries />} />
-        <Route path="pipeline" element={<Pipeline />} />
-        <Route path="commissions" element={<Commissions />} />
       </Route>
       
       {/* Default Redirect */}
