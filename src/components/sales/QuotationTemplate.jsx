@@ -105,3 +105,33 @@ const QuotationTemplate = ({ quotation, companyInfo }) => {
 };
 
 export default QuotationTemplate;
+      {/* Line Items */}
+      <table className={styles.itemsTable}>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {quotation.lineItems && quotation.lineItems.length > 0 ? (
+            quotation.lineItems.map((item, idx) => (
+              <tr key={idx}>
+                <td>{item.description}</td>
+                <td>{item.quantity}</td>
+                <td>{formatCurrency(item.unitPrice)}</td>
+                <td>{formatCurrency(item.quantity * item.unitPrice)}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td>Professional Cleaning Services</td>
+              <td>1</td>
+              <td>{formatCurrency(quotation.total)}</td>
+              <td>{formatCurrency(quotation.total)}</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
