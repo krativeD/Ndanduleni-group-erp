@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Card from '../../components/common/Card';
 import Button from '../../components/common/Button';
 import InvoiceForm from '../../components/sales/InvoiceForm';
+import InvoiceView from '../../components/sales/InvoiceView';
 import { useInvoices } from '../../hooks/useSales';
 import Loader from '../../components/common/Loader';
 import styles from './SalesStyles.module.css';
@@ -10,6 +11,7 @@ const Invoices = () => {
   const { invoices, loading, addInvoice, updateInvoice, deleteInvoice } = useInvoices();
   const [showForm, setShowForm] = useState(false);
   const [editingInvoice, setEditingInvoice] = useState(null);
+  const [viewingInvoice, setViewingInvoice] = useState(null);
 
   const getStatusBadge = (status) => {
     const badges = { 'paid': styles.statusPaid, 'partial': styles.statusPartial, 'unpaid': styles.statusUnpaid };
@@ -24,6 +26,10 @@ const Invoices = () => {
   const handleEdit = (invoice) => {
     setEditingInvoice(invoice);
     setShowForm(true);
+  };
+
+  const handleView = (invoice) => {
+    setViewingInvoice(invoice);
   };
 
   const handleDelete = (id) => {
@@ -45,6 +51,16 @@ const Invoices = () => {
   if (loading) return <Loader />;
 
   const totalOutstanding = invoices.filter(i => i.status !== 'paid').reduce((sum, i) => sum + (i.total - i.paid), 0);
+
+  // Show invoice view if viewing
+  if (viewingInvoice) {
+    return (
+      <InvoiceView 
+        invoice={viewingInvoice} 
+        onClose={() => setViewingInvoice(null)} 
+      />
+    );
+  }
 
   return (
     <>
@@ -70,8 +86,9 @@ const Invoices = () => {
                       <td><span className={`${styles.statusBadge} ${getStatusBadge(inv.status)}`}>{inv.status}</span></td>
                       <td>
                         <div className={styles.actions}>
-                          <button className={styles.actionBtn} onClick={() => handleEdit(inv)}>✏️</button>
-                          <button className={styles.actionBtn} onClick={() => handleDelete(inv.id)}>🗑️</button>
+                          <button className={styles.actionBtn} onClick={() => handleView(inv)} title="View/Print">👁️</button>
+                          <button className={styles.actionBtn} onClick={() => handleEdit(inv)} title="Edit">✏️</button>
+                          <button className={styles.actionBtn} onClick={() => handleDelete(inv.id)} title="Delete">🗑️</button>
                         </div>
                       </td>
                     </tr>
