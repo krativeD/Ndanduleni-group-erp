@@ -49,6 +49,7 @@ import QualityControl from './pages/manufacturing/Quality';
 import Costs from './pages/manufacturing/Costs';
 
 // Sales Module Imports
+import SalesDashboard from './pages/sales/SalesDashboard';
 import Orders from './pages/sales/Orders';
 import Quotations from './pages/sales/Quotations';
 import Invoices from './pages/sales/Invoices';
@@ -263,42 +264,21 @@ const AppRoutes = () => {
         </ProtectedRoute>
       } />
       
-      {/* Sales Module Routes */}
-      <Route path="/sales/orders" element={
+      {/* Sales Module Routes - NESTED */}
+      <Route path="/sales" element={
         <ProtectedRoute>
-          <Orders />
+          <SalesDashboard />
         </ProtectedRoute>
-      } />
-      <Route path="/sales/quotations" element={
-        <ProtectedRoute>
-          <Quotations />
-        </ProtectedRoute>
-      } />
-      <Route path="/sales/invoices" element={
-        <ProtectedRoute>
-          <Invoices />
-        </ProtectedRoute>
-      } />
-      <Route path="/sales/payments" element={
-        <ProtectedRoute>
-          <Payments />
-        </ProtectedRoute>
-      } />
-      <Route path="/sales/deliveries" element={
-        <ProtectedRoute>
-          <Deliveries />
-        </ProtectedRoute>
-      } />
-      <Route path="/sales/pipeline" element={
-        <ProtectedRoute>
-          <Pipeline />
-        </ProtectedRoute>
-      } />
-      <Route path="/sales/commissions" element={
-        <ProtectedRoute>
-          <Commissions />
-        </ProtectedRoute>
-      } />
+      }>
+        <Route index element={<Navigate to="/sales/orders" replace />} />
+        <Route path="orders" element={<Orders />} />
+        <Route path="quotations" element={<Quotations />} />
+        <Route path="invoices" element={<Invoices />} />
+        <Route path="payments" element={<Payments />} />
+        <Route path="deliveries" element={<Deliveries />} />
+        <Route path="pipeline" element={<Pipeline />} />
+        <Route path="commissions" element={<Commissions />} />
+      </Route>
       
       {/* Default Redirect */}
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
