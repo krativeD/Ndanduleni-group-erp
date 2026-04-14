@@ -1,0 +1,36 @@
+.pageContainer {
+  padding: var(--space-md) 0;
+}
+
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-xl);
+}
+
+.pageHeader h1 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  color: var(--text-primary);
+}
+
+.error {
+  text-align: center;
+  padding: var(--space-xl);
+  color: var(--danger);
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-raised);
+}
+
+.stockGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-lg);
+}
+
+@media (max-width: 768px) {
+  .stockGrid {
+    grid-template-columns: 1fr;
+  }
+}
