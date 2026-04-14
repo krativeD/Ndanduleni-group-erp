@@ -7,6 +7,8 @@ import styles from './OrderForm.module.css';
 const QuotationForm = ({ quotation, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
     customer: quotation?.customer || '',
+    customerAddress: quotation?.customerAddress || '',
+    customerEmail: quotation?.customerEmail || '',
     items: quotation?.items || 1,
     total: quotation?.total || 0,
     validUntil: quotation?.validUntil || '',
@@ -34,6 +36,8 @@ const QuotationForm = ({ quotation, onSubmit, onCancel }) => {
       
       <form onSubmit={handleSubmit} className={styles.form}>
         <Input label="Customer" name="customer" value={formData.customer} onChange={handleChange} required />
+        <Input label="Customer Address" name="customerAddress" value={formData.customerAddress} onChange={handleChange} />
+        <Input label="Customer Email" name="customerEmail" type="email" value={formData.customerEmail} onChange={handleChange} />
         <Input label="Number of Items" name="items" type="number" value={formData.items} onChange={handleChange} required />
         <Input label="Total Amount (R)" name="total" type="number" step="0.01" value={formData.total} onChange={handleChange} required />
         <Input label="Valid Until" name="validUntil" type="date" value={formData.validUntil} onChange={handleChange} required />
