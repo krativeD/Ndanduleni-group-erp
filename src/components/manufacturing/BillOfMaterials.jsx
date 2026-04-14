@@ -6,6 +6,7 @@ import styles from './BillOfMaterials.module.css';
 const BillOfMaterials = ({ boms, products, onView }) => {
   const [expandedBOM, setExpandedBOM] = useState(null);
 
+  // eslint-disable-next-line no-unused-vars
   const getProductName = (productId) => {
     return products.find(p => p.id === productId)?.name || 'Unknown';
   };
