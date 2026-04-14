@@ -1,5 +1,4 @@
 import React from 'react';
-import Layout from '../../components/common/Layout';
 import Card from '../../components/common/Card';
 import { useCommissions } from '../../hooks/useSales';
 import Loader from '../../components/common/Loader';
@@ -14,32 +13,29 @@ const Commissions = () => {
 
   const totalCommissions = commissions.reduce((sum, c) => sum + c.commission, 0);
 
-  if (loading) return <Layout><Loader /></Layout>;
+  if (loading) return <Loader />;
 
   return (
-    <Layout>
-      <div className={styles.pageContainer}>
-        <div className={styles.pageHeader}><h1>Commission Tracker</h1></div>
-        <div className={styles.commissionSummary}>
-          <Card className={styles.summaryCard}><span>Total Commissions (April)</span><h2>R {totalCommissions.toLocaleString()}</h2></Card>
-        </div>
-        <Card className={styles.commissionCard}>
-          <div className={styles.tableWrapper}>
-            <table className={styles.table}>
-              <thead><tr><th>Salesperson</th><th>Orders</th><th>Total Sales</th><th>Rate</th><th>Commission</th><th>Status</th></tr></thead>
-              <tbody>
-                {commissions.map(c => (
-                  <tr key={c.id}>
-                    <td>{c.salesperson}</td><td>{c.orders}</td><td>R {c.totalSales.toLocaleString()}</td><td>{c.commissionRate}%</td><td>R {c.commission.toLocaleString()}</td>
-                    <td><span className={`${styles.statusBadge} ${getStatusBadge(c.status)}`}>{c.status}</span></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Card>
+    <>
+      <div className={styles.commissionSummary}>
+        <Card className={styles.summaryCard}><span>Total Commissions (April)</span><h2>R {totalCommissions.toLocaleString()}</h2></Card>
       </div>
-    </Layout>
+      <Card className={styles.commissionCard}>
+        <div className={styles.tableWrapper}>
+          <table className={styles.table}>
+            <thead><tr><th>Salesperson</th><th>Orders</th><th>Total Sales</th><th>Rate</th><th>Commission</th><th>Status</th></tr></thead>
+            <tbody>
+              {commissions.map(c => (
+                <tr key={c.id}>
+                  <td>{c.salesperson}</td><td>{c.orders}</td><td>R {c.totalSales.toLocaleString()}</td><td>{c.commissionRate}%</td><td>R {c.commission.toLocaleString()}</td>
+                  <td><span className={`${styles.statusBadge} ${getStatusBadge(c.status)}`}>{c.status}</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
+    </>
   );
 };
 
