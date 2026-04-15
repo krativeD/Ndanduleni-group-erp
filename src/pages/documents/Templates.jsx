@@ -30,6 +30,11 @@ const Templates = () => {
     }
   };
 
+  const handleUseTemplate = (id) => {
+    useTemplate(id);
+    alert('Template applied! Starting new document...');
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (editingTemplate) {
@@ -80,7 +85,7 @@ const Templates = () => {
             <span className={styles.templateName}>{t.name}</span>
             <span className={styles.templateMeta}>{t.category} • {t.type.toUpperCase()} • Used {t.usageCount} times</span>
             <div className={styles.templateActions}>
-              <Button size="small" variant="success" onClick={() => useTemplate(t.id)}>Use</Button>
+              <Button size="small" variant="success" onClick={() => handleUseTemplate(t.id)}>Use</Button>
               <button className={styles.actionBtn} onClick={() => handleEdit(t)}>✏️</button>
               <button className={styles.actionBtn} onClick={() => handleDelete(t.id)}>🗑️</button>
             </div>
