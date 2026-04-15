@@ -1,0 +1,4 @@
+.exportCard { padding: var(--space-lg); }
+.exportCard h3 { font-size: 1rem; margin-bottom: var(--space-md); }
+.formatGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-sm); margin-bottom: var(--space-lg); }
+.scheduleSection { text-align: center; padding-top: var(--space-md); border-top: 1px solid var(--shadow-dark); }
