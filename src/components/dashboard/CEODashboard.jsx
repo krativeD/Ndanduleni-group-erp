@@ -22,7 +22,7 @@ const CEODashboard = () => {
     { name: 'Manufacturing', description: 'Product & Production', path: '/manufacturing/products', icon: '🏭', status: 'active' },
     { name: 'Sales & Orders', description: 'Orders, Quotations, Invoices, Payments', path: '/sales', icon: '🛒', status: 'active' },
     { name: 'Finance', description: 'Ledger, AP/AR, Cashflow, Budget, Reports', path: '/finance', icon: '💰', status: 'active' },
-    { name: 'Procurement', description: 'Purchasing & Suppliers', path: '/procurement', icon: '📋', status: 'coming-soon' },
+    { name: 'Procurement', description: 'Suppliers, Requisitions, POs, Contracts, RFQs', path: '/procurement', icon: '📋', status: 'active' },
     { name: 'Reports', description: 'Analytics & Business Intelligence', path: '/reports', icon: '📊', status: 'coming-soon' },
     { name: 'Documents', description: 'File Management System', path: '/documents', icon: '📁', status: 'coming-soon' },
     { name: 'Settings', description: 'System Configuration', path: '/settings', icon: '⚙️', status: 'coming-soon' }
