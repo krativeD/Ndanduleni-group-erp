@@ -3,7 +3,7 @@ import Card from '../common/Card';
 import Button from '../common/Button';
 import styles from './CashManagement.module.css';
 
-const CashManagement = ({ cashflow, onAddTransaction }) => {
+const CashManagement = ({ cashflow }) => {
   const formatCurrency = (amount) => `R ${amount.toLocaleString('en-ZA', { minimumFractionDigits: 2 })}`;
 
   const totalInflow = cashflow.filter(c => c.type === 'inflow').reduce((sum, c) => sum + c.amount, 0);
@@ -11,11 +11,13 @@ const CashManagement = ({ cashflow, onAddTransaction }) => {
   const netCashflow = totalInflow - totalOutflow;
   const currentBalance = cashflow.length > 0 ? cashflow[cashflow.length - 1].balance : 0;
 
+  const handleAddTransaction = () => console.log('Add transaction');
+
   return (
     <Card className={styles.cashCard}>
       <div className={styles.header}>
         <h3>Cash Management</h3>
-        <Button variant="primary" size="small" onClick={onAddTransaction}>+ Record Transaction</Button>
+        <Button variant="primary" size="small" onClick={handleAddTransaction}>+ Record Transaction</Button>
       </div>
 
       <div className={styles.summaryStats}>
