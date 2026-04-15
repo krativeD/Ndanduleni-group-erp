@@ -4,18 +4,10 @@ import { useCashflow } from '../../hooks/useFinance';
 import Loader from '../../components/common/Loader';
 
 const Cashflow = () => {
-  const { cashflow, loading, addTransaction, deleteTransaction } = useCashflow();
-
-  const handleAddTransaction = () => console.log('Add transaction');
+  const { cashflow, loading } = useCashflow();
 
   if (loading) return <Loader />;
-  return (
-    <CashManagement 
-      cashflow={cashflow} 
-      onAddTransaction={handleAddTransaction}
-      onDeleteTransaction={deleteTransaction}
-    />
-  );
+  return <CashManagement cashflow={cashflow} />;
 };
 
 export default Cashflow;
