@@ -4,10 +4,17 @@ import { useBudgets } from '../../hooks/useFinance';
 import Loader from '../../components/common/Loader';
 
 const Budget = () => {
-  const { budgets, loading } = useBudgets();
+  const { budgets, loading, addBudget, updateBudget, deleteBudget } = useBudgets();
 
   if (loading) return <Loader />;
-  return <BudgetTracker budgets={budgets} />;
+  return (
+    <BudgetTracker 
+      budgets={budgets}
+      onAddBudget={addBudget}
+      onEditBudget={updateBudget}
+      onDeleteBudget={deleteBudget}
+    />
+  );
 };
 
 export default Budget;
