@@ -37,3 +37,22 @@
 .trashItem { display: flex; align-items: center; justify-content: space-between; padding: var(--space-md); background: var(--bg-surface); border-radius: var(--radius-md); }
 .trashActions { display: flex; gap: var(--space-sm); }
 @media (max-width: 768px) { .documentsPage { flex-direction: column; } .sidebar { width: 100%; } }
+.formOverlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.formCard { max-width: 500px; width: 90%; padding: var(--space-lg); }
+.formCard h4 { margin-bottom: var(--space-lg); }
+.formCard form { display: flex; flex-direction: column; gap: var(--space-md); }
+.select { background: var(--bg-surface); border: none; border-radius: var(--radius-md); box-shadow: var(--shadow-inset); padding: 0.75rem 1rem; font-size: 1rem; color: var(--text-primary); cursor: pointer; width: 100%; }
+.formActions { display: flex; gap: var(--space-md); justify-content: flex-end; margin-top: var(--space-md); }
+.count { background: var(--accent); color: white; padding: 4px 12px; border-radius: var(--radius-xl); font-size: 0.875rem; }
+.templateActions { display: flex; gap: var(--space-xs); justify-content: center; margin-top: var(--space-sm); }
+.workflowInfo { flex: 1; }
+.workflowActions { display: flex; gap: var(--space-xs); align-items: center; }
+.archiveActions { display: flex; justify-content: center; margin-top: var(--space-sm); }
+.sharedActions { display: flex; justify-content: center; margin-top: var(--space-sm); }
+.trashInfo { display: flex; align-items: center; gap: var(--space-md); }
+.trashIcon { font-size: 2rem; }
+.trashName { font-weight: 600; display: block; }
+.trashMeta { font-size: 0.7rem; color: var(--text-secondary); display: block; }
+.statusPending { background: rgba(107, 114, 128, 0.1); color: #6b7280; }
+.actionBtn { background: var(--bg-surface); border: none; border-radius: var(--radius-sm); box-shadow: var(--shadow-raised); padding: 0.4rem 0.6rem; cursor: pointer; font-size: 0.875rem; }
+.actionBtn:hover { box-shadow: var(--shadow-pressed); }
