@@ -1,0 +1,17 @@
+.viewerCard { max-width: 700px; margin: 0 auto; padding: var(--space-lg); }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg); }
+.header div { display: flex; align-items: center; gap: var(--space-md); }
+.docIcon { font-size: 2rem; }
+.header h3 { font-size: 1.125rem; }
+.closeBtn { background: var(--bg-surface); border: none; border-radius: 50%; box-shadow: var(--shadow-raised); width: 32px; height: 32px; cursor: pointer; }
+.tabs { display: flex; gap: var(--space-xs); border-bottom: 1px solid var(--shadow-dark); padding-bottom: var(--space-sm); margin-bottom: var(--space-lg); }
+.tab { padding: 8px 16px; background: transparent; border: none; color: var(--text-secondary); cursor: pointer; border-radius: var(--radius-md); }
+.tab.active { background: var(--accent); color: white; }
+.content { min-height: 200px; margin-bottom: var(--space-lg); }
+.previewPlaceholder { text-align: center; padding: var(--space-xl); background: var(--bg-surface); border-radius: var(--radius-lg); }
+.previewPlaceholder p { margin: var(--space-md) 0; }
+.details { display: flex; flex-direction: column; gap: var(--space-sm); }
+.detailRow { display: flex; padding: 8px 0; border-bottom: 1px solid var(--shadow-dark); }
+.detailRow span:first-child { width: 120px; font-weight: 500; color: var(--text-secondary); }
+.detailRow span:last-child { flex: 1; color: var(--text-primary); }
+.actions { display: flex; gap: var(--space-md); justify-content: flex-end; }
