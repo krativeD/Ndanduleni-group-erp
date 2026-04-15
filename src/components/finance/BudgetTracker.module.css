@@ -1,0 +1,19 @@
+.budgetCard { padding: var(--space-lg); }
+.header { margin-bottom: var(--space-lg); }
+.header h3 { font-size: 1.125rem; font-weight: 600; }
+.summaryStats { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-md); margin-bottom: var(--space-lg); }
+.statItem { display: flex; flex-direction: column; align-items: center; padding: var(--space-md); background: var(--bg-surface); border-radius: var(--radius-md); box-shadow: var(--shadow-inset); }
+.statLabel { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; }
+.statValue { font-size: 1.25rem; font-weight: 700; color: var(--accent); }
+.tableWrapper { overflow-x: auto; }
+.table { width: 100%; border-collapse: collapse; }
+.table th { text-align: left; padding: var(--space-sm); color: var(--text-secondary); font-weight: 500; font-size: 0.75rem; text-transform: uppercase; border-bottom: 2px solid var(--shadow-dark); }
+.table td { padding: var(--space-md) var(--space-sm); border-bottom: 1px solid var(--shadow-dark); font-size: 0.875rem; color: var(--text-primary); }
+.categoryName { display: block; font-weight: 500; }
+.categoryType { font-size: 0.65rem; color: var(--text-secondary); text-transform: uppercase; }
+.positive { color: #10b981; }
+.negative { color: #ef4444; }
+.progressBar { width: 80px; height: 6px; background: var(--shadow-dark); border-radius: 3px; overflow: hidden; display: inline-block; margin-right: var(--space-sm); }
+.progressFill { height: 100%; border-radius: 3px; }
+.percentage { font-size: 0.75rem; color: var(--text-secondary); }
+@media (max-width: 768px) { .summaryStats { grid-template-columns: repeat(2, 1fr); } }
