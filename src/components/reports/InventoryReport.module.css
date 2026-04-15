@@ -1,0 +1,16 @@
+.reportContainer { padding: var(--space-md) 0; }
+.reportHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-xl); }
+.reportHeader h2 { font-size: 1.5rem; color: var(--text-primary); }
+.headerActions { display: flex; gap: var(--space-sm); }
+.kpiGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-md); margin-bottom: var(--space-xl); }
+.kpiCard { padding: var(--space-lg); text-align: center; }
+.kpiCard span { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; }
+.kpiCard h3 { font-size: 1.75rem; color: var(--accent); margin-top: var(--space-sm); }
+.twoColumn { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); margin-bottom: var(--space-xl); }
+.listCard { padding: var(--space-lg); }
+.listCard h3 { font-size: 1rem; margin-bottom: var(--space-md); }
+.listItem { display: flex; justify-content: space-between; padding: var(--space-sm) 0; border-bottom: 1px solid var(--shadow-dark); font-size: 0.875rem; }
+.categoryCard { padding: var(--space-lg); }
+.categoryCard h3 { font-size: 1rem; margin-bottom: var(--space-md); }
+.categoryItem { display: flex; justify-content: space-between; padding: var(--space-sm) 0; border-bottom: 1px solid var(--shadow-dark); }
+@media (max-width: 768px) { .kpiGrid { grid-template-columns: repeat(2, 1fr); } .twoColumn { grid-template-columns: 1fr; } }
