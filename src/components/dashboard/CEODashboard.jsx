@@ -108,5 +108,26 @@ const CEODashboard = () => {
     </div>
   );
 };
-
+  const modules = [
+    { name: 'HR Module', description: 'Employees, Attendance, Payroll, Leave', path: '/hr/employees', icon: '👥', status: 'active' },
+    { name: 'CRM Module', description: 'Contacts, Leads, Deals, Pipeline', path: '/crm/contacts', icon: '🤝', status: 'active' },
+    { name: 'Services', description: 'Cleaning Operations & Scheduling', path: '/services/schedule', icon: '🧹', status: 'active' },
+    { name: 'Inventory', description: 'Stock, Suppliers & Movements', path: '/inventory/stock', icon: '📦', status: 'active' },
+    { name: 'Manufacturing', description: 'Product & Production', path: '/manufacturing/products', icon: '🏭', status: 'active' },
+    { name: 'Sales & Orders', description: 'Orders, Quotations, Invoices, Payments', path: '/sales', icon: '🛒', status: 'active' },
+    { name: 'Finance', description: 'Ledger, AP/AR, Cashflow, Budget, Reports', path: '/finance', icon: '💰', status: 'active' },
+    { name: 'Procurement', description: 'Purchasing & Suppliers', path: '/procurement', icon: '📋', status: 'coming-soon' },
+    { name: 'Reports', description: 'Analytics & Business Intelligence', path: '/reports', icon: '📊', status: 'coming-soon' },
+    { name: 'Documents', description: 'File Management System', path: '/documents', icon: '📁', status: 'coming-soon' },
+    { name: 'Settings', description: 'System Configuration', path: '/settings', icon: '⚙️', status: 'coming-soon' }
+  ];
+  const modules = [
+    { name: 'HR Module', description: 'Employees, Attendance, Leave', path: '/hr/employees', icon: '👥', status: 'active' },
+    { name: 'CRM Module', description: 'Contacts & Leads Management', path: '/crm/contacts', icon: '🤝', status: 'active' },
+    { name: 'Services', description: 'Cleaning Operations', path: '/services/schedule', icon: '🧹', status: 'active' },
+    { name: 'Inventory', description: 'Stock & Suppliers', path: '/inventory/stock', icon: '📦', status: 'active' },
+    { name: 'Sales', description: 'Orders & Invoices', path: '/sales', icon: '🛒', status: 'active' },
+    { name: 'Finance', description: 'Financial Management', path: '/finance', icon: '💰', status: 'active' },
+    { name: 'Reports', description: 'Analytics & Reports', path: '/reports', icon: '📊', status: 'coming-soon' }
+  ];
 export default CEODashboard;
