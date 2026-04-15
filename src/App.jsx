@@ -55,6 +55,15 @@ import Quotations from './pages/sales/Quotations';
 import Invoices from './pages/sales/Invoices';
 import Payments from './pages/sales/Payments';
 
+// Finance Module Imports
+import FinanceDashboard from './pages/finance/FinanceDashboard';
+import Ledger from './pages/finance/Ledger';
+import Payables from './pages/finance/Payables';
+import Receivables from './pages/finance/Receivables';
+import Cashflow from './pages/finance/Cashflow';
+import Budget from './pages/finance/Budget';
+import FinanceReports from './pages/finance/Reports';
+
 import './styles/global.css';
 
 // Protected Route wrapper
@@ -272,6 +281,21 @@ const AppRoutes = () => {
         <Route path="quotations" element={<Quotations />} />
         <Route path="invoices" element={<Invoices />} />
         <Route path="payments" element={<Payments />} />
+      </Route>
+      
+      {/* Finance Module Routes - NESTED */}
+      <Route path="/finance" element={
+        <ProtectedRoute>
+          <FinanceDashboard />
+        </ProtectedRoute>
+      }>
+        <Route index element={<Navigate to="/finance/ledger" replace />} />
+        <Route path="ledger" element={<Ledger />} />
+        <Route path="payables" element={<Payables />} />
+        <Route path="receivables" element={<Receivables />} />
+        <Route path="cashflow" element={<Cashflow />} />
+        <Route path="budget" element={<Budget />} />
+        <Route path="reports" element={<FinanceReports />} />
       </Route>
       
       {/* Default Redirect */}
