@@ -7,7 +7,7 @@ import Loader from '../../components/common/Loader';
 import styles from './DocumentsStyles.module.css';
 
 const Templates = () => {
-  const { templates, loading, addTemplate, updateTemplate, deleteTemplate, useTemplate } = useTemplates();
+  const { templates, loading, addTemplate, updateTemplate, deleteTemplate } = useTemplates();
   const [showForm, setShowForm] = useState(false);
   const [editingTemplate, setEditingTemplate] = useState(null);
   const [formData, setFormData] = useState({ name: '', type: 'docx', category: 'General' });
@@ -30,9 +30,15 @@ const Templates = () => {
     }
   };
 
-  const handleUseTemplate = (id) => {
-    useTemplate(id);
-    alert('Template applied! Starting new document...');
+  const handleUseTemplate = (template) => {
+    // Update usage count via localStorage directly since we can't call hook inside handler
+    const currentTemplates = JSON.parse(localStorage.getItem('ndanduleni_templates') || '[]');
+    const updated = currentTemplates.map(t => 
+      t.id === template.id ? { ...t, usageCount: t.usageCount + 1, lastUsed: new Date().toISOString().split('T')[0] } : t
+    );
+    localStorage.setItem('ndanduleni_templates', JSON.stringify(updated));
+    alert(`Template "${template.name}" applied! Starting new document...`);
+    window.location.reload(); // Refresh to show updated count
   };
 
   const handleSubmit = (e) => {
@@ -85,7 +91,7 @@ const Templates = () => {
             <span className={styles.templateName}>{t.name}</span>
             <span className={styles.templateMeta}>{t.category} • {t.type.toUpperCase()} • Used {t.usageCount} times</span>
             <div className={styles.templateActions}>
-              <Button size="small" variant="success" onClick={() => handleUseTemplate(t.id)}>Use</Button>
+              <Button size="small" variant="success" onClick={() => handleUseTemplate(t)}>Use</Button>
               <button className={styles.actionBtn} onClick={() => handleEdit(t)}>✏️</button>
               <button className={styles.actionBtn} onClick={() => handleDelete(t.id)}>🗑️</button>
             </div>
