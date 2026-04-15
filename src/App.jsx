@@ -83,6 +83,15 @@ import ServiceReports from './pages/reports/Services';
 import CustomReports from './pages/reports/Custom';
 import ScheduledReports from './pages/reports/Scheduled';
 
+// Documents Module Imports
+import DocumentsDashboard from './pages/documents/DocumentsDashboard';
+import MyDocuments from './pages/documents/MyDocuments';
+import SharedDocuments from './pages/documents/Shared';
+import Templates from './pages/documents/Templates';
+import Workflows from './pages/documents/Workflows';
+import Archive from './pages/documents/Archive';
+import Trash from './pages/documents/Trash';
+
 import './styles/global.css';
 
 // Protected Route wrapper
@@ -192,6 +201,17 @@ const AppRoutes = () => {
         <Route path="scheduled" element={<ScheduledReports />} />
       </Route>
       
+      {/* Documents Module Routes - NESTED */}
+      <Route path="/documents" element={<ProtectedRoute><DocumentsDashboard /></ProtectedRoute>}>
+        <Route index element={<Navigate to="/documents/my" replace />} />
+        <Route path="my" element={<MyDocuments />} />
+        <Route path="shared" element={<SharedDocuments />} />
+        <Route path="templates" element={<Templates />} />
+        <Route path="workflows" element={<Workflows />} />
+        <Route path="archive" element={<Archive />} />
+        <Route path="trash" element={<Trash />} />
+      </Route>
+      
       {/* Default Redirect */}
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
     </Routes>
@@ -207,23 +227,5 @@ function App() {
     </Router>
   );
 }
-// Documents Module Imports
-import DocumentsDashboard from './pages/documents/DocumentsDashboard';
-import MyDocuments from './pages/documents/MyDocuments';
-import SharedDocuments from './pages/documents/Shared';
-import Templates from './pages/documents/Templates';
-import Workflows from './pages/documents/Workflows';
-import Archive from './pages/documents/Archive';
-import Trash from './pages/documents/Trash';
 
-// Add nested routes
-<Route path="/documents" element={<ProtectedRoute><DocumentsDashboard /></ProtectedRoute>}>
-  <Route index element={<Navigate to="/documents/my" replace />} />
-  <Route path="my" element={<MyDocuments />} />
-  <Route path="shared" element={<SharedDocuments />} />
-  <Route path="templates" element={<Templates />} />
-  <Route path="workflows" element={<Workflows />} />
-  <Route path="archive" element={<Archive />} />
-  <Route path="trash" element={<Trash />} />
-</Route>
 export default App;
