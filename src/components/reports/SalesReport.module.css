@@ -1,0 +1,25 @@
+.reportContainer { padding: var(--space-md) 0; }
+.reportHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-xl); flex-wrap: wrap; gap: var(--space-md); }
+.reportHeader h2 { font-size: 1.5rem; color: var(--text-primary); }
+.headerActions { display: flex; gap: var(--space-sm); }
+.select { background: var(--bg-surface); border: none; border-radius: var(--radius-md); box-shadow: var(--shadow-inset); padding: 0.5rem 1rem; color: var(--text-primary); cursor: pointer; }
+.kpiGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-md); margin-bottom: var(--space-xl); }
+.kpiCard { padding: var(--space-lg); text-align: center; }
+.kpiCard span { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; }
+.kpiCard h3 { font-size: 1.75rem; color: var(--accent); margin-top: var(--space-sm); }
+.chartCard { padding: var(--space-lg); margin-bottom: var(--space-xl); }
+.chartHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg); }
+.chartHeader h3 { font-size: 1rem; color: var(--text-primary); }
+.chartToggle { display: flex; gap: var(--space-xs); background: var(--bg-surface); border-radius: var(--radius-md); box-shadow: var(--shadow-inset); padding: 4px; }
+.toggleBtn { padding: 6px 16px; background: transparent; border: none; border-radius: var(--radius-sm); color: var(--text-secondary); cursor: pointer; }
+.toggleBtn.active { background: var(--accent); color: white; box-shadow: var(--shadow-raised); }
+.chart { display: flex; align-items: flex-end; justify-content: space-around; height: 250px; }
+.chartBar { display: flex; flex-direction: column; align-items: center; gap: var(--space-xs); }
+.barLabel { font-size: 0.7rem; color: var(--text-secondary); }
+.bar { width: 40px; background: var(--accent); border-radius: var(--radius-sm) var(--radius-sm) 0 0; min-height: 4px; transition: height 0.3s ease; }
+.twoColumn { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
+.listCard { padding: var(--space-lg); }
+.listCard h3 { font-size: 1rem; margin-bottom: var(--space-md); color: var(--text-primary); }
+.listItem { display: flex; justify-content: space-between; padding: var(--space-sm) 0; border-bottom: 1px solid var(--shadow-dark); font-size: 0.875rem; }
+.listItem:last-child { border-bottom: none; }
+@media (max-width: 768px) { .kpiGrid { grid-template-columns: repeat(2, 1fr); } .twoColumn { grid-template-columns: 1fr; } }
