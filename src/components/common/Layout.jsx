@@ -21,6 +21,7 @@ const Layout = ({ children }) => {
       { name: 'Manufacturing', path: '/manufacturing/products', icon: '🏭' },
       { name: 'Sales', path: '/sales', icon: '🛒' },
       { name: 'Finance', path: '/finance', icon: '💰' },
+      { name: 'Procurement', path: '/procurement', icon: '📋' },
       { name: 'Reports', path: '/reports', icon: '📊' },
       { name: 'Documents', path: '/documents', icon: '📁' },
       { name: 'Users', path: '/users', icon: '👤' },
@@ -34,6 +35,8 @@ const Layout = ({ children }) => {
       { name: 'Services', path: '/services/schedule', icon: '🧹' },
       { name: 'Inventory', path: '/inventory/stock', icon: '📦' },
       { name: 'Sales', path: '/sales', icon: '🛒' },
+      { name: 'Finance', path: '/finance', icon: '💰' },
+      { name: 'Procurement', path: '/procurement', icon: '📋' },
       { name: 'Reports', path: '/reports', icon: '📊' },
       { name: 'Profile', path: '/profile', icon: '👤' }
     ],
