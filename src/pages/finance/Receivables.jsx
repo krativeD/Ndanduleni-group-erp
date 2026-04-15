@@ -4,18 +4,10 @@ import { useAccountsReceivable } from '../../hooks/useFinance';
 import Loader from '../../components/common/Loader';
 
 const Receivables = () => {
-  const { receivables, loading, addReceivable, updateReceivable, deleteReceivable, recordReceipt } = useAccountsReceivable();
-
-  const handleAdd = () => console.log('Add receivable');
+  const { receivables, loading, recordReceipt } = useAccountsReceivable();
 
   if (loading) return <Loader />;
-  return (
-    <AccountsReceivable 
-      receivables={receivables} 
-      onRecordReceipt={recordReceipt}
-      onAddReceivable={handleAdd}
-    />
-  );
+  return <AccountsReceivable receivables={receivables} onRecordReceipt={recordReceipt} />;
 };
 
 export default Receivables;
