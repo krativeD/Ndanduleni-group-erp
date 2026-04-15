@@ -313,5 +313,27 @@ function App() {
     </Router>
   );
 }
+// Procurement Module Imports
+import ProcurementDashboard from './pages/procurement/ProcurementDashboard';
+import Suppliers from './pages/procurement/Suppliers';
+import Requisitions from './pages/procurement/Requisitions';
+import Orders from './pages/procurement/Orders';
+import Receipts from './pages/procurement/Receipts';
+import Contracts from './pages/procurement/Contracts';
+import RFQs from './pages/procurement/RFQs';
 
+// Add nested routes
+<Route path="/procurement" element={
+  <ProtectedRoute>
+    <ProcurementDashboard />
+  </ProtectedRoute>
+}>
+  <Route index element={<Navigate to="/procurement/suppliers" replace />} />
+  <Route path="suppliers" element={<Suppliers />} />
+  <Route path="requisitions" element={<Requisitions />} />
+  <Route path="orders" element={<Orders />} />
+  <Route path="receipts" element={<Receipts />} />
+  <Route path="contracts" element={<Contracts />} />
+  <Route path="rfqs" element={<RFQs />} />
+</Route>
 export default App;
