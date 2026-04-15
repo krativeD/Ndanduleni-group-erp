@@ -1,0 +1,16 @@
+.cashCard { padding: var(--space-lg); }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg); }
+.header h3 { font-size: 1.125rem; font-weight: 600; }
+.summaryStats { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-md); margin-bottom: var(--space-lg); }
+.statItem { display: flex; flex-direction: column; align-items: center; padding: var(--space-md); background: var(--bg-surface); border-radius: var(--radius-md); box-shadow: var(--shadow-inset); }
+.statLabel { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; }
+.statValue { font-size: 1.25rem; font-weight: 700; }
+.tableWrapper { overflow-x: auto; }
+.table { width: 100%; border-collapse: collapse; }
+.table th { text-align: left; padding: var(--space-sm); color: var(--text-secondary); font-weight: 500; font-size: 0.75rem; text-transform: uppercase; border-bottom: 2px solid var(--shadow-dark); }
+.table td { padding: var(--space-md) var(--space-sm); border-bottom: 1px solid var(--shadow-dark); font-size: 0.875rem; color: var(--text-primary); }
+.inflow { background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 4px 10px; border-radius: var(--radius-sm); font-size: 0.7rem; font-weight: 600; }
+.outflow { background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 4px 10px; border-radius: var(--radius-sm); font-size: 0.7rem; font-weight: 600; }
+.amountIn { color: #10b981; font-weight: 600; }
+.amountOut { color: #ef4444; font-weight: 600; }
+@media (max-width: 768px) { .summaryStats { grid-template-columns: repeat(2, 1fr); } }
