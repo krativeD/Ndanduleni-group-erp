@@ -1,0 +1,23 @@
+.rfqCard { padding: var(--space-lg); position: relative; }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg); }
+.header h3 { font-size: 1.125rem; font-weight: 600; }
+.filters { display: flex; gap: var(--space-md); margin-bottom: var(--space-lg); }
+.searchInput { flex: 1; }
+.tableWrapper { overflow-x: auto; }
+.table { width: 100%; border-collapse: collapse; }
+.table th { text-align: left; padding: var(--space-sm); color: var(--text-secondary); font-weight: 500; font-size: 0.75rem; text-transform: uppercase; border-bottom: 2px solid var(--shadow-dark); }
+.table td { padding: var(--space-md) var(--space-sm); border-bottom: 1px solid var(--shadow-dark); font-size: 0.875rem; color: var(--text-primary); }
+.statusBadge { padding: 4px 10px; border-radius: var(--radius-sm); font-size: 0.7rem; font-weight: 600; text-transform: capitalize; }
+.statusDraft { background: rgba(107, 114, 128, 0.1); color: #6b7280; }
+.statusOpen { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+.statusEvaluating { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+.statusAwarded { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+.actions { display: flex; gap: var(--space-xs); }
+.actionBtn { background: var(--bg-surface); border: none; border-radius: var(--radius-sm); box-shadow: var(--shadow-raised); padding: 0.4rem 0.6rem; cursor: pointer; }
+.actionBtn:hover { box-shadow: var(--shadow-pressed); }
+.formOverlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.formCard { max-width: 500px; width: 90%; }
+.formCard h4 { margin-bottom: var(--space-lg); }
+.formCard form { display: flex; flex-direction: column; gap: var(--space-md); }
+.select { background: var(--bg-surface); border: none; border-radius: var(--radius-md); box-shadow: var(--shadow-inset); padding: 0.75rem 1rem; font-size: 1rem; color: var(--text-primary); cursor: pointer; width: 100%; }
+.formActions { display: flex; gap: var(--space-md); justify-content: flex-end; margin-top: var(--space-md); }
