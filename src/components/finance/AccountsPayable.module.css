@@ -19,3 +19,12 @@
 .paymentModal h4 { margin-bottom: var(--space-md); }
 .paymentModal p { margin-bottom: var(--space-md); color: var(--text-secondary); }
 .modalActions { display: flex; gap: var(--space-md); justify-content: flex-end; margin-top: var(--space-md); }
+.headerActions { display: flex; align-items: center; gap: var(--space-md); }
+.actions { display: flex; gap: var(--space-xs); align-items: center; }
+.actionBtn { background: var(--bg-surface); border: none; border-radius: var(--radius-sm); box-shadow: var(--shadow-raised); padding: 0.4rem 0.6rem; cursor: pointer; font-size: 0.875rem; }
+.actionBtn:hover { box-shadow: var(--shadow-pressed); }
+.formOverlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.formCard { max-width: 500px; width: 90%; }
+.formCard h4 { margin-bottom: var(--space-lg); }
+.formCard form { display: flex; flex-direction: column; gap: var(--space-md); }
+.formActions { display: flex; gap: var(--space-md); justify-content: flex-end; margin-top: var(--space-md); }
