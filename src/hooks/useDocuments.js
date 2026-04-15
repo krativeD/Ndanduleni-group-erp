@@ -1,17 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { documentsData, getFileIcon, formatFileSize } from '../lib/documentsService';
 
 export const useFolders = () => {
   const [folders, setFolders] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const refresh = () => setFolders([...documentsData.folders]);
+  const refresh = useCallback(() => {
+    setFolders([...documentsData.folders]);
+  }, []);
 
   useEffect(() => {
     setLoading(true);
     refresh();
     setLoading(false);
-  }, []);
+  }, [refresh]);
 
   const addFolder = (folder) => {
     const newFolder = { ...folder, id: Math.max(...documentsData.folders.map(f => f.id), 0) + 1, createdAt: new Date().toISOString().split('T')[0] };
@@ -31,16 +33,16 @@ export const useDocuments = (folderId = null) => {
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const refresh = () => {
+  const refresh = useCallback(() => {
     const filtered = folderId ? documentsData.documents.filter(d => d.folder === folderId) : documentsData.documents;
     setDocuments(filtered);
-  };
+  }, [folderId]);
 
   useEffect(() => {
     setLoading(true);
     refresh();
     setLoading(false);
-  }, [folderId]);
+  }, [refresh]);
 
   const uploadDocument = (doc) => {
     const newDoc = { ...doc, id: Math.max(...documentsData.documents.map(d => d.id), 0) + 1, uploadedAt: new Date().toISOString().split('T')[0], version: '1.0', status: 'draft', shared: [] };
@@ -72,13 +74,15 @@ export const useTrash = () => {
   const [trash, setTrash] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const refresh = () => setTrash([...documentsData.trash]);
+  const refresh = useCallback(() => {
+    setTrash([...documentsData.trash]);
+  }, []);
 
   useEffect(() => {
     setLoading(true);
     refresh();
     setLoading(false);
-  }, []);
+  }, [refresh]);
 
   const restoreDocument = (id) => {
     const doc = documentsData.trash.find(d => d.id === id);
@@ -114,13 +118,15 @@ export const useWorkflows = () => {
   const [workflows, setWorkflows] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const refresh = () => setWorkflows([...documentsData.workflows]);
+  const refresh = useCallback(() => {
+    setWorkflows([...documentsData.workflows]);
+  }, []);
 
   useEffect(() => {
     setLoading(true);
     refresh();
     setLoading(false);
-  }, []);
+  }, [refresh]);
 
   const updateWorkflowStatus = (id, status) => {
     documentsData.workflows = documentsData.workflows.map(w => w.id === id ? { ...w, status } : w);
