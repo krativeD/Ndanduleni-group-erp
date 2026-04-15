@@ -1,18 +1,15 @@
 import { useState, useEffect } from 'react';
 import { 
-  getMockChartOfAccounts, 
-  getMockGeneralLedger, 
-  getMockAccountsPayable, 
-  getMockAccountsReceivable,
-  getMockCashflow,
-  getMockBudgets,
+  financeData,
+  updateFinanceData,
+  getFinanceData,
+  syncPaymentToCashflow,
+  syncReceiptToCashflow,
+  syncPayableToLedger,
+  syncReceivableToLedger,
+  getMockChartOfAccounts,
   getMockFinancialReports
 } from '../lib/financeService';
-
-let globalLedger = null;
-let globalPayables = null;
-let globalReceivables = null;
-let globalCashflow = null;
 
 export const useChartOfAccounts = () => {
   const [accounts, setAccounts] = useState([]);
@@ -31,43 +28,36 @@ export const useGeneralLedger = () => {
   const [ledger, setLedger] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const refreshLedger = () => {
+    setLedger([...financeData.ledger]);
+  };
+
   useEffect(() => {
     setLoading(true);
-    if (globalLedger) {
-      setLedger(globalLedger);
-    } else {
-      const data = getMockGeneralLedger();
-      globalLedger = data;
-      setLedger(data);
-    }
+    refreshLedger();
     setLoading(false);
   }, []);
 
   const addEntry = (entry) => {
-    const runningBalance = ledger.length > 0 ? ledger[0].balance : 0;
-    const newBalance = runningBalance + (entry.debit || 0) - (entry.credit || 0);
     const newEntry = { 
       ...entry, 
-      id: Math.max(...ledger.map(l => l.id), 0) + 1,
-      balance: newBalance
+      id: Math.max(...financeData.ledger.map(l => l.id), 0) + 1,
+      balance: 0
     };
-    const updated = [newEntry, ...ledger];
-    globalLedger = updated;
-    setLedger(updated);
+    financeData.ledger = [newEntry, ...financeData.ledger];
+    refreshLedger();
   };
 
   const updateEntry = (id, updates) => {
-    const updated = ledger.map(entry => 
+    financeData.ledger = financeData.ledger.map(entry => 
       entry.id === id ? { ...entry, ...updates } : entry
     );
-    globalLedger = updated;
-    setLedger(updated);
+    refreshLedger();
   };
 
   const deleteEntry = (id) => {
-    const updated = ledger.filter(entry => entry.id !== id);
-    globalLedger = updated;
-    setLedger(updated);
+    financeData.ledger = financeData.ledger.filter(entry => entry.id !== id);
+    refreshLedger();
   };
 
   return { ledger, loading, addEntry, updateEntry, deleteEntry };
@@ -77,57 +67,63 @@ export const useAccountsPayable = () => {
   const [payables, setPayables] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const refreshPayables = () => {
+    setPayables([...financeData.payables]);
+  };
+
   useEffect(() => {
     setLoading(true);
-    if (globalPayables) {
-      setPayables(globalPayables);
-    } else {
-      const data = getMockAccountsPayable();
-      globalPayables = data;
-      setPayables(data);
-    }
+    refreshPayables();
     setLoading(false);
   }, []);
 
   const addPayable = (payable) => {
     const newPayable = {
       ...payable,
-      id: Math.max(...payables.map(p => p.id), 0) + 1,
+      id: Math.max(...financeData.payables.map(p => p.id), 0) + 1,
       paid: 0,
       balance: payable.amount,
       status: 'pending'
     };
-    const updated = [...payables, newPayable];
-    globalPayables = updated;
-    setPayables(updated);
+    financeData.payables = [...financeData.payables, newPayable];
+    syncPayableToLedger(newPayable);
+    refreshPayables();
   };
 
   const updatePayable = (id, updates) => {
-    const updated = payables.map(p => p.id === id ? { ...p, ...updates } : p);
-    globalPayables = updated;
-    setPayables(updated);
+    financeData.payables = financeData.payables.map(p => 
+      p.id === id ? { ...p, ...updates } : p
+    );
+    refreshPayables();
   };
 
   const deletePayable = (id) => {
-    const updated = payables.filter(p => p.id !== id);
-    globalPayables = updated;
-    setPayables(updated);
+    financeData.payables = financeData.payables.filter(p => p.id !== id);
+    refreshPayables();
   };
 
   const recordPayment = (id, amount) => {
-    setPayables(prev => prev.map(p => {
+    let updatedPayable = null;
+    financeData.payables = financeData.payables.map(p => {
       if (p.id === id) {
         const newPaid = p.paid + amount;
         const newBalance = p.amount - newPaid;
-        return { 
+        updatedPayable = { 
           ...p, 
           paid: newPaid, 
           balance: newBalance, 
           status: newBalance === 0 ? 'paid' : 'partial' 
         };
+        return updatedPayable;
       }
       return p;
-    }));
+    });
+    
+    if (updatedPayable) {
+      syncPaymentToCashflow({ ...updatedPayable, amount });
+    }
+    
+    refreshPayables();
   };
 
   return { payables, loading, addPayable, updatePayable, deletePayable, recordPayment };
@@ -137,57 +133,63 @@ export const useAccountsReceivable = () => {
   const [receivables, setReceivables] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const refreshReceivables = () => {
+    setReceivables([...financeData.receivables]);
+  };
+
   useEffect(() => {
     setLoading(true);
-    if (globalReceivables) {
-      setReceivables(globalReceivables);
-    } else {
-      const data = getMockAccountsReceivable();
-      globalReceivables = data;
-      setReceivables(data);
-    }
+    refreshReceivables();
     setLoading(false);
   }, []);
 
   const addReceivable = (receivable) => {
     const newReceivable = {
       ...receivable,
-      id: Math.max(...receivables.map(r => r.id), 0) + 1,
+      id: Math.max(...financeData.receivables.map(r => r.id), 0) + 1,
       paid: 0,
       balance: receivable.amount,
       status: 'pending'
     };
-    const updated = [...receivables, newReceivable];
-    globalReceivables = updated;
-    setReceivables(updated);
+    financeData.receivables = [...financeData.receivables, newReceivable];
+    syncReceivableToLedger(newReceivable);
+    refreshReceivables();
   };
 
   const updateReceivable = (id, updates) => {
-    const updated = receivables.map(r => r.id === id ? { ...r, ...updates } : r);
-    globalReceivables = updated;
-    setReceivables(updated);
+    financeData.receivables = financeData.receivables.map(r => 
+      r.id === id ? { ...r, ...updates } : r
+    );
+    refreshReceivables();
   };
 
   const deleteReceivable = (id) => {
-    const updated = receivables.filter(r => r.id !== id);
-    globalReceivables = updated;
-    setReceivables(updated);
+    financeData.receivables = financeData.receivables.filter(r => r.id !== id);
+    refreshReceivables();
   };
 
   const recordReceipt = (id, amount) => {
-    setReceivables(prev => prev.map(r => {
+    let updatedReceivable = null;
+    financeData.receivables = financeData.receivables.map(r => {
       if (r.id === id) {
         const newPaid = r.paid + amount;
         const newBalance = r.amount - newPaid;
-        return { 
+        updatedReceivable = { 
           ...r, 
           paid: newPaid, 
           balance: newBalance, 
           status: newBalance === 0 ? 'paid' : 'partial' 
         };
+        return updatedReceivable;
       }
       return r;
-    }));
+    });
+    
+    if (updatedReceivable) {
+      syncReceiptToCashflow({ ...updatedReceivable, amount });
+    }
+    
+    refreshReceivables();
   };
 
   return { receivables, loading, addReceivable, updateReceivable, deleteReceivable, recordReceipt };
@@ -197,65 +199,142 @@ export const useCashflow = () => {
   const [cashflow, setCashflow] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const refreshCashflow = () => {
+    setCashflow([...financeData.cashflow]);
+  };
+
   useEffect(() => {
     setLoading(true);
-    if (globalCashflow) {
-      setCashflow(globalCashflow);
-    } else {
-      const data = getMockCashflow();
-      globalCashflow = data;
-      setCashflow(data);
-    }
+    refreshCashflow();
     setLoading(false);
+    
+    // Listen for storage events to sync across tabs
+    const handleStorageChange = () => {
+      refreshCashflow();
+    };
+    window.addEventListener('financeDataUpdated', handleStorageChange);
+    return () => window.removeEventListener('financeDataUpdated', handleStorageChange);
   }, []);
 
   const addTransaction = (transaction) => {
-    const lastBalance = cashflow.length > 0 ? cashflow[cashflow.length - 1].balance : 0;
+    const lastBalance = financeData.cashflow.length > 0 
+      ? financeData.cashflow[financeData.cashflow.length - 1].balance 
+      : 0;
     const newBalance = transaction.type === 'inflow' 
       ? lastBalance + transaction.amount 
       : lastBalance - transaction.amount;
+    
     const newTransaction = {
       ...transaction,
-      id: Math.max(...cashflow.map(c => c.id), 0) + 1,
+      id: Math.max(...financeData.cashflow.map(c => c.id), 0) + 1,
       balance: newBalance,
       date: new Date().toISOString().split('T')[0]
     };
-    const updated = [...cashflow, newTransaction];
-    globalCashflow = updated;
-    setCashflow(updated);
+    financeData.cashflow = [...financeData.cashflow, newTransaction];
+    refreshCashflow();
+    window.dispatchEvent(new Event('financeDataUpdated'));
   };
 
   const deleteTransaction = (id) => {
-    const updated = cashflow.filter(t => t.id !== id);
-    globalCashflow = updated;
-    setCashflow(updated);
+    financeData.cashflow = financeData.cashflow.filter(t => t.id !== id);
+    refreshCashflow();
+    window.dispatchEvent(new Event('financeDataUpdated'));
   };
 
-  return { cashflow, loading, addTransaction, deleteTransaction };
+  return { cashflow, loading, addTransaction, deleteTransaction, refreshCashflow };
 };
 
 export const useBudgets = () => {
   const [budgets, setBudgets] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const refreshBudgets = () => {
+    setBudgets([...financeData.budgets]);
+  };
+
   useEffect(() => {
     setLoading(true);
-    setBudgets(getMockBudgets());
+    refreshBudgets();
     setLoading(false);
+    
+    const handleStorageChange = () => {
+      refreshBudgets();
+    };
+    window.addEventListener('financeDataUpdated', handleStorageChange);
+    return () => window.removeEventListener('financeDataUpdated', handleStorageChange);
   }, []);
 
-  return { budgets, loading };
+  const addBudget = (budget) => {
+    const newBudget = {
+      ...budget,
+      id: Math.max(...financeData.budgets.map(b => b.id), 0) + 1,
+      actual: 0,
+      variance: budget.budgeted
+    };
+    financeData.budgets = [...financeData.budgets, newBudget];
+    refreshBudgets();
+  };
+
+  const updateBudget = (id, updates) => {
+    financeData.budgets = financeData.budgets.map(b => {
+      if (b.id === id) {
+        const updated = { ...b, ...updates };
+        updated.variance = updated.budgeted - updated.actual;
+        return updated;
+      }
+      return b;
+    });
+    refreshBudgets();
+  };
+
+  const deleteBudget = (id) => {
+    financeData.budgets = financeData.budgets.filter(b => b.id !== id);
+    refreshBudgets();
+  };
+
+  return { budgets, loading, addBudget, updateBudget, deleteBudget, refreshBudgets };
 };
 
 export const useFinancialReports = () => {
   const [reports, setReports] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const refreshReports = () => {
+    // Generate reports from current finance data
+    const totalRevenue = financeData.receivables.reduce((sum, r) => sum + r.amount, 0);
+    const totalExpenses = financeData.payables.reduce((sum, p) => sum + p.amount, 0) + 245000 + 30000;
+    const cashBalance = financeData.cashflow.length > 0 
+      ? financeData.cashflow[financeData.cashflow.length - 1].balance 
+      : 0;
+    const arBalance = financeData.receivables.reduce((sum, r) => sum + r.balance, 0);
+    const apBalance = financeData.payables.reduce((sum, p) => sum + p.balance, 0);
+    
+    const generatedReports = {
+      incomeStatement: {
+        revenue: { 'Service Revenue': totalRevenue, 'Total Revenue': totalRevenue },
+        expenses: { 'Salaries & Wages': 245000.00, 'Rent': 30000.00, 'Supplies': financeData.payables.reduce((sum, p) => sum + p.amount, 0), 'Total Expenses': totalExpenses },
+        netIncome: totalRevenue - totalExpenses
+      },
+      balanceSheet: {
+        assets: { 'Cash': cashBalance, 'Accounts Receivable': arBalance, 'Total Assets': cashBalance + arBalance },
+        liabilities: { 'Accounts Payable': apBalance, 'Total Liabilities': apBalance },
+        equity: { 'Retained Earnings': (cashBalance + arBalance) - apBalance, 'Total Equity': (cashBalance + arBalance) - apBalance }
+      }
+    };
+    setReports(generatedReports);
+  };
+
   useEffect(() => {
     setLoading(true);
-    setReports(getMockFinancialReports());
+    refreshReports();
     setLoading(false);
+    
+    const handleStorageChange = () => {
+      refreshReports();
+    };
+    window.addEventListener('financeDataUpdated', handleStorageChange);
+    return () => window.removeEventListener('financeDataUpdated', handleStorageChange);
   }, []);
 
-  return { reports, loading };
+  return { reports, loading, refreshReports };
 };
