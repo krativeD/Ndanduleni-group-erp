@@ -21,6 +21,7 @@ const AdminDashboard = () => {
     { name: 'Inventory', description: 'Stock & Suppliers', path: '/inventory/stock', icon: '📦', status: 'active' },
     { name: 'Sales', description: 'Orders & Invoices', path: '/sales', icon: '🛒', status: 'active' },
     { name: 'Finance', description: 'Financial Management', path: '/finance', icon: '💰', status: 'active' },
+    { name: 'Procurement', description: 'Suppliers & POs', path: '/procurement', icon: '📋', status: 'active' },
     { name: 'Reports', description: 'Analytics & Reports', path: '/reports', icon: '📊', status: 'coming-soon' }
   ];
 
