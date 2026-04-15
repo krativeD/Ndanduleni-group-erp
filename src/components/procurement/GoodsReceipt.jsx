@@ -15,8 +15,6 @@ const GoodsReceipt = ({ receipts, orders, onAdd, onDelete }) => {
     r.supplier.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const formatCurrency = (amount) => `R ${amount?.toLocaleString('en-ZA', { minimumFractionDigits: 2 }) || '0.00'}`;
-
   const getStatusBadge = (status) => {
     const badges = { 'partial': styles.statusPartial, 'completed': styles.statusCompleted };
     return badges[status] || styles.statusCompleted;
@@ -52,13 +50,16 @@ const GoodsReceipt = ({ receipts, orders, onAdd, onDelete }) => {
             <form onSubmit={handleSubmit}>
               <select name="poNumber" value={formData.poNumber} onChange={handleChange} className={styles.select} required>
                 <option value="">Select PO</option>
-                {orders.filter(o => o.status === 'ordered').map(o => <option key={o.id} value={o.poNumber}>{o.poNumber} - {o.supplier}</option>)}
+                {orders.filter(o => o.status === 'ordered' || o.status === 'approved').map(o => (
+                  <option key={o.id} value={o.poNumber}>{o.poNumber} - {o.supplier}</option>
+                ))}
               </select>
               <Input label="Items Received" name="items" type="number" value={formData.items} onChange={handleChange} required />
               <Input label="Quantity" name="quantity" type="number" value={formData.quantity} onChange={handleChange} required />
               <Input label="Inspected By" name="inspectedBy" value={formData.inspectedBy} onChange={handleChange} required />
               <select name="status" value={formData.status} onChange={handleChange} className={styles.select}>
-                <option value="partial">Partial</option><option value="completed">Completed</option>
+                <option value="partial">Partial</option>
+                <option value="completed">Completed</option>
               </select>
               <div className={styles.formActions}>
                 <Button type="button" variant="default" onClick={() => setShowForm(false)}>Cancel</Button>
@@ -76,12 +77,19 @@ const GoodsReceipt = ({ receipts, orders, onAdd, onDelete }) => {
       <div className={styles.tableWrapper}>
         <table className={styles.table}>
           <thead>
-            <tr><th>GRN #</th><th>PO #</th><th>Supplier</th><th>Received</th><th>Items</th><th>Qty</th><th>Status</th><th>Inspector</th><th>Actions</th></tr>
+            <tr>
+              <th>GRN #</th><th>PO #</th><th>Supplier</th><th>Received</th><th>Items</th><th>Qty</th><th>Status</th><th>Inspector</th><th>Actions</th>
+            </tr>
           </thead>
           <tbody>
             {filteredReceipts.map(r => (
               <tr key={r.id}>
-                <td>{r.receiptNumber}</td><td>{r.poNumber}</td><td>{r.supplier}</td><td>{r.receivedDate}</td><td>{r.items}</td><td>{r.quantity}</td>
+                <td>{r.receiptNumber}</td>
+                <td>{r.poNumber}</td>
+                <td>{r.supplier}</td>
+                <td>{r.receivedDate}</td>
+                <td>{r.items}</td>
+                <td>{r.quantity}</td>
                 <td><span className={`${styles.statusBadge} ${getStatusBadge(r.status)}`}>{r.status}</span></td>
                 <td>{r.inspectedBy}</td>
                 <td><button className={styles.actionBtn} onClick={() => onDelete(r.id)}>🗑️</button></td>
