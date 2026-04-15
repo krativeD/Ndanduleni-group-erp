@@ -1,0 +1,25 @@
+.reportContainer { padding: var(--space-md) 0; }
+.reportHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-xl); }
+.reportHeader h2 { font-size: 1.5rem; color: var(--text-primary); }
+.headerActions { display: flex; gap: var(--space-sm); }
+.kpiGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-md); margin-bottom: var(--space-xl); }
+.kpiCard { padding: var(--space-lg); text-align: center; }
+.kpiCard span { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; }
+.kpiCard h3 { font-size: 1.75rem; color: var(--accent); margin-top: var(--space-sm); }
+.twoColumn { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); margin-bottom: var(--space-xl); }
+.pieCard { padding: var(--space-lg); }
+.pieCard h3 { font-size: 1rem; margin-bottom: var(--space-md); color: var(--text-primary); }
+.pieItem { display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-sm); font-size: 0.875rem; }
+.pieBar { flex: 1; height: 8px; background: var(--shadow-dark); border-radius: 4px; overflow: hidden; }
+.pieBar div { height: 100%; border-radius: 4px; }
+.kpiTable { padding: var(--space-lg); }
+.kpiTable h3 { font-size: 1rem; margin-bottom: var(--space-md); }
+.table { width: 100%; border-collapse: collapse; }
+.table th { text-align: left; padding: var(--space-sm); color: var(--text-secondary); font-size: 0.75rem; text-transform: uppercase; border-bottom: 2px solid var(--shadow-dark); }
+.table td { padding: var(--space-md) var(--space-sm); border-bottom: 1px solid var(--shadow-dark); }
+.positive { color: #10b981; }
+.negative { color: #ef4444; }
+.trendUp { color: #10b981; }
+.trendDown { color: #ef4444; }
+.trendStable { color: #f59e0b; }
+@media (max-width: 768px) { .kpiGrid { grid-template-columns: repeat(2, 1fr); } .twoColumn { grid-template-columns: 1fr; } }
