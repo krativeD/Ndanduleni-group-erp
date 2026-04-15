@@ -1,0 +1,5 @@
+.overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.shareCard { max-width: 450px; width: 90%; padding: var(--space-lg); }
+.shareCard h3 { margin-bottom: var(--space-lg); }
+.hint { font-size: 0.75rem; color: var(--text-secondary); margin: var(--space-sm) 0; }
+.actions { display: flex; gap: var(--space-md); justify-content: flex-end; margin-top: var(--space-lg); }
