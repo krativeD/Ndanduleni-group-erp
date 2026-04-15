@@ -4,18 +4,10 @@ import { useAccountsPayable } from '../../hooks/useFinance';
 import Loader from '../../components/common/Loader';
 
 const Payables = () => {
-  const { payables, loading, addPayable, updatePayable, deletePayable, recordPayment } = useAccountsPayable();
-
-  const handleAdd = () => console.log('Add payable');
+  const { payables, loading, recordPayment } = useAccountsPayable();
 
   if (loading) return <Loader />;
-  return (
-    <AccountsPayable 
-      payables={payables} 
-      onRecordPayment={recordPayment}
-      onAddPayable={handleAdd}
-    />
-  );
+  return <AccountsPayable payables={payables} onRecordPayment={recordPayment} />;
 };
 
 export default Payables;
