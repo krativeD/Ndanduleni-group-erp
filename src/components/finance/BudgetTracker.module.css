@@ -17,3 +17,31 @@
 .progressFill { height: 100%; border-radius: 3px; }
 .percentage { font-size: 0.75rem; color: var(--text-secondary); }
 @media (max-width: 768px) { .summaryStats { grid-template-columns: repeat(2, 1fr); } }
+.budgetCard { padding: var(--space-lg); position: relative; }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg); }
+.header h3 { font-size: 1.125rem; font-weight: 600; }
+.summaryStats { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-md); margin-bottom: var(--space-lg); }
+.statItem { display: flex; flex-direction: column; align-items: center; padding: var(--space-md); background: var(--bg-surface); border-radius: var(--radius-md); box-shadow: var(--shadow-inset); }
+.statLabel { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; }
+.statValue { font-size: 1.25rem; font-weight: 700; color: var(--accent); }
+.tableWrapper { overflow-x: auto; }
+.table { width: 100%; border-collapse: collapse; }
+.table th { text-align: left; padding: var(--space-sm); color: var(--text-secondary); font-weight: 500; font-size: 0.75rem; text-transform: uppercase; border-bottom: 2px solid var(--shadow-dark); }
+.table td { padding: var(--space-md) var(--space-sm); border-bottom: 1px solid var(--shadow-dark); font-size: 0.875rem; color: var(--text-primary); }
+.categoryName { display: block; font-weight: 500; }
+.categoryType { font-size: 0.65rem; color: var(--text-secondary); text-transform: uppercase; }
+.positive { color: #10b981; }
+.negative { color: #ef4444; }
+.progressBar { width: 80px; height: 6px; background: var(--shadow-dark); border-radius: 3px; overflow: hidden; display: inline-block; margin-right: var(--space-sm); }
+.progressFill { height: 100%; border-radius: 3px; }
+.percentage { font-size: 0.75rem; color: var(--text-secondary); }
+.actions { display: flex; gap: var(--space-xs); }
+.actionBtn { background: var(--bg-surface); border: none; border-radius: var(--radius-sm); box-shadow: var(--shadow-raised); padding: 0.4rem 0.6rem; cursor: pointer; font-size: 0.875rem; }
+.actionBtn:hover { box-shadow: var(--shadow-pressed); }
+.formOverlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.formCard { max-width: 500px; width: 90%; }
+.formCard h4 { margin-bottom: var(--space-lg); }
+.formCard form { display: flex; flex-direction: column; gap: var(--space-md); }
+.select { background: var(--bg-surface); border: none; border-radius: var(--radius-md); box-shadow: var(--shadow-inset); padding: 0.75rem 1rem; font-size: 1rem; color: var(--text-primary); cursor: pointer; width: 100%; }
+.formActions { display: flex; gap: var(--space-md); justify-content: flex-end; margin-top: var(--space-md); }
+@media (max-width: 768px) { .summaryStats { grid-template-columns: repeat(2, 1fr); } }
