@@ -73,6 +73,16 @@ import Receipts from './pages/procurement/Receipts';
 import Contracts from './pages/procurement/Contracts';
 import RFQs from './pages/procurement/RFQs';
 
+// Reports Module Imports
+import ReportsDashboard from './pages/reports/ReportsDashboard';
+import SalesReports from './pages/reports/Sales';
+import FinancialReportsPage from './pages/reports/Financial';
+import InventoryReports from './pages/reports/Inventory';
+import HRReports from './pages/reports/HR';
+import ServiceReports from './pages/reports/Services';
+import CustomReports from './pages/reports/Custom';
+import ScheduledReports from './pages/reports/Scheduled';
+
 import './styles/global.css';
 
 // Protected Route wrapper
@@ -168,6 +178,18 @@ const AppRoutes = () => {
         <Route path="receipts" element={<Receipts />} />
         <Route path="contracts" element={<Contracts />} />
         <Route path="rfqs" element={<RFQs />} />
+      </Route>
+      
+      {/* Reports Module Routes - NESTED */}
+      <Route path="/reports" element={<ProtectedRoute><ReportsDashboard /></ProtectedRoute>}>
+        <Route index element={<Navigate to="/reports/sales" replace />} />
+        <Route path="sales" element={<SalesReports />} />
+        <Route path="financial" element={<FinancialReportsPage />} />
+        <Route path="inventory" element={<InventoryReports />} />
+        <Route path="hr" element={<HRReports />} />
+        <Route path="services" element={<ServiceReports />} />
+        <Route path="custom" element={<CustomReports />} />
+        <Route path="scheduled" element={<ScheduledReports />} />
       </Route>
       
       {/* Default Redirect */}
