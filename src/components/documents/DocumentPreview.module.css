@@ -1,0 +1,29 @@
+.previewOverlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: var(--space-md); }
+.previewCard { max-width: 900px; width: 100%; max-height: 90vh; overflow: auto; padding: 0; }
+.previewHeader { display: flex; justify-content: space-between; align-items: center; padding: var(--space-lg); border-bottom: 1px solid var(--shadow-dark); }
+.previewHeader h3 { font-size: 1.125rem; }
+.previewMeta { font-size: 0.75rem; color: var(--text-secondary); display: block; margin-top: 4px; }
+.previewActions { display: flex; gap: var(--space-sm); }
+.previewContent { padding: var(--space-lg); background: #f9fafb; min-height: 500px; }
+.a4Preview { background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+.pdfPreview { font-family: 'Arial', sans-serif; color: #17181c; }
+.pdfHeader { text-align: center; padding-bottom: var(--space-lg); border-bottom: 2px solid #6366f1; margin-bottom: var(--space-lg); }
+.pdfLogo { width: 80px; height: auto; margin-bottom: var(--space-sm); }
+.pdfHeader h2 { font-size: 1.5rem; color: #17181c; margin: var(--space-sm) 0; }
+.pdfBody { min-height: 400px; }
+.documentInfo { background: #f3f4f8; padding: var(--space-md); border-radius: var(--radius-md); margin-bottom: var(--space-lg); }
+.documentInfo p { margin: 4px 0; font-size: 0.875rem; }
+.pdfContent { text-align: center; padding: var(--space-xl); }
+.contentPlaceholder { padding: var(--space-xl); }
+.contentPlaceholder p { margin: var(--space-md) 0; }
+.hint { font-size: 0.8rem; color: var(--text-secondary); font-style: italic; }
+.pdfFooter { margin-top: var(--space-xl); padding-top: var(--space-lg); border-top: 1px solid #e0e5ec; text-align: center; font-size: 0.7rem; color: #6b7280; }
+.imagePreview, .genericPreview { text-align: center; padding: var(--space-xl); }
+.genericPreview p { margin: var(--space-md) 0; }
+
+@media print {
+  .previewOverlay { position: relative; background: white; padding: 0; }
+  .previewCard { box-shadow: none; max-width: 100%; }
+  .previewHeader { display: none; }
+  .a4Preview { box-shadow: none; }
+}
