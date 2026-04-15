@@ -1,14 +1,11 @@
 import { useState, useEffect } from 'react';
 import { 
   financeData,
-  updateFinanceData,
-  getFinanceData,
   syncPaymentToCashflow,
   syncReceiptToCashflow,
   syncPayableToLedger,
   syncReceivableToLedger,
-  getMockChartOfAccounts,
-  getMockFinancialReports
+  getMockChartOfAccounts
 } from '../lib/financeService';
 
 export const useChartOfAccounts = () => {
@@ -208,7 +205,6 @@ export const useCashflow = () => {
     refreshCashflow();
     setLoading(false);
     
-    // Listen for storage events to sync across tabs
     const handleStorageChange = () => {
       refreshCashflow();
     };
@@ -300,7 +296,6 @@ export const useFinancialReports = () => {
   const [loading, setLoading] = useState(true);
 
   const refreshReports = () => {
-    // Generate reports from current finance data
     const totalRevenue = financeData.receivables.reduce((sum, r) => sum + r.amount, 0);
     const totalExpenses = financeData.payables.reduce((sum, p) => sum + p.amount, 0) + 245000 + 30000;
     const cashBalance = financeData.cashflow.length > 0 
