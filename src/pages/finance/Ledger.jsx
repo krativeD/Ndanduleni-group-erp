@@ -4,12 +4,17 @@ import { useGeneralLedger } from '../../hooks/useFinance';
 import Loader from '../../components/common/Loader';
 
 const Ledger = () => {
-  const { ledger, loading } = useGeneralLedger();
-
-  const handleAddEntry = () => console.log('Add journal entry');
+  const { ledger, loading, addEntry, updateEntry, deleteEntry } = useGeneralLedger();
 
   if (loading) return <Loader />;
-  return <GeneralLedger ledger={ledger} onAddEntry={handleAddEntry} />;
+  return (
+    <GeneralLedger 
+      ledger={ledger} 
+      onAddEntry={addEntry}
+      onEditEntry={updateEntry}
+      onDeleteEntry={deleteEntry}
+    />
+  );
 };
 
 export default Ledger;
