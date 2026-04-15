@@ -1,0 +1,13 @@
+.reportsCard { padding: var(--space-lg); }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg); }
+.header h3 { font-size: 1.125rem; font-weight: 600; }
+.headerActions { display: flex; gap: var(--space-sm); }
+.reportTabs { display: flex; gap: var(--space-xs); margin-bottom: var(--space-lg); border-bottom: 1px solid var(--shadow-dark); padding-bottom: var(--space-sm); }
+.tab { padding: 10px 20px; background: transparent; border: none; color: var(--text-secondary); font-size: 0.875rem; cursor: pointer; transition: all 0.15s ease; border-radius: var(--radius-md); }
+.tab:hover { background: var(--bg-surface); }
+.tab.active { background: var(--accent); color: white; box-shadow: var(--shadow-raised); }
+.reportContent h4 { margin-bottom: var(--space-lg); color: var(--text-primary); }
+.reportSection { margin-bottom: var(--space-lg); }
+.reportSection h5 { font-size: 0.875rem; color: var(--text-secondary); text-transform: uppercase; margin-bottom: var(--space-sm); border-bottom: 1px solid var(--shadow-dark); padding-bottom: var(--space-xs); }
+.reportRow { display: flex; justify-content: space-between; padding: 8px 0; font-size: 0.875rem; color: var(--text-primary); }
+.reportRow.total { font-weight: 700; border-top: 2px solid var(--shadow-dark); margin-top: var(--space-sm); padding-top: var(--space-md); }
