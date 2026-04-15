@@ -1,0 +1,39 @@
+.pageContainer { padding: var(--space-md) 0; }
+.pageHeader { margin-bottom: var(--space-xl); }
+.pageHeader h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); color: var(--text-primary); }
+.subNavCard { padding: var(--space-sm); margin-bottom: var(--space-lg); }
+.subNav { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+.subNavItem { display: flex; align-items: center; gap: var(--space-sm); padding: 10px 20px; background: transparent; border: none; border-radius: var(--radius-md); color: var(--text-secondary); font-size: 0.875rem; cursor: pointer; transition: all 0.15s ease; }
+.subNavItem:hover { background: var(--bg-surface); box-shadow: var(--shadow-inset); color: var(--text-primary); }
+.subNavActive { background: var(--accent); color: white; box-shadow: var(--shadow-raised); }
+.subNavIcon { font-size: 1.125rem; }
+.contentArea { margin-top: var(--space-md); }
+.documentsPage { display: flex; gap: var(--space-lg); }
+.sidebar { width: 280px; flex-shrink: 0; }
+.mainContent { flex: 1; }
+.docGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--space-md); }
+.docItem { background: var(--bg-surface); border-radius: var(--radius-md); box-shadow: var(--shadow-inset); padding: var(--space-md); text-align: center; }
+.docIcon { font-size: 2.5rem; display: block; margin-bottom: var(--space-sm); }
+.docName { font-weight: 500; display: block; margin-bottom: 4px; }
+.docMeta { font-size: 0.7rem; color: var(--text-secondary); }
+.empty { text-align: center; color: var(--text-secondary); padding: var(--space-xl); }
+.sharedCard, .templatesCard, .workflowsCard, .archiveCard, .trashCard { padding: var(--space-lg); }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg); }
+.templateGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: var(--space-md); }
+.templateItem { background: var(--bg-surface); border-radius: var(--radius-md); box-shadow: var(--shadow-inset); padding: var(--space-md); text-align: center; }
+.templateIcon { font-size: 2rem; display: block; margin-bottom: var(--space-sm); }
+.templateName { font-weight: 500; display: block; }
+.templateMeta { font-size: 0.7rem; color: var(--text-secondary); display: block; margin: var(--space-sm) 0; }
+.workflowList { display: flex; flex-direction: column; gap: var(--space-md); }
+.workflowItem { display: flex; align-items: center; justify-content: space-between; padding: var(--space-md); background: var(--bg-surface); border-radius: var(--radius-md); }
+.workflowName { font-weight: 600; display: block; }
+.workflowDoc { font-size: 0.8rem; color: var(--text-secondary); }
+.workflowProgress { display: flex; gap: var(--space-lg); font-size: 0.8rem; }
+.statusBadge { padding: 4px 10px; border-radius: var(--radius-sm); font-size: 0.7rem; font-weight: 600; }
+.statusProgress { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+.statusCompleted { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+.trashHint { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: var(--space-lg); }
+.trashList { display: flex; flex-direction: column; gap: var(--space-sm); }
+.trashItem { display: flex; align-items: center; justify-content: space-between; padding: var(--space-md); background: var(--bg-surface); border-radius: var(--radius-md); }
+.trashActions { display: flex; gap: var(--space-sm); }
+@media (max-width: 768px) { .documentsPage { flex-direction: column; } .sidebar { width: 100%; } }
