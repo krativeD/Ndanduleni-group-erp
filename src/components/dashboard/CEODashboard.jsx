@@ -23,7 +23,7 @@ const CEODashboard = () => {
     { name: 'Sales & Orders', description: 'Orders, Quotations, Invoices, Payments', path: '/sales', icon: '🛒', status: 'active' },
     { name: 'Finance', description: 'Ledger, AP/AR, Cashflow, Budget, Reports', path: '/finance', icon: '💰', status: 'active' },
     { name: 'Procurement', description: 'Suppliers, Requisitions, POs, Contracts, RFQs', path: '/procurement', icon: '📋', status: 'active' },
-    { name: 'Reports', description: 'Analytics & Business Intelligence', path: '/reports', icon: '📊', status: 'coming-soon' },
+    { name: 'Reports', description: 'Sales, Financial, Inventory, HR, Service Analytics', path: '/reports', icon: '📊', status: 'active' },
     { name: 'Documents', description: 'File Management System', path: '/documents', icon: '📁', status: 'coming-soon' },
     { name: 'Settings', description: 'System Configuration', path: '/settings', icon: '⚙️', status: 'coming-soon' }
   ];
