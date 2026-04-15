@@ -4,11 +4,16 @@ import Input from '../common/Input';
 import Button from '../common/Button';
 import styles from './AccountsReceivable.module.css';
 
-const AccountsReceivable = ({ receivables, onRecordReceipt }) => {
+const AccountsReceivable = ({ receivables, onRecordReceipt, onAddReceivable, onEditReceivable, onDeleteReceivable }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [selectedReceivable, setSelectedReceivable] = useState(null);
   const [receiptAmount, setReceiptAmount] = useState('');
+  const [showForm, setShowForm] = useState(false);
+  const [editingReceivable, setEditingReceivable] = useState(null);
+  const [formData, setFormData] = useState({
+    customer: '', invoiceNumber: '', date: '', dueDate: '', amount: ''
+  });
 
   const filteredReceivables = receivables.filter(r => {
     const matchesSearch = r.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -23,14 +28,6 @@ const AccountsReceivable = ({ receivables, onRecordReceipt }) => {
   const getStatusBadge = (status) => {
     const badges = { 'paid': styles.statusPaid, 'partial': styles.statusPartial, 'pending': styles.statusPending };
     return badges[status] || styles.statusPending;
-  };
-
-  const handleReceiptSubmit = () => {
-    if (selectedReceivable && receiptAmount) {
-      onRecordReceipt(selectedReceivable.id, parseFloat(receiptAmount));
-      setSelectedReceivable(null);
-      setReceiptAmount('');
-    }
   };
 
   const agingBands = {
@@ -49,12 +46,81 @@ const AccountsReceivable = ({ receivables, onRecordReceipt }) => {
     }).reduce((sum, r) => sum + r.balance, 0)
   };
 
+  const handleAdd = () => {
+    setEditingReceivable(null);
+    setFormData({ customer: '', invoiceNumber: '', date: '', dueDate: '', amount: '' });
+    setShowForm(true);
+  };
+
+  const handleEdit = (receivable) => {
+    setEditingReceivable(receivable);
+    setFormData({
+      customer: receivable.customer,
+      invoiceNumber: receivable.invoiceNumber,
+      date: receivable.date,
+      dueDate: receivable.dueDate,
+      amount: receivable.amount.toString()
+    });
+    setShowForm(true);
+  };
+
+  const handleDelete = (id) => {
+    if (window.confirm('Are you sure you want to delete this receivable?')) {
+      onDeleteReceivable(id);
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const receivableData = { ...formData, amount: parseFloat(formData.amount) };
+    if (editingReceivable) {
+      onEditReceivable(editingReceivable.id, receivableData);
+    } else {
+      onAddReceivable(receivableData);
+    }
+    setShowForm(false);
+  };
+
+  const handleReceiptSubmit = () => {
+    if (selectedReceivable && receiptAmount) {
+      onRecordReceipt(selectedReceivable.id, parseFloat(receiptAmount));
+      setSelectedReceivable(null);
+      setReceiptAmount('');
+    }
+  };
+
   return (
     <Card className={styles.receivableCard}>
       <div className={styles.header}>
         <h3>Accounts Receivable</h3>
-        <span className={styles.totalDue}>Total Outstanding: <strong>{formatCurrency(totalReceivable)}</strong></span>
+        <div className={styles.headerActions}>
+          <span className={styles.totalDue}>Total Outstanding: <strong>{formatCurrency(totalReceivable)}</strong></span>
+          <Button variant="primary" size="small" onClick={handleAdd}>+ Add Receivable</Button>
+        </div>
       </div>
+
+      {showForm && (
+        <div className={styles.formOverlay}>
+          <Card className={styles.formCard}>
+            <h4>{editingReceivable ? 'Edit Receivable' : 'New Receivable'}</h4>
+            <form onSubmit={handleSubmit}>
+              <Input label="Customer" name="customer" value={formData.customer} onChange={handleChange} required />
+              <Input label="Invoice #" name="invoiceNumber" value={formData.invoiceNumber} onChange={handleChange} required />
+              <Input label="Date" name="date" type="date" value={formData.date} onChange={handleChange} required />
+              <Input label="Due Date" name="dueDate" type="date" value={formData.dueDate} onChange={handleChange} required />
+              <Input label="Amount (R)" name="amount" type="number" step="0.01" value={formData.amount} onChange={handleChange} required />
+              <div className={styles.formActions}>
+                <Button type="button" variant="default" onClick={() => setShowForm(false)}>Cancel</Button>
+                <Button type="submit" variant="primary">{editingReceivable ? 'Update' : 'Add'} Receivable</Button>
+              </div>
+            </form>
+          </Card>
+        </div>
+      )}
 
       <div className={styles.agingSummary}>
         <div className={styles.agingItem}><span>Current</span><span>{formatCurrency(agingBands.current)}</span></div>
@@ -77,32 +143,21 @@ const AccountsReceivable = ({ receivables, onRecordReceipt }) => {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th>Customer</th>
-              <th>Invoice #</th>
-              <th>Date</th>
-              <th>Due Date</th>
-              <th>Amount</th>
-              <th>Paid</th>
-              <th>Balance</th>
-              <th>Status</th>
-              <th>Actions</th>
+              <th>Customer</th><th>Invoice #</th><th>Date</th><th>Due Date</th><th>Amount</th><th>Paid</th><th>Balance</th><th>Status</th><th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {filteredReceivables.map(r => (
               <tr key={r.id}>
-                <td>{r.customer}</td>
-                <td>{r.invoiceNumber}</td>
-                <td>{r.date}</td>
-                <td>{r.dueDate}</td>
-                <td>{formatCurrency(r.amount)}</td>
-                <td>{formatCurrency(r.paid)}</td>
+                <td>{r.customer}</td><td>{r.invoiceNumber}</td><td>{r.date}</td><td>{r.dueDate}</td><td>{formatCurrency(r.amount)}</td><td>{formatCurrency(r.paid)}</td>
                 <td className={r.balance > 0 ? styles.balanceDue : ''}>{formatCurrency(r.balance)}</td>
                 <td><span className={`${styles.statusBadge} ${getStatusBadge(r.status)}`}>{r.status}</span></td>
                 <td>
-                  {r.balance > 0 && (
-                    <Button variant="primary" size="small" onClick={() => setSelectedReceivable(r)}>Record Receipt</Button>
-                  )}
+                  <div className={styles.actions}>
+                    {r.balance > 0 && <Button variant="success" size="small" onClick={() => setSelectedReceivable(r)}>Receipt</Button>}
+                    <button className={styles.actionBtn} onClick={() => handleEdit(r)}>✏️</button>
+                    <button className={styles.actionBtn} onClick={() => handleDelete(r.id)}>🗑️</button>
+                  </div>
                 </td>
               </tr>
             ))}
