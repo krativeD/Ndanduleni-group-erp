@@ -36,7 +36,7 @@ import Chemicals from './pages/services/Chemicals';
 // Inventory Module Imports
 import Stock from './pages/inventory/Stock';
 import Movements from './pages/inventory/Movements';
-import Suppliers from './pages/inventory/Suppliers';
+import InventorySuppliers from './pages/inventory/Suppliers';
 import PurchaseOrders from './pages/inventory/PurchaseOrders';
 import StockTake from './pages/inventory/StockTake';
 
@@ -64,6 +64,15 @@ import Cashflow from './pages/finance/Cashflow';
 import Budget from './pages/finance/Budget';
 import FinanceReports from './pages/finance/Reports';
 
+// Procurement Module Imports
+import ProcurementDashboard from './pages/procurement/ProcurementDashboard';
+import ProcurementSuppliers from './pages/procurement/Suppliers';
+import Requisitions from './pages/procurement/Requisitions';
+import ProcurementOrders from './pages/procurement/Orders';
+import Receipts from './pages/procurement/Receipts';
+import Contracts from './pages/procurement/Contracts';
+import RFQs from './pages/procurement/RFQs';
+
 import './styles/global.css';
 
 // Protected Route wrapper
@@ -82,200 +91,56 @@ const AppRoutes = () => {
   return (
     <Routes>
       {/* Auth Routes */}
-      <Route path="/login" element={
-        <PublicRoute>
-          <Login />
-        </PublicRoute>
-      } />
-      <Route path="/register" element={
-        <PublicRoute>
-          <Register />
-        </PublicRoute>
-      } />
-      <Route path="/forgot-password" element={
-        <PublicRoute>
-          <ForgotPassword />
-        </PublicRoute>
-      } />
+      <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+      <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+      <Route path="/forgot-password" element={<PublicRoute><ForgotPassword /></PublicRoute>} />
       
       {/* Core Routes */}
-      <Route path="/dashboard" element={
-        <ProtectedRoute>
-          <Dashboard />
-        </ProtectedRoute>
-      } />
-      <Route path="/users" element={
-        <ProtectedRoute>
-          <Users />
-        </ProtectedRoute>
-      } />
-      <Route path="/profile" element={
-        <ProtectedRoute>
-          <Profile />
-        </ProtectedRoute>
-      } />
+      <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+      <Route path="/users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
+      <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
       
       {/* HR Module Routes */}
-      <Route path="/hr/employees" element={
-        <ProtectedRoute>
-          <Employees />
-        </ProtectedRoute>
-      } />
-      <Route path="/hr/attendance" element={
-        <ProtectedRoute>
-          <Attendance />
-        </ProtectedRoute>
-      } />
-      <Route path="/hr/leave" element={
-        <ProtectedRoute>
-          <LeaveManagement />
-        </ProtectedRoute>
-      } />
-      <Route path="/hr/payroll" element={
-        <ProtectedRoute>
-          <Payroll />
-        </ProtectedRoute>
-      } />
-      <Route path="/hr/recruitment" element={
-        <ProtectedRoute>
-          <Recruitment />
-        </ProtectedRoute>
-      } />
-      <Route path="/hr/performance" element={
-        <ProtectedRoute>
-          <Performance />
-        </ProtectedRoute>
-      } />
-      <Route path="/hr/training" element={
-        <ProtectedRoute>
-          <Training />
-        </ProtectedRoute>
-      } />
+      <Route path="/hr/employees" element={<ProtectedRoute><Employees /></ProtectedRoute>} />
+      <Route path="/hr/attendance" element={<ProtectedRoute><Attendance /></ProtectedRoute>} />
+      <Route path="/hr/leave" element={<ProtectedRoute><LeaveManagement /></ProtectedRoute>} />
+      <Route path="/hr/payroll" element={<ProtectedRoute><Payroll /></ProtectedRoute>} />
+      <Route path="/hr/recruitment" element={<ProtectedRoute><Recruitment /></ProtectedRoute>} />
+      <Route path="/hr/performance" element={<ProtectedRoute><Performance /></ProtectedRoute>} />
+      <Route path="/hr/training" element={<ProtectedRoute><Training /></ProtectedRoute>} />
       
       {/* CRM Module Routes */}
-      <Route path="/crm/contacts" element={
-        <ProtectedRoute>
-          <Contacts />
-        </ProtectedRoute>
-      } />
-      <Route path="/crm/leads" element={
-        <ProtectedRoute>
-          <Leads />
-        </ProtectedRoute>
-      } />
-      <Route path="/crm/deals" element={
-        <ProtectedRoute>
-          <Deals />
-        </ProtectedRoute>
-      } />
-      <Route path="/crm/activities" element={
-        <ProtectedRoute>
-          <Activities />
-        </ProtectedRoute>
-      } />
-      <Route path="/crm/reports" element={
-        <ProtectedRoute>
-          <CRMReports />
-        </ProtectedRoute>
-      } />
+      <Route path="/crm/contacts" element={<ProtectedRoute><Contacts /></ProtectedRoute>} />
+      <Route path="/crm/leads" element={<ProtectedRoute><Leads /></ProtectedRoute>} />
+      <Route path="/crm/deals" element={<ProtectedRoute><Deals /></ProtectedRoute>} />
+      <Route path="/crm/activities" element={<ProtectedRoute><Activities /></ProtectedRoute>} />
+      <Route path="/crm/reports" element={<ProtectedRoute><CRMReports /></ProtectedRoute>} />
       
       {/* Services Module Routes */}
-      <Route path="/services/schedule" element={
-        <ProtectedRoute>
-          <Schedule />
-        </ProtectedRoute>
-      } />
-      <Route path="/services/jobs" element={
-        <ProtectedRoute>
-          <Jobs />
-        </ProtectedRoute>
-      } />
-      <Route path="/services/teams" element={
-        <ProtectedRoute>
-          <Teams />
-        </ProtectedRoute>
-      } />
-      <Route path="/services/quality" element={
-        <ProtectedRoute>
-          <Quality />
-        </ProtectedRoute>
-      } />
-      <Route path="/services/equipment" element={
-        <ProtectedRoute>
-          <Equipment />
-        </ProtectedRoute>
-      } />
-      <Route path="/services/chemicals" element={
-        <ProtectedRoute>
-          <Chemicals />
-        </ProtectedRoute>
-      } />
+      <Route path="/services/schedule" element={<ProtectedRoute><Schedule /></ProtectedRoute>} />
+      <Route path="/services/jobs" element={<ProtectedRoute><Jobs /></ProtectedRoute>} />
+      <Route path="/services/teams" element={<ProtectedRoute><Teams /></ProtectedRoute>} />
+      <Route path="/services/quality" element={<ProtectedRoute><Quality /></ProtectedRoute>} />
+      <Route path="/services/equipment" element={<ProtectedRoute><Equipment /></ProtectedRoute>} />
+      <Route path="/services/chemicals" element={<ProtectedRoute><Chemicals /></ProtectedRoute>} />
       
       {/* Inventory Module Routes */}
-      <Route path="/inventory/stock" element={
-        <ProtectedRoute>
-          <Stock />
-        </ProtectedRoute>
-      } />
-      <Route path="/inventory/movements" element={
-        <ProtectedRoute>
-          <Movements />
-        </ProtectedRoute>
-      } />
-      <Route path="/inventory/suppliers" element={
-        <ProtectedRoute>
-          <Suppliers />
-        </ProtectedRoute>
-      } />
-      <Route path="/inventory/orders" element={
-        <ProtectedRoute>
-          <PurchaseOrders />
-        </ProtectedRoute>
-      } />
-      <Route path="/inventory/stocktake" element={
-        <ProtectedRoute>
-          <StockTake />
-        </ProtectedRoute>
-      } />
+      <Route path="/inventory/stock" element={<ProtectedRoute><Stock /></ProtectedRoute>} />
+      <Route path="/inventory/movements" element={<ProtectedRoute><Movements /></ProtectedRoute>} />
+      <Route path="/inventory/suppliers" element={<ProtectedRoute><InventorySuppliers /></ProtectedRoute>} />
+      <Route path="/inventory/orders" element={<ProtectedRoute><PurchaseOrders /></ProtectedRoute>} />
+      <Route path="/inventory/stocktake" element={<ProtectedRoute><StockTake /></ProtectedRoute>} />
       
       {/* Manufacturing Module Routes */}
-      <Route path="/manufacturing/products" element={
-        <ProtectedRoute>
-          <Products />
-        </ProtectedRoute>
-      } />
-      <Route path="/manufacturing/bom" element={
-        <ProtectedRoute>
-          <BOM />
-        </ProtectedRoute>
-      } />
-      <Route path="/manufacturing/production" element={
-        <ProtectedRoute>
-          <Production />
-        </ProtectedRoute>
-      } />
-      <Route path="/manufacturing/workcenters" element={
-        <ProtectedRoute>
-          <WorkCentersPage />
-        </ProtectedRoute>
-      } />
-      <Route path="/manufacturing/quality" element={
-        <ProtectedRoute>
-          <QualityControl />
-        </ProtectedRoute>
-      } />
-      <Route path="/manufacturing/costs" element={
-        <ProtectedRoute>
-          <Costs />
-        </ProtectedRoute>
-      } />
+      <Route path="/manufacturing/products" element={<ProtectedRoute><Products /></ProtectedRoute>} />
+      <Route path="/manufacturing/bom" element={<ProtectedRoute><BOM /></ProtectedRoute>} />
+      <Route path="/manufacturing/production" element={<ProtectedRoute><Production /></ProtectedRoute>} />
+      <Route path="/manufacturing/workcenters" element={<ProtectedRoute><WorkCentersPage /></ProtectedRoute>} />
+      <Route path="/manufacturing/quality" element={<ProtectedRoute><QualityControl /></ProtectedRoute>} />
+      <Route path="/manufacturing/costs" element={<ProtectedRoute><Costs /></ProtectedRoute>} />
       
       {/* Sales Module Routes - NESTED */}
-      <Route path="/sales" element={
-        <ProtectedRoute>
-          <SalesDashboard />
-        </ProtectedRoute>
-      }>
+      <Route path="/sales" element={<ProtectedRoute><SalesDashboard /></ProtectedRoute>}>
         <Route index element={<Navigate to="/sales/orders" replace />} />
         <Route path="orders" element={<Orders />} />
         <Route path="quotations" element={<Quotations />} />
@@ -284,11 +149,7 @@ const AppRoutes = () => {
       </Route>
       
       {/* Finance Module Routes - NESTED */}
-      <Route path="/finance" element={
-        <ProtectedRoute>
-          <FinanceDashboard />
-        </ProtectedRoute>
-      }>
+      <Route path="/finance" element={<ProtectedRoute><FinanceDashboard /></ProtectedRoute>}>
         <Route index element={<Navigate to="/finance/ledger" replace />} />
         <Route path="ledger" element={<Ledger />} />
         <Route path="payables" element={<Payables />} />
@@ -296,6 +157,17 @@ const AppRoutes = () => {
         <Route path="cashflow" element={<Cashflow />} />
         <Route path="budget" element={<Budget />} />
         <Route path="reports" element={<FinanceReports />} />
+      </Route>
+      
+      {/* Procurement Module Routes - NESTED */}
+      <Route path="/procurement" element={<ProtectedRoute><ProcurementDashboard /></ProtectedRoute>}>
+        <Route index element={<Navigate to="/procurement/suppliers" replace />} />
+        <Route path="suppliers" element={<ProcurementSuppliers />} />
+        <Route path="requisitions" element={<Requisitions />} />
+        <Route path="orders" element={<ProcurementOrders />} />
+        <Route path="receipts" element={<Receipts />} />
+        <Route path="contracts" element={<Contracts />} />
+        <Route path="rfqs" element={<RFQs />} />
       </Route>
       
       {/* Default Redirect */}
@@ -313,27 +185,5 @@ function App() {
     </Router>
   );
 }
-// Procurement Module Imports
-import ProcurementDashboard from './pages/procurement/ProcurementDashboard';
-import Suppliers from './pages/procurement/Suppliers';
-import Requisitions from './pages/procurement/Requisitions';
-import Orders from './pages/procurement/Orders';
-import Receipts from './pages/procurement/Receipts';
-import Contracts from './pages/procurement/Contracts';
-import RFQs from './pages/procurement/RFQs';
 
-// Add nested routes
-<Route path="/procurement" element={
-  <ProtectedRoute>
-    <ProcurementDashboard />
-  </ProtectedRoute>
-}>
-  <Route index element={<Navigate to="/procurement/suppliers" replace />} />
-  <Route path="suppliers" element={<Suppliers />} />
-  <Route path="requisitions" element={<Requisitions />} />
-  <Route path="orders" element={<Orders />} />
-  <Route path="receipts" element={<Receipts />} />
-  <Route path="contracts" element={<Contracts />} />
-  <Route path="rfqs" element={<RFQs />} />
-</Route>
 export default App;
