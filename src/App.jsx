@@ -207,5 +207,23 @@ function App() {
     </Router>
   );
 }
+// Documents Module Imports
+import DocumentsDashboard from './pages/documents/DocumentsDashboard';
+import MyDocuments from './pages/documents/MyDocuments';
+import SharedDocuments from './pages/documents/Shared';
+import Templates from './pages/documents/Templates';
+import Workflows from './pages/documents/Workflows';
+import Archive from './pages/documents/Archive';
+import Trash from './pages/documents/Trash';
 
+// Add nested routes
+<Route path="/documents" element={<ProtectedRoute><DocumentsDashboard /></ProtectedRoute>}>
+  <Route index element={<Navigate to="/documents/my" replace />} />
+  <Route path="my" element={<MyDocuments />} />
+  <Route path="shared" element={<SharedDocuments />} />
+  <Route path="templates" element={<Templates />} />
+  <Route path="workflows" element={<Workflows />} />
+  <Route path="archive" element={<Archive />} />
+  <Route path="trash" element={<Trash />} />
+</Route>
 export default App;
