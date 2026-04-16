@@ -181,7 +181,7 @@ const AppRoutes = () => {
       <Route path="/manufacturing/quality" element={<ProtectedRoute><QualityControl /></ProtectedRoute>} />
       <Route path="/manufacturing/costs" element={<ProtectedRoute><Costs /></ProtectedRoute>} />
       
-      {/* Sales Module Routes - NESTED */}
+      {/* Sales Module Routes */}
       <Route path="/sales" element={<ProtectedRoute><SalesDashboard /></ProtectedRoute>}>
         <Route index element={<Navigate to="/sales/orders" replace />} />
         <Route path="orders" element={<Orders />} />
@@ -190,7 +190,7 @@ const AppRoutes = () => {
         <Route path="payments" element={<Payments />} />
       </Route>
       
-      {/* Finance Module Routes - NESTED */}
+      {/* Finance Module Routes */}
       <Route path="/finance" element={<ProtectedRoute><FinanceDashboard /></ProtectedRoute>}>
         <Route index element={<Navigate to="/finance/ledger" replace />} />
         <Route path="ledger" element={<Ledger />} />
@@ -201,7 +201,7 @@ const AppRoutes = () => {
         <Route path="reports" element={<FinanceReports />} />
       </Route>
       
-      {/* Procurement Module Routes - NESTED */}
+      {/* Procurement Module Routes */}
       <Route path="/procurement" element={<ProtectedRoute><ProcurementDashboard /></ProtectedRoute>}>
         <Route index element={<Navigate to="/procurement/suppliers" replace />} />
         <Route path="suppliers" element={<ProcurementSuppliers />} />
@@ -212,7 +212,7 @@ const AppRoutes = () => {
         <Route path="rfqs" element={<RFQs />} />
       </Route>
       
-      {/* Reports Module Routes - NESTED */}
+      {/* Reports Module Routes */}
       <Route path="/reports" element={<ProtectedRoute><ReportsDashboard /></ProtectedRoute>}>
         <Route index element={<Navigate to="/reports/sales" replace />} />
         <Route path="sales" element={<SalesReports />} />
@@ -224,7 +224,7 @@ const AppRoutes = () => {
         <Route path="scheduled" element={<ScheduledReports />} />
       </Route>
       
-      {/* Documents Module Routes - NESTED */}
+      {/* Documents Module Routes */}
       <Route path="/documents" element={<ProtectedRoute><DocumentsDashboard /></ProtectedRoute>}>
         <Route index element={<Navigate to="/documents/my" replace />} />
         <Route path="my" element={<MyDocuments />} />
@@ -235,7 +235,7 @@ const AppRoutes = () => {
         <Route path="trash" element={<Trash />} />
       </Route>
       
-      {/* Settings Module Routes - NESTED */}
+      {/* Settings Module Routes */}
       <Route path="/settings" element={<ProtectedRoute><SettingsDashboard /></ProtectedRoute>}>
         <Route index element={<Navigate to="/settings/general" replace />} />
         <Route path="general" element={<General />} />
@@ -249,17 +249,17 @@ const AppRoutes = () => {
         <Route path="integrations" element={<Integrations />} />
         <Route path="audit" element={<Audit />} />
       </Route>
-
-      // Add nested routes
-<Route path="/staff" element={<ProtectedRoute><StaffDashboard /></ProtectedRoute>}>
-  <Route index element={<StaffOverview />} />
-  <Route path="leave" element={<StaffLeave />} />
-  <Route path="jobs" element={<StaffJobs />} />
-  <Route path="attendance" element={<StaffAttendance />} />
-  <Route path="performance" element={<StaffPerformance />} />
-  <Route path="training" element={<StaffTraining />} />
-  <Route path="directory" element={<StaffDirectory />} />
-</Route>
+      
+      {/* Staff Management Module Routes */}
+      <Route path="/staff" element={<ProtectedRoute><StaffDashboard /></ProtectedRoute>}>
+        <Route index element={<StaffOverview />} />
+        <Route path="leave" element={<StaffLeave />} />
+        <Route path="jobs" element={<StaffJobs />} />
+        <Route path="attendance" element={<StaffAttendance />} />
+        <Route path="performance" element={<StaffPerformance />} />
+        <Route path="training" element={<StaffTraining />} />
+        <Route path="directory" element={<StaffDirectory />} />
+      </Route>
       
       {/* Default Redirect */}
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
