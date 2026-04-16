@@ -2,9 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import Card from '../common/Card';
 import Input from '../common/Input';
 import Button from '../common/Button';
+import { useServicesList } from '../../hooks/useServicesList';
 import styles from './OrderForm.module.css';
 
 const QuotationForm = ({ quotation, onSubmit, onCancel, onConvertToInvoice }) => {
+  const { services, getCategories } = useServicesList();
+  const categories = getCategories();
+  
   const [formData, setFormData] = useState({
     customer: quotation?.customer || '',
     customerAddress: quotation?.customerAddress || '',
@@ -14,12 +18,17 @@ const QuotationForm = ({ quotation, onSubmit, onCancel, onConvertToInvoice }) =>
   });
 
   const [items, setItems] = useState(quotation?.lineItems || [
-    { id: Date.now(), description: '', quantity: 1, unitPrice: 0 }
+    { id: Date.now(), description: '', quantity: 1, unitPrice: 0, serviceId: null }
   ]);
   
   const [totals, setTotals] = useState({ subtotal: 0, tax: 0, discount: 0, total: 0 });
   const [loading, setLoading] = useState(false);
-  const newItemRef = useRef(null);
+  const [filterCategory, setFilterCategory] = useState('all');
+
+  // Filter services by category
+  const filteredServices = filterCategory === 'all' 
+    ? services 
+    : services.filter(s => s.category === filterCategory);
 
   // Auto-calculate totals whenever items change
   useEffect(() => {
@@ -34,8 +43,8 @@ const QuotationForm = ({ quotation, onSubmit, onCancel, onConvertToInvoice }) =>
       return sum + (qty * price);
     }, 0);
 
-    const tax = subtotal * 0.15; // 15% VAT
-    const discount = 0; // Can be extended later
+    const tax = subtotal * 0.15;
+    const discount = 0;
     const total = subtotal + tax - discount;
 
     setTotals({ subtotal, tax, discount, total });
@@ -50,6 +59,24 @@ const QuotationForm = ({ quotation, onSubmit, onCancel, onConvertToInvoice }) =>
       ...formData,
       [e.target.name]: e.target.value
     });
+  };
+
+  const handleServiceSelect = (itemId, serviceId) => {
+    const selectedService = services.find(s => s.id === parseInt(serviceId));
+    if (selectedService) {
+      setItems(prevItems => 
+        prevItems.map(item => 
+          item.id === itemId 
+            ? { 
+                ...item, 
+                serviceId: selectedService.id,
+                description: selectedService.name, 
+                unitPrice: selectedService.price 
+              } 
+            : item
+        )
+      );
+    }
   };
 
   const handleItemChange = (id, field, value) => {
@@ -75,12 +102,11 @@ const QuotationForm = ({ quotation, onSubmit, onCancel, onConvertToInvoice }) =>
         item.id === id ? { ...item, description: value } : item
       );
       
-      // Auto-add new row if this is the last item and it has a description
       const currentItem = updatedItems.find(item => item.id === id);
       const isLastItem = updatedItems[updatedItems.length - 1]?.id === id;
       
       if (isLastItem && value.trim() !== '' && currentItem) {
-        return [...updatedItems, { id: Date.now() + Math.random(), description: '', quantity: 1, unitPrice: 0 }];
+        return [...updatedItems, { id: Date.now() + Math.random(), description: '', quantity: 1, unitPrice: 0, serviceId: null }];
       }
       
       return updatedItems;
@@ -88,13 +114,7 @@ const QuotationForm = ({ quotation, onSubmit, onCancel, onConvertToInvoice }) =>
   };
 
   const addLineItem = () => {
-    setItems(prev => [...prev, { id: Date.now() + Math.random(), description: '', quantity: 1, unitPrice: 0 }]);
-    setTimeout(() => {
-      const inputs = document.querySelectorAll('input[placeholder="Description (e.g., 1 Room House Cleaning)"]');
-      if (inputs.length > 0) {
-        inputs[inputs.length - 1].focus();
-      }
-    }, 100);
+    setItems(prev => [...prev, { id: Date.now() + Math.random(), description: '', quantity: 1, unitPrice: 0, serviceId: null }]);
   };
 
   const removeLineItem = (id) => {
@@ -111,7 +131,6 @@ const QuotationForm = ({ quotation, onSubmit, onCancel, onConvertToInvoice }) =>
     e.preventDefault();
     setLoading(true);
     
-    // Filter out empty line items
     const validItems = items.filter(item => item.description.trim() !== '');
     
     const quotationData = {
@@ -154,9 +173,24 @@ const QuotationForm = ({ quotation, onSubmit, onCancel, onConvertToInvoice }) =>
             <label className={styles.label}>Line Items</label>
             <Button type="button" variant="default" size="small" onClick={addLineItem}>+ Add Item</Button>
           </div>
+
+          {/* Service Category Filter */}
+          <div className={styles.categoryFilter}>
+            <select 
+              className={styles.categorySelect} 
+              value={filterCategory} 
+              onChange={(e) => setFilterCategory(e.target.value)}
+            >
+              <option value="all">All Services</option>
+              {categories.map(cat => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
+            </select>
+          </div>
           
           <div className={styles.lineItemsTable}>
             <div className={styles.tableHeader}>
+              <span className={styles.colService}>Service</span>
               <span className={styles.colDescription}>Description</span>
               <span className={styles.colQty}>Qty</span>
               <span className={styles.colPrice}>Unit Price</span>
@@ -170,20 +204,33 @@ const QuotationForm = ({ quotation, onSubmit, onCancel, onConvertToInvoice }) =>
               
               return (
                 <div key={item.id} className={styles.lineItemRow}>
+                  <div className={styles.colService}>
+                    <select
+                      className={styles.serviceSelect}
+                      value={item.serviceId || ''}
+                      onChange={(e) => handleServiceSelect(item.id, e.target.value)}
+                    >
+                      <option value="">Select service...</option>
+                      {filteredServices.map(service => (
+                        <option key={service.id} value={service.id}>
+                          {service.name} - {formatCurrency(service.price)}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                   <div className={styles.colDescription}>
                     <input
                       type="text"
-                      placeholder="Description (e.g., 1 Room House Cleaning)"
+                      placeholder="Or type custom description"
                       value={item.description}
                       onChange={(e) => handleDescriptionChange(item.id, e.target.value)}
                       className={styles.itemInput}
-                      ref={isLastItem ? newItemRef : null}
                     />
                   </div>
                   <div className={styles.colQty}>
                     <input
                       type="number"
-                      min="0"
+                      min="1"
                       step="1"
                       value={item.quantity}
                       onChange={(e) => handleItemChange(item.id, 'quantity', e.target.value)}
@@ -214,7 +261,7 @@ const QuotationForm = ({ quotation, onSubmit, onCancel, onConvertToInvoice }) =>
           </div>
         </div>
 
-        {/* Totals Section - Live Updates */}
+        {/* Totals Section */}
         <div className={styles.totalsSection}>
           <div className={styles.totalRow}>
             <span>Subtotal:</span>
@@ -224,12 +271,6 @@ const QuotationForm = ({ quotation, onSubmit, onCancel, onConvertToInvoice }) =>
             <span>VAT (15%):</span>
             <span className={styles.totalValue}>{formatCurrency(totals.tax)}</span>
           </div>
-          {totals.discount > 0 && (
-            <div className={styles.totalRow}>
-              <span>Discount:</span>
-              <span className={styles.totalValue}>-{formatCurrency(totals.discount)}</span>
-            </div>
-          )}
           <div className={`${styles.totalRow} ${styles.grandTotal}`}>
             <span>Total (VAT Incl):</span>
             <span className={styles.grandTotalValue}>{formatCurrency(totals.total)}</span>
