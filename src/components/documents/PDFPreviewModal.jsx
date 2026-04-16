@@ -9,15 +9,17 @@ const PDFPreviewModal = ({ document, onClose }) => {
 
   useEffect(() => {
     // Prevent background scrolling
+    const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     
     // Simulate loading
     const timer = setTimeout(() => setLoading(false), 800);
     
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = originalOverflow;
       clearTimeout(timer);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleOverlayClick = (e) => {
