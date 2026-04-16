@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Card from '../common/Card';
 import Input from '../common/Input';
 import Button from '../common/Button';
@@ -13,23 +13,32 @@ const QuotationForm = ({ quotation, onSubmit, onCancel, onConvertToInvoice }) =>
     status: quotation?.status || 'draft'
   });
 
-  const [lineItems, setLineItems] = useState(quotation?.lineItems || [
+  const [items, setItems] = useState(quotation?.lineItems || [
     { id: Date.now(), description: '', quantity: 1, unitPrice: 0 }
   ]);
   
+  const [totals, setTotals] = useState({ subtotal: 0, tax: 0, discount: 0, total: 0 });
   const [loading, setLoading] = useState(false);
+  const newItemRef = useRef(null);
 
-  // Calculate totals
-  const calculateSubtotal = () => {
-    return lineItems.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0);
-  };
+  // Auto-calculate totals whenever items change
+  useEffect(() => {
+    calculateTotals();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items]);
 
-  const calculateVAT = () => {
-    return calculateSubtotal() * 0.15;
-  };
+  const calculateTotals = () => {
+    const subtotal = items.reduce((sum, item) => {
+      const qty = parseFloat(item.quantity) || 0;
+      const price = parseFloat(item.unitPrice) || 0;
+      return sum + (qty * price);
+    }, 0);
 
-  const calculateTotal = () => {
-    return calculateSubtotal();
+    const tax = subtotal * 0.15; // 15% VAT
+    const discount = 0; // Can be extended later
+    const total = subtotal + tax - discount;
+
+    setTotals({ subtotal, tax, discount, total });
   };
 
   const formatCurrency = (amount) => {
@@ -43,20 +52,59 @@ const QuotationForm = ({ quotation, onSubmit, onCancel, onConvertToInvoice }) =>
     });
   };
 
-  const handleLineItemChange = (id, field, value) => {
-    setLineItems(lineItems.map(item => 
-      item.id === id ? { ...item, [field]: field === 'quantity' ? parseInt(value) || 0 : field === 'unitPrice' ? parseFloat(value) || 0 : value } : item
-    ));
+  const handleItemChange = (id, field, value) => {
+    setItems(prevItems => 
+      prevItems.map(item => {
+        if (item.id === id) {
+          let newValue = value;
+          if (field === 'quantity') {
+            newValue = Math.max(0, parseInt(value) || 0);
+          } else if (field === 'unitPrice') {
+            newValue = Math.max(0, parseFloat(value) || 0);
+          }
+          return { ...item, [field]: newValue };
+        }
+        return item;
+      })
+    );
+  };
+
+  const handleDescriptionChange = (id, value) => {
+    setItems(prevItems => {
+      const updatedItems = prevItems.map(item => 
+        item.id === id ? { ...item, description: value } : item
+      );
+      
+      // Auto-add new row if this is the last item and it has a description
+      const currentItem = updatedItems.find(item => item.id === id);
+      const isLastItem = updatedItems[updatedItems.length - 1]?.id === id;
+      
+      if (isLastItem && value.trim() !== '' && currentItem) {
+        return [...updatedItems, { id: Date.now() + Math.random(), description: '', quantity: 1, unitPrice: 0 }];
+      }
+      
+      return updatedItems;
+    });
   };
 
   const addLineItem = () => {
-    setLineItems([...lineItems, { id: Date.now() + Math.random(), description: '', quantity: 1, unitPrice: 0 }]);
+    setItems(prev => [...prev, { id: Date.now() + Math.random(), description: '', quantity: 1, unitPrice: 0 }]);
+    setTimeout(() => {
+      const inputs = document.querySelectorAll('input[placeholder="Description (e.g., 1 Room House Cleaning)"]');
+      if (inputs.length > 0) {
+        inputs[inputs.length - 1].focus();
+      }
+    }, 100);
   };
 
   const removeLineItem = (id) => {
-    if (lineItems.length > 1) {
-      setLineItems(lineItems.filter(item => item.id !== id));
+    if (items.length > 1) {
+      setItems(prev => prev.filter(item => item.id !== id));
     }
+  };
+
+  const calculateItemTotal = (quantity, unitPrice) => {
+    return (parseFloat(quantity) || 0) * (parseFloat(unitPrice) || 0);
   };
 
   const handleSubmit = async (e) => {
@@ -64,22 +112,21 @@ const QuotationForm = ({ quotation, onSubmit, onCancel, onConvertToInvoice }) =>
     setLoading(true);
     
     // Filter out empty line items
-    const validLineItems = lineItems.filter(item => item.description.trim() !== '');
+    const validItems = items.filter(item => item.description.trim() !== '');
     
     const quotationData = {
       ...formData,
-      lineItems: validLineItems.length > 0 ? validLineItems : lineItems,
-      items: validLineItems.length,
-      total: calculateTotal()
+      lineItems: validItems.length > 0 ? validItems : items,
+      items: validItems.length,
+      subtotal: totals.subtotal,
+      tax: totals.tax,
+      discount: totals.discount,
+      total: totals.total
     };
     
     await onSubmit(quotationData);
     setLoading(false);
   };
-
-  const subtotal = calculateSubtotal();
-  const vat = calculateVAT();
-  const total = calculateTotal();
 
   return (
     <Card className={styles.formCard}>
@@ -104,61 +151,88 @@ const QuotationForm = ({ quotation, onSubmit, onCancel, onConvertToInvoice }) =>
         {/* Line Items Section */}
         <div className={styles.lineItemsSection}>
           <div className={styles.lineItemsHeader}>
-            <label className={styles.label}>Services / Line Items</label>
+            <label className={styles.label}>Line Items</label>
             <Button type="button" variant="default" size="small" onClick={addLineItem}>+ Add Item</Button>
           </div>
           
-          {lineItems.map((item, index) => (
-            <div key={item.id} className={styles.lineItemRow}>
-              <div className={styles.lineItemDescription}>
-                <Input
-                  placeholder="Description (e.g., 1 Room House Cleaning)"
-                  value={item.description}
-                  onChange={(e) => handleLineItemChange(item.id, 'description', e.target.value)}
-                />
-              </div>
-              <div className={styles.lineItemQuantity}>
-                <Input
-                  type="number"
-                  min="1"
-                  placeholder="Qty"
-                  value={item.quantity}
-                  onChange={(e) => handleLineItemChange(item.id, 'quantity', e.target.value)}
-                />
-              </div>
-              <div className={styles.lineItemPrice}>
-                <Input
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  placeholder="Unit Price"
-                  value={item.unitPrice}
-                  onChange={(e) => handleLineItemChange(item.id, 'unitPrice', e.target.value)}
-                />
-              </div>
-              <div className={styles.lineItemTotal}>
-                <span>{formatCurrency(item.quantity * item.unitPrice)}</span>
-              </div>
-              {lineItems.length > 1 && (
-                <button type="button" className={styles.removeBtn} onClick={() => removeLineItem(item.id)}>✕</button>
-              )}
+          <div className={styles.lineItemsTable}>
+            <div className={styles.tableHeader}>
+              <span className={styles.colDescription}>Description</span>
+              <span className={styles.colQty}>Qty</span>
+              <span className={styles.colPrice}>Unit Price</span>
+              <span className={styles.colTotal}>Total</span>
+              <span className={styles.colAction}></span>
             </div>
-          ))}
+            
+            {items.map((item, index) => {
+              const itemTotal = calculateItemTotal(item.quantity, item.unitPrice);
+              const isLastItem = index === items.length - 1;
+              
+              return (
+                <div key={item.id} className={styles.lineItemRow}>
+                  <div className={styles.colDescription}>
+                    <input
+                      type="text"
+                      placeholder="Description (e.g., 1 Room House Cleaning)"
+                      value={item.description}
+                      onChange={(e) => handleDescriptionChange(item.id, e.target.value)}
+                      className={styles.itemInput}
+                      ref={isLastItem ? newItemRef : null}
+                    />
+                  </div>
+                  <div className={styles.colQty}>
+                    <input
+                      type="number"
+                      min="0"
+                      step="1"
+                      value={item.quantity}
+                      onChange={(e) => handleItemChange(item.id, 'quantity', e.target.value)}
+                      className={styles.itemInput}
+                    />
+                  </div>
+                  <div className={styles.colPrice}>
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={item.unitPrice}
+                      onChange={(e) => handleItemChange(item.id, 'unitPrice', e.target.value)}
+                      className={styles.itemInput}
+                    />
+                  </div>
+                  <div className={styles.colTotal}>
+                    <span className={styles.itemTotal}>{formatCurrency(itemTotal)}</span>
+                  </div>
+                  <div className={styles.colAction}>
+                    {items.length > 1 && (
+                      <button type="button" className={styles.removeBtn} onClick={() => removeLineItem(item.id)}>✕</button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Totals Section */}
+        {/* Totals Section - Live Updates */}
         <div className={styles.totalsSection}>
           <div className={styles.totalRow}>
             <span>Subtotal:</span>
-            <span>{formatCurrency(subtotal)}</span>
+            <span className={styles.totalValue}>{formatCurrency(totals.subtotal)}</span>
           </div>
           <div className={styles.totalRow}>
             <span>VAT (15%):</span>
-            <span>{formatCurrency(vat)}</span>
+            <span className={styles.totalValue}>{formatCurrency(totals.tax)}</span>
           </div>
+          {totals.discount > 0 && (
+            <div className={styles.totalRow}>
+              <span>Discount:</span>
+              <span className={styles.totalValue}>-{formatCurrency(totals.discount)}</span>
+            </div>
+          )}
           <div className={`${styles.totalRow} ${styles.grandTotal}`}>
             <span>Total (VAT Incl):</span>
-            <span>{formatCurrency(total)}</span>
+            <span className={styles.grandTotalValue}>{formatCurrency(totals.total)}</span>
           </div>
         </div>
 
