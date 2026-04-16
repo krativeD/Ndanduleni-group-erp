@@ -1,198 +1,47 @@
-/* A4 Print Styles - Optimized for 1 Page */
-.invoiceContainer {
-  max-width: 210mm;
-  min-height: 297mm;
-  margin: 0 auto;
-  padding: 12mm 15mm;
-  background: white;
-  font-family: 'Arial', 'Helvetica', sans-serif;
-  color: #17181c;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
+/* Banking Details */
+.bankingDetails {
+  margin-bottom: 25px;
+  padding: 15px;
+  background: #f8f9fc;
+  border-radius: 8px;
+  border: 1px solid #e0e5ec;
 }
 
-/* Header - Compact */
-.header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  border-bottom: 2px solid #6366f1;
-  padding-bottom: 12px;
-}
-
-.logoSection {
-  display: flex;
-  gap: 15px;
-  align-items: flex-start;
-}
-
-.logo {
-  width: 80px;
-  height: auto;
-}
-
-.companyInfo h1 {
-  margin: 0 0 4px 0;
-  font-size: 18px;
-  font-weight: 700;
-  color: #17181c;
-  letter-spacing: 1px;
-}
-
-.companyInfo p {
-  margin: 1px 0;
-  font-size: 11px;
-  color: #4a5568;
-}
-
-.invoiceTitle {
-  text-align: right;
-}
-
-.invoiceTitle h2 {
-  margin: 0 0 10px 0;
-  font-size: 24px;
-  font-weight: 700;
-  color: #6366f1;
-  letter-spacing: 2px;
-}
-
-.invoiceMeta p {
-  margin: 2px 0;
-  font-size: 12px;
-}
-
-/* Bill To - Compact */
-.billTo {
-  margin-bottom: 20px;
-}
-
-.billTo h3 {
-  margin: 0 0 5px 0;
-  font-size: 12px;
+.bankingDetails h3 {
+  margin: 0 0 12px 0;
+  font-size: 13px;
   font-weight: 600;
   color: #4a5568;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
-.customerName {
-  font-size: 14px;
-  font-weight: 600;
-  margin: 0 0 3px 0;
+.bankingGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 20px;
 }
 
-.billTo p {
-  margin: 1px 0;
-  font-size: 12px;
-  color: #4a5568;
-}
-
-/* Items Table - Compact */
-.itemsTable {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-
-.itemsTable th {
-  background: #f3f4f8;
-  padding: 8px 10px;
-  text-align: left;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border-bottom: 2px solid #a3b1c6;
-  color: #4a5568;
-}
-
-.itemsTable td {
-  padding: 8px 10px;
-  border-bottom: 1px solid #e0e5ec;
-  font-size: 12px;
-}
-
-.itemsTable tbody tr:last-child td {
-  border-bottom: 2px solid #a3b1c6;
-}
-
-/* Totals - Compact */
-.totals {
-  width: 300px;
-  margin-left: auto;
-  margin-bottom: 30px;
-}
-
-.totalsRow {
+.bankingRow {
   display: flex;
   justify-content: space-between;
-  padding: 6px 0;
   font-size: 12px;
-  border-bottom: 1px solid #e0e5ec;
+  padding: 4px 0;
+  border-bottom: 1px dashed #d0d5e0;
 }
 
-.totalsRow:last-child {
-  border-bottom: none;
-}
-
-.balanceDue {
-  font-size: 14px;
-  font-weight: 700;
-  color: #6366f1;
-  border-top: 2px solid #a3b1c6;
-  border-bottom: none;
-  padding-top: 10px;
-  margin-top: 6px;
-}
-
-/* Footer - Compact */
-.footer {
-  margin-top: auto;
-  padding-top: 15px;
-  border-top: 1px solid #e0e5ec;
-  font-size: 11px;
+.bankingRow span:first-child {
+  font-weight: 600;
   color: #4a5568;
 }
 
-.footer p {
-  margin: 3px 0;
+.bankingRow span:last-child {
+  color: #17181c;
+  font-weight: 500;
 }
 
-.thankYou {
-  margin-top: 15px;
-  font-style: italic;
-  text-align: center;
-  color: #6366f1;
-}
-
-/* Print Styles */
-@media print {
-  .invoiceContainer {
-    padding: 10mm 12mm;
-    box-shadow: none;
-    margin: 0;
-    min-height: 0;
-  }
-  
-  @page {
-    size: A4;
-    margin: 0;
-  }
-  
-  body {
-    margin: 0;
-    padding: 0;
-    background: white;
-  }
-}
-
-/* Screen View */
-@media screen {
-  .invoiceContainer {
-    background: white;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
+@media (max-width: 500px) {
+  .bankingGrid {
+    grid-template-columns: 1fr;
   }
 }
