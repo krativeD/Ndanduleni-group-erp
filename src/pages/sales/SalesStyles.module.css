@@ -1,68 +1,111 @@
-.subNavCard {
-  padding: var(--space-sm);
-  margin-bottom: var(--space-lg);
+/* Description Page Styles */
+.descriptionContainer {
+  padding: var(--space-md) 0;
 }
 
-.subNav {
+.serviceGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.serviceCard {
+  padding: var(--space-lg);
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xs);
+  flex-direction: column;
 }
 
-.subNavItem {
+.serviceHeader {
   display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  padding: 10px 20px;
-  background: transparent;
-  border: none;
-  border-radius: var(--radius-md);
-  color: var(--text-secondary);
-  font-size: 0.875rem;
-  cursor: pointer;
-  transition: all 0.15s ease;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-sm);
 }
 
-.subNavItem:hover {
-  background: var(--bg-surface);
-  box-shadow: var(--shadow-inset);
+.serviceHeader h4 {
+  font-size: 1rem;
+  font-weight: 600;
   color: var(--text-primary);
 }
 
-.subNavActive {
-  background: var(--accent);
-  color: white;
-  box-shadow: var(--shadow-raised);
+.servicePrice {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent);
 }
 
-.subNavIcon {
-  font-size: 1.125rem;
+.serviceDescription {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-md);
+  flex: 1;
 }
 
-.subHeader {
-  display: flex;
-  justify-content: flex-end;
+.serviceCategory {
+  display: inline-block;
+  padding: 4px 10px;
+  background: var(--bg-surface);
+  border-radius: var(--radius-sm);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-secondary);
   margin-bottom: var(--space-md);
 }
 
-.contentArea {
+.serviceActions {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: flex-end;
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--shadow-dark);
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.formCard {
+  max-width: 500px;
+  width: 90%;
+  padding: var(--space-lg);
+}
+
+.formCard h4 {
+  margin-bottom: var(--space-lg);
+}
+
+.formCard form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.select {
+  background: var(--bg-surface);
+  border: none;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-inset);
+  padding: 0.75rem 1rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  width: 100%;
+}
+
+.formActions {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: flex-end;
   margin-top: var(--space-md);
 }
-
-.statusPaid {
-  background: rgba(16, 185, 129, 0.1);
-  color: #10b981;
-}
-
-.statusPending {
-  background: rgba(245, 158, 11, 0.1);
-  color: #f59e0b;
-}
-.actions { display: flex; gap: var(--space-xs); }
-.actionBtn { background: var(--bg-surface); border: none; border-radius: var(--radius-sm); box-shadow: var(--shadow-raised); padding: 0.4rem 0.6rem; cursor: pointer; font-size: 0.875rem; transition: all 0.15s ease; }
-.actionBtn:hover { box-shadow: var(--shadow-pressed); }
-.invoiceCard { padding: var(--space-lg); }
-.paymentCard { padding: var(--space-lg); }
-.summary { margin-bottom: var(--space-md); color: var(--text-secondary); }
-.statusPartial { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
-.statusUnpaid { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
