@@ -5,7 +5,6 @@ import RecentActivity from './RecentActivity';
 import QuickActions from './QuickActions';
 import Loader from '../common/Loader';
 import Card from '../common/Card';
-import Button from '../common/Button';
 import styles from './Dashboard.module.css';
 
 const AdminDashboard = () => {
@@ -31,13 +30,8 @@ const AdminDashboard = () => {
   return (
     <div className={styles.dashboard}>
       <div className={styles.header}>
-        <div>
-          <h1>Admin Dashboard</h1>
-          <p className={styles.welcome}>Welcome back. Here's your department overview.</p>
-        </div>
-        <Button variant="primary" onClick={() => navigate('/users')}>
-          👥 Staff Management
-        </Button>
+        <h1>Admin Dashboard</h1>
+        <p className={styles.welcome}>Welcome back. Here's your department overview.</p>
       </div>
 
       <Card className={styles.moduleGrid}>
