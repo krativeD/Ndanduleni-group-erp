@@ -1,84 +1,5 @@
-.moduleGrid {
-  padding: var(--space-lg);
-  margin-bottom: var(--space-xl);
-}
-
-.moduleCards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: var(--space-md);
-}
-
-.moduleCard {
-  background: var(--bg-surface);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-raised);
-  padding: var(--space-lg);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: var(--space-sm);
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.moduleCard:hover {
-  box-shadow: var(--shadow-pressed);
-  transform: translateY(-3px);
-}
-
-
-.moduleCard:active {
-  box-shadow: var(--shadow-pressed);
-  transform: translateY(0);
-}
-
-.moduleIcon {
-  font-size: 2.5rem;
-  margin-bottom: var(--space-xs);
-}
-
-.moduleName {
-  font-weight: 600;
-  color: var(--text-primary);
-  font-size: 1rem;
-}
-
-.moduleDesc {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-}
-.moduleCardDisabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  position: relative;
-}
-
-.moduleCardDisabled:hover {
-  transform: none;
-  box-shadow: var(--shadow-raised);
-}
-
-.comingSoonBadge {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background: var(--accent);
-  color: white;
-  padding: 2px 8px;
-  border-radius: var(--radius-sm);
-  font-size: 0.6rem;
-  font-weight: 600;
-  text-transform: uppercase;
-}
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
   margin-bottom: var(--space-xl);
-  flex-wrap: wrap;
-  gap: var(--space-md);
 }
 
 .header h1 {
@@ -90,15 +11,4 @@
 .welcome {
   color: var(--text-secondary);
   font-size: 1rem;
-}
-
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .header button {
-    width: 100%;
-  }
 }
