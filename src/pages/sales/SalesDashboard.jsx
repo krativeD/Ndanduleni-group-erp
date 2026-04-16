@@ -12,7 +12,7 @@ const SalesDashboard = () => {
     { name: 'Orders', path: '/sales/orders', icon: '📋' },
     { name: 'Quotations', path: '/sales/quotations', icon: '📄' },
     { name: 'Invoices', path: '/sales/invoices', icon: '🧾' },
-    { name: 'Payments', path: '/sales/payments', icon: '💳' }
+    { name: 'Description', path: '/sales/description', icon: '📝' }
   ];
 
   return (
