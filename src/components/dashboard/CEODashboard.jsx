@@ -26,6 +26,7 @@ const CEODashboard = () => {
     { name: 'Reports', description: 'Sales, Financial, Inventory, HR, Service Analytics', path: '/reports', icon: '📊', status: 'active' },
     { name: 'Documents', description: 'File Management System', path: '/documents', icon: '📁', status: 'active' },
     { name: 'Settings', description: 'System Configuration', path: '/settings', icon: '⚙️', status: 'coming-soon' }
+    { name: 'Settings', description: 'System Configuration', path: '/settings', icon: '⚙️', status: 'active' },
   ];
 
   return (
