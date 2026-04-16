@@ -8,3 +8,30 @@
 .subNavActive { background: var(--accent); color: white; box-shadow: var(--shadow-raised); }
 .subNavIcon { font-size: 1.125rem; }
 .contentArea { margin-top: var(--space-md); }
+.pageContainer { padding: var(--space-md) 0; }
+.pageHeader { margin-bottom: var(--space-xl); }
+.pageHeader h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); color: var(--text-primary); }
+.subNavCard { padding: var(--space-sm); margin-bottom: var(--space-lg); }
+.subNav { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+.subNavItem { display: flex; align-items: center; gap: var(--space-sm); padding: 10px 20px; background: transparent; border: none; border-radius: var(--radius-md); color: var(--text-secondary); font-size: 0.875rem; cursor: pointer; transition: all 0.15s ease; }
+.subNavItem:hover { background: var(--bg-surface); box-shadow: var(--shadow-inset); color: var(--text-primary); }
+.subNavActive { background: var(--accent); color: white; box-shadow: var(--shadow-raised); }
+.subNavIcon { font-size: 1.125rem; }
+.contentArea { margin-top: var(--space-md); }
+.placeholderCard { padding: var(--space-xl); text-align: center; }
+.placeholderCard h3 { margin-bottom: var(--space-md); }
+.placeholderCard p { margin-bottom: var(--space-lg); color: var(--text-secondary); }
+.emailCard, .notifyCard, .integrationCard { padding: var(--space-lg); }
+.emailCard h3, .notifyCard h3, .integrationCard h3 { font-size: 1.125rem; font-weight: 600; margin-bottom: var(--space-lg); }
+.formGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-md); margin-bottom: var(--space-lg); }
+.formGroup { margin-bottom: var(--space-md); }
+.formGroup label { display: block; font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); margin-bottom: var(--space-xs); }
+.textarea { width: 100%; background: var(--bg-surface); border: none; border-radius: var(--radius-md); box-shadow: var(--shadow-inset); padding: 0.75rem 1rem; color: var(--text-primary); font-size: 0.875rem; resize: vertical; }
+.checkbox { display: flex; align-items: center; gap: var(--space-sm); cursor: pointer; margin-bottom: var(--space-sm); }
+.checkbox input { width: 18px; height: 18px; accent-color: var(--accent); }
+.checkboxGroup { display: flex; flex-direction: column; gap: var(--space-sm); margin-bottom: var(--space-lg); }
+.testSection { display: flex; gap: var(--space-md); align-items: flex-end; margin: var(--space-lg) 0; padding: var(--space-lg); background: var(--bg-surface); border-radius: var(--radius-md); }
+.section { margin-bottom: var(--space-xl); padding-bottom: var(--space-lg); border-bottom: 1px solid var(--shadow-dark); }
+.section h4 { font-size: 1rem; font-weight: 600; margin-bottom: var(--space-md); }
+.select { width: 100%; background: var(--bg-surface); border: none; border-radius: var(--radius-md); box-shadow: var(--shadow-inset); padding: 0.75rem 1rem; color: var(--text-primary); font-size: 0.875rem; cursor: pointer; margin-bottom: var(--space-md); }
+.formActions { display: flex; justify-content: flex-end; margin-top: var(--space-lg); padding-top: var(--space-lg); border-top: 1px solid var(--shadow-dark); }
