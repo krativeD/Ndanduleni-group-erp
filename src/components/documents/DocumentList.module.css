@@ -26,3 +26,35 @@
 .docTable th { text-align: left; padding: var(--space-sm); color: var(--text-secondary); font-size: 0.75rem; text-transform: uppercase; border-bottom: 2px solid var(--shadow-dark); }
 .docTable td { padding: var(--space-md) var(--space-sm); border-bottom: 1px solid var(--shadow-dark); cursor: pointer; }
 .docTable tr:hover { background: var(--bg-surface); }
+.docCard { padding: var(--space-lg); }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg); }
+.header h3 { font-size: 1.125rem; font-weight: 600; }
+.headerActions { display: flex; gap: var(--space-md); align-items: center; }
+.viewToggle { display: flex; gap: var(--space-xs); background: var(--bg-surface); border-radius: var(--radius-md); box-shadow: var(--shadow-inset); padding: 4px; }
+.viewBtn { padding: 6px 12px; background: transparent; border: none; border-radius: var(--radius-sm); color: var(--text-secondary); cursor: pointer; font-size: 1.25rem; }
+.viewBtn.active { background: var(--accent); color: white; box-shadow: var(--shadow-raised); }
+.filters { margin-bottom: var(--space-lg); }
+.searchInput { width: 100%; }
+.docGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--space-md); }
+.docItem { background: var(--bg-surface); border-radius: var(--radius-md); box-shadow: var(--shadow-inset); padding: var(--space-md); text-align: center; cursor: pointer; position: relative; transition: all 0.15s ease; }
+.docItem:hover { box-shadow: var(--shadow-raised); transform: translateY(-2px); }
+.docItem.selected { border: 2px solid var(--accent); }
+.checkbox { position: absolute; top: 8px; left: 8px; }
+.docIcon { font-size: 2.5rem; display: block; margin-bottom: var(--space-sm); }
+.docName { font-weight: 500; display: block; margin-bottom: 4px; word-break: break-word; }
+.docMeta { font-size: 0.7rem; color: var(--text-secondary); display: block; margin-bottom: 8px; }
+.statusBadge { padding: 2px 8px; border-radius: var(--radius-sm); font-size: 0.65rem; font-weight: 600; text-transform: capitalize; }
+.statusDraft { background: rgba(107, 114, 128, 0.1); color: #6b7280; }
+.statusReview { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+.statusPublished { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+.docActions { display: flex; justify-content: center; gap: var(--space-sm); margin-top: var(--space-sm); }
+.actionBtn { background: var(--bg-surface); border: none; border-radius: var(--radius-sm); box-shadow: var(--shadow-raised); padding: 0.4rem 0.6rem; cursor: pointer; font-size: 0.875rem; transition: all 0.2s ease; }
+.actionBtn:hover { box-shadow: var(--shadow-pressed); transform: translateY(-1px); }
+.actionBtn:active { box-shadow: var(--shadow-pressed); transform: translateY(0); }
+.previewBtn { background: var(--bg-surface); border: none; border-radius: var(--radius-md); box-shadow: var(--shadow-raised); padding: 0.4rem 0.8rem; cursor: pointer; font-size: 1.1rem; transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center; }
+.previewBtn:hover { box-shadow: var(--shadow-pressed); transform: translateY(-1px); background: var(--accent); }
+.previewBtn:active { box-shadow: var(--shadow-pressed); transform: translateY(0); }
+.docTable table { width: 100%; border-collapse: collapse; }
+.docTable th { text-align: left; padding: var(--space-sm); color: var(--text-secondary); font-size: 0.75rem; text-transform: uppercase; border-bottom: 2px solid var(--shadow-dark); }
+.docTable td { padding: var(--space-md) var(--space-sm); border-bottom: 1px solid var(--shadow-dark); cursor: pointer; }
+.docTable tr:hover { background: var(--bg-surface); }
