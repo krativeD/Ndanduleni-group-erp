@@ -8,14 +8,14 @@ const QuotationView = ({ quotation, onClose }) => {
 
   const companyInfo = {
     name: 'Ndanduleni Group',
-    address: '123 Main Street, Sandton, Johannesburg, 2196',
-    phone: '+27 11 234 5678',
-    email: 'info@ndanduleni.co.za',
+    address: '2220 Manthata Street, Ivory Park',
+    phone: '070 419 9457',
+    email: 'accounts@ndandulenigroup.co.za',
     vatNumber: '4870123456',
-    bankName: 'First National Bank (FNB)',
-    accountName: 'Ndanduleni Group (Pty) Ltd',
-    accountNumber: '6278 1234 5678',
-    branchCode: '250655'
+    bankName: 'Capitec Business Account',
+    accountType: 'Transact',
+    accountNumber: '1054498946',
+    branchCode: '450105'
   };
 
   const handlePrint = () => {
