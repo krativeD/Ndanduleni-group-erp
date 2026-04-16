@@ -25,9 +25,8 @@ const CEODashboard = () => {
     { name: 'Procurement', description: 'Suppliers, Requisitions, POs, Contracts, RFQs', path: '/procurement', icon: '📋', status: 'active' },
     { name: 'Reports', description: 'Sales, Financial, Inventory, HR, Service Analytics', path: '/reports', icon: '📊', status: 'active' },
     { name: 'Documents', description: 'File Management System', path: '/documents', icon: '📁', status: 'active' },
-    { name: 'Staff Management', description: 'Manage users, roles & permissions', path: '/users', icon: '👤', status: 'active' },
-    { name: 'Settings', description: 'System Configuration', path: '/settings', icon: '⚙️', status: 'active' }
     { name: 'Staff Management', description: 'Manage staff, leave, jobs & performance', path: '/staff', icon: '👤', status: 'active' },
+    { name: 'Settings', description: 'System Configuration', path: '/settings', icon: '⚙️', status: 'active' }
   ];
 
   return (
