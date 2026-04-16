@@ -8,8 +8,6 @@ import ForgotPassword from './pages/ForgotPassword';
 import Dashboard from './pages/Dashboard';
 import Users from './pages/Users';
 import Profile from './pages/Profile';
-
-// HR Module Imports
 import Employees from './pages/hr/Employees';
 import Attendance from './pages/hr/Attendance';
 import LeaveManagement from './pages/hr/LeaveManagement';
@@ -17,45 +15,33 @@ import Payroll from './pages/hr/Payroll';
 import Recruitment from './pages/hr/Recruitment';
 import Performance from './pages/hr/Performance';
 import Training from './pages/hr/Training';
-
-// CRM Module Imports
 import Contacts from './pages/crm/Contacts';
 import Leads from './pages/crm/Leads';
 import Deals from './pages/crm/Deals';
 import Activities from './pages/crm/Activities';
 import CRMReports from './pages/crm/Reports';
-
-// Services Module Imports
 import Schedule from './pages/services/Schedule';
 import Jobs from './pages/services/Jobs';
 import Teams from './pages/services/Teams';
 import Quality from './pages/services/Quality';
 import Equipment from './pages/services/Equipment';
 import Chemicals from './pages/services/Chemicals';
-
-// Inventory Module Imports
 import Stock from './pages/inventory/Stock';
 import Movements from './pages/inventory/Movements';
 import InventorySuppliers from './pages/inventory/Suppliers';
 import PurchaseOrders from './pages/inventory/PurchaseOrders';
 import StockTake from './pages/inventory/StockTake';
-
-// Manufacturing Module Imports
 import Products from './pages/manufacturing/Products';
 import BOM from './pages/manufacturing/BOM';
 import Production from './pages/manufacturing/Production';
 import WorkCentersPage from './pages/manufacturing/WorkCenters';
 import QualityControl from './pages/manufacturing/Quality';
 import Costs from './pages/manufacturing/Costs';
-
-// Sales Module Imports
 import SalesDashboard from './pages/sales/SalesDashboard';
 import Orders from './pages/sales/Orders';
 import Quotations from './pages/sales/Quotations';
 import Invoices from './pages/sales/Invoices';
-import Payments from './pages/sales/Payments';
-
-// Finance Module Imports
+import Description from './pages/sales/Description';
 import FinanceDashboard from './pages/finance/FinanceDashboard';
 import Ledger from './pages/finance/Ledger';
 import Payables from './pages/finance/Payables';
@@ -63,8 +49,6 @@ import Receivables from './pages/finance/Receivables';
 import Cashflow from './pages/finance/Cashflow';
 import Budget from './pages/finance/Budget';
 import FinanceReports from './pages/finance/Reports';
-
-// Procurement Module Imports
 import ProcurementDashboard from './pages/procurement/ProcurementDashboard';
 import ProcurementSuppliers from './pages/procurement/Suppliers';
 import Requisitions from './pages/procurement/Requisitions';
@@ -72,8 +56,6 @@ import ProcurementOrders from './pages/procurement/Orders';
 import Receipts from './pages/procurement/Receipts';
 import Contracts from './pages/procurement/Contracts';
 import RFQs from './pages/procurement/RFQs';
-
-// Reports Module Imports
 import ReportsDashboard from './pages/reports/ReportsDashboard';
 import SalesReports from './pages/reports/Sales';
 import FinancialReportsPage from './pages/reports/Financial';
@@ -82,8 +64,6 @@ import HRReports from './pages/reports/HR';
 import ServiceReports from './pages/reports/Services';
 import CustomReports from './pages/reports/Custom';
 import ScheduledReports from './pages/reports/Scheduled';
-
-// Documents Module Imports
 import DocumentsDashboard from './pages/documents/DocumentsDashboard';
 import MyDocuments from './pages/documents/MyDocuments';
 import SharedDocuments from './pages/documents/Shared';
@@ -91,8 +71,6 @@ import Templates from './pages/documents/Templates';
 import Workflows from './pages/documents/Workflows';
 import Archive from './pages/documents/Archive';
 import Trash from './pages/documents/Trash';
-
-// Settings Module Imports
 import SettingsDashboard from './pages/settings/SettingsDashboard';
 import General from './pages/settings/General';
 import Company from './pages/settings/Company';
@@ -104,8 +82,6 @@ import Security from './pages/settings/Security';
 import Backup from './pages/settings/Backup';
 import Integrations from './pages/settings/Integrations';
 import Audit from './pages/settings/Audit';
-
-// Staff Management Module Imports
 import StaffDashboard from './pages/staff/StaffDashboard';
 import StaffOverview from './pages/staff/Overview';
 import StaffLeave from './pages/staff/Leave';
@@ -114,19 +90,6 @@ import StaffAttendance from './pages/staff/Attendance';
 import StaffPerformance from './pages/staff/Performance';
 import StaffTraining from './pages/staff/Training';
 import StaffDirectory from './pages/staff/Directory';
-
-// Sales Module Imports - Add Description
-import Description from './pages/sales/Description';
-
-// Update Sales Module Routes
-<Route path="/sales" element={<ProtectedRoute><SalesDashboard /></ProtectedRoute>}>
-  <Route index element={<Navigate to="/sales/orders" replace />} />
-  <Route path="orders" element={<Orders />} />
-  <Route path="quotations" element={<Quotations />} />
-  <Route path="invoices" element={<Invoices />} />
-  <Route path="description" element={<Description />} />
-</Route>
-
 import './styles/global.css';
 
 // Protected Route wrapper
@@ -135,7 +98,7 @@ const ProtectedRoute = ({ children }) => {
   return user ? children : <Navigate to="/login" replace />;
 };
 
-// Public Route wrapper (redirect if already logged in)
+// Public Route wrapper
 const PublicRoute = ({ children }) => {
   const { user } = useAuth();
   return !user ? children : <Navigate to="/dashboard" replace />;
@@ -144,17 +107,12 @@ const PublicRoute = ({ children }) => {
 const AppRoutes = () => {
   return (
     <Routes>
-      {/* Auth Routes */}
       <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
       <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
       <Route path="/forgot-password" element={<PublicRoute><ForgotPassword /></PublicRoute>} />
-      
-      {/* Core Routes */}
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       <Route path="/users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
       <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-      
-      {/* HR Module Routes */}
       <Route path="/hr/employees" element={<ProtectedRoute><Employees /></ProtectedRoute>} />
       <Route path="/hr/attendance" element={<ProtectedRoute><Attendance /></ProtectedRoute>} />
       <Route path="/hr/leave" element={<ProtectedRoute><LeaveManagement /></ProtectedRoute>} />
@@ -162,47 +120,35 @@ const AppRoutes = () => {
       <Route path="/hr/recruitment" element={<ProtectedRoute><Recruitment /></ProtectedRoute>} />
       <Route path="/hr/performance" element={<ProtectedRoute><Performance /></ProtectedRoute>} />
       <Route path="/hr/training" element={<ProtectedRoute><Training /></ProtectedRoute>} />
-      
-      {/* CRM Module Routes */}
       <Route path="/crm/contacts" element={<ProtectedRoute><Contacts /></ProtectedRoute>} />
       <Route path="/crm/leads" element={<ProtectedRoute><Leads /></ProtectedRoute>} />
       <Route path="/crm/deals" element={<ProtectedRoute><Deals /></ProtectedRoute>} />
       <Route path="/crm/activities" element={<ProtectedRoute><Activities /></ProtectedRoute>} />
       <Route path="/crm/reports" element={<ProtectedRoute><CRMReports /></ProtectedRoute>} />
-      
-      {/* Services Module Routes */}
       <Route path="/services/schedule" element={<ProtectedRoute><Schedule /></ProtectedRoute>} />
       <Route path="/services/jobs" element={<ProtectedRoute><Jobs /></ProtectedRoute>} />
       <Route path="/services/teams" element={<ProtectedRoute><Teams /></ProtectedRoute>} />
       <Route path="/services/quality" element={<ProtectedRoute><Quality /></ProtectedRoute>} />
       <Route path="/services/equipment" element={<ProtectedRoute><Equipment /></ProtectedRoute>} />
       <Route path="/services/chemicals" element={<ProtectedRoute><Chemicals /></ProtectedRoute>} />
-      
-      {/* Inventory Module Routes */}
       <Route path="/inventory/stock" element={<ProtectedRoute><Stock /></ProtectedRoute>} />
       <Route path="/inventory/movements" element={<ProtectedRoute><Movements /></ProtectedRoute>} />
       <Route path="/inventory/suppliers" element={<ProtectedRoute><InventorySuppliers /></ProtectedRoute>} />
       <Route path="/inventory/orders" element={<ProtectedRoute><PurchaseOrders /></ProtectedRoute>} />
       <Route path="/inventory/stocktake" element={<ProtectedRoute><StockTake /></ProtectedRoute>} />
-      
-      {/* Manufacturing Module Routes */}
       <Route path="/manufacturing/products" element={<ProtectedRoute><Products /></ProtectedRoute>} />
       <Route path="/manufacturing/bom" element={<ProtectedRoute><BOM /></ProtectedRoute>} />
       <Route path="/manufacturing/production" element={<ProtectedRoute><Production /></ProtectedRoute>} />
       <Route path="/manufacturing/workcenters" element={<ProtectedRoute><WorkCentersPage /></ProtectedRoute>} />
       <Route path="/manufacturing/quality" element={<ProtectedRoute><QualityControl /></ProtectedRoute>} />
       <Route path="/manufacturing/costs" element={<ProtectedRoute><Costs /></ProtectedRoute>} />
-      
-      {/* Sales Module Routes */}
       <Route path="/sales" element={<ProtectedRoute><SalesDashboard /></ProtectedRoute>}>
         <Route index element={<Navigate to="/sales/orders" replace />} />
         <Route path="orders" element={<Orders />} />
         <Route path="quotations" element={<Quotations />} />
         <Route path="invoices" element={<Invoices />} />
-        <Route path="payments" element={<Payments />} />
+        <Route path="description" element={<Description />} />
       </Route>
-      
-      {/* Finance Module Routes */}
       <Route path="/finance" element={<ProtectedRoute><FinanceDashboard /></ProtectedRoute>}>
         <Route index element={<Navigate to="/finance/ledger" replace />} />
         <Route path="ledger" element={<Ledger />} />
@@ -212,8 +158,6 @@ const AppRoutes = () => {
         <Route path="budget" element={<Budget />} />
         <Route path="reports" element={<FinanceReports />} />
       </Route>
-      
-      {/* Procurement Module Routes */}
       <Route path="/procurement" element={<ProtectedRoute><ProcurementDashboard /></ProtectedRoute>}>
         <Route index element={<Navigate to="/procurement/suppliers" replace />} />
         <Route path="suppliers" element={<ProcurementSuppliers />} />
@@ -223,8 +167,6 @@ const AppRoutes = () => {
         <Route path="contracts" element={<Contracts />} />
         <Route path="rfqs" element={<RFQs />} />
       </Route>
-      
-      {/* Reports Module Routes */}
       <Route path="/reports" element={<ProtectedRoute><ReportsDashboard /></ProtectedRoute>}>
         <Route index element={<Navigate to="/reports/sales" replace />} />
         <Route path="sales" element={<SalesReports />} />
@@ -235,8 +177,6 @@ const AppRoutes = () => {
         <Route path="custom" element={<CustomReports />} />
         <Route path="scheduled" element={<ScheduledReports />} />
       </Route>
-      
-      {/* Documents Module Routes */}
       <Route path="/documents" element={<ProtectedRoute><DocumentsDashboard /></ProtectedRoute>}>
         <Route index element={<Navigate to="/documents/my" replace />} />
         <Route path="my" element={<MyDocuments />} />
@@ -246,8 +186,6 @@ const AppRoutes = () => {
         <Route path="archive" element={<Archive />} />
         <Route path="trash" element={<Trash />} />
       </Route>
-      
-      {/* Settings Module Routes */}
       <Route path="/settings" element={<ProtectedRoute><SettingsDashboard /></ProtectedRoute>}>
         <Route index element={<Navigate to="/settings/general" replace />} />
         <Route path="general" element={<General />} />
@@ -261,8 +199,6 @@ const AppRoutes = () => {
         <Route path="integrations" element={<Integrations />} />
         <Route path="audit" element={<Audit />} />
       </Route>
-      
-      {/* Staff Management Module Routes */}
       <Route path="/staff" element={<ProtectedRoute><StaffDashboard /></ProtectedRoute>}>
         <Route index element={<StaffOverview />} />
         <Route path="leave" element={<StaffLeave />} />
@@ -272,8 +208,6 @@ const AppRoutes = () => {
         <Route path="training" element={<StaffTraining />} />
         <Route path="directory" element={<StaffDirectory />} />
       </Route>
-      
-      {/* Default Redirect */}
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
     </Routes>
   );
