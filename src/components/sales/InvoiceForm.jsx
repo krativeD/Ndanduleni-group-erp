@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from '../common/Card';
 import Input from '../common/Input';
 import Button from '../common/Button';
@@ -108,10 +108,9 @@ const InvoiceForm = ({ invoice, onSubmit, onCancel, nextInvoiceNumber }) => {
         item.id === id ? { ...item, description: value } : item
       );
       
-      const currentItem = updatedItems.find(item => item.id === id);
       const isLastItem = updatedItems[updatedItems.length - 1]?.id === id;
       
-      if (isLastItem && value.trim() !== '' && currentItem) {
+      if (isLastItem && value.trim() !== '') {
         return [...updatedItems, { id: Date.now() + Math.random(), description: '', quantity: 1, unitPrice: 0, serviceId: null }];
       }
       
@@ -212,9 +211,8 @@ const InvoiceForm = ({ invoice, onSubmit, onCancel, nextInvoiceNumber }) => {
               <span className={styles.colAction}></span>
             </div>
             
-            {items.map((item, index) => {
+            {items.map((item) => {
               const itemTotal = calculateItemTotal(item.quantity, item.unitPrice);
-              const isLastItem = index === items.length - 1;
               
               return (
                 <div key={item.id} className={styles.lineItemRow}>
