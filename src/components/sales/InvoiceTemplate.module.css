@@ -1,46 +1,48 @@
-/* A4 Print Styles */
+/* A4 Print Styles - Optimized for 1 Page */
 .invoiceContainer {
   max-width: 210mm;
   min-height: 297mm;
   margin: 0 auto;
-  padding: 20mm;
+  padding: 12mm 15mm;
   background: white;
   font-family: 'Arial', 'Helvetica', sans-serif;
   color: #17181c;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Header */
+/* Header - Compact */
 .header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   border-bottom: 2px solid #6366f1;
-  padding-bottom: 20px;
+  padding-bottom: 12px;
 }
 
 .logoSection {
   display: flex;
-  gap: 20px;
+  gap: 15px;
   align-items: flex-start;
 }
 
 .logo {
-  width: 100px;
+  width: 80px;
   height: auto;
 }
 
 .companyInfo h1 {
-  margin: 0 0 8px 0;
-  font-size: 20px;
+  margin: 0 0 4px 0;
+  font-size: 18px;
   font-weight: 700;
   color: #17181c;
   letter-spacing: 1px;
 }
 
 .companyInfo p {
-  margin: 2px 0;
-  font-size: 12px;
+  margin: 1px 0;
+  font-size: 11px;
   color: #4a5568;
 }
 
@@ -49,26 +51,26 @@
 }
 
 .invoiceTitle h2 {
-  margin: 0 0 15px 0;
-  font-size: 28px;
+  margin: 0 0 10px 0;
+  font-size: 24px;
   font-weight: 700;
   color: #6366f1;
   letter-spacing: 2px;
 }
 
 .invoiceMeta p {
-  margin: 3px 0;
-  font-size: 13px;
+  margin: 2px 0;
+  font-size: 12px;
 }
 
-/* Bill To */
+/* Bill To - Compact */
 .billTo {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .billTo h3 {
-  margin: 0 0 8px 0;
-  font-size: 14px;
+  margin: 0 0 5px 0;
+  font-size: 12px;
   font-weight: 600;
   color: #4a5568;
   text-transform: uppercase;
@@ -76,29 +78,29 @@
 }
 
 .customerName {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
-  margin: 0 0 4px 0;
+  margin: 0 0 3px 0;
 }
 
 .billTo p {
-  margin: 2px 0;
-  font-size: 13px;
+  margin: 1px 0;
+  font-size: 12px;
   color: #4a5568;
 }
 
-/* Items Table */
+/* Items Table - Compact */
 .itemsTable {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .itemsTable th {
   background: #f3f4f8;
-  padding: 12px 10px;
+  padding: 8px 10px;
   text-align: left;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -107,27 +109,27 @@
 }
 
 .itemsTable td {
-  padding: 12px 10px;
+  padding: 8px 10px;
   border-bottom: 1px solid #e0e5ec;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .itemsTable tbody tr:last-child td {
   border-bottom: 2px solid #a3b1c6;
 }
 
-/* Totals */
+/* Totals - Compact */
 .totals {
-  width: 350px;
+  width: 300px;
   margin-left: auto;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 .totalsRow {
   display: flex;
   justify-content: space-between;
-  padding: 8px 0;
-  font-size: 13px;
+  padding: 6px 0;
+  font-size: 12px;
   border-bottom: 1px solid #e0e5ec;
 }
 
@@ -136,41 +138,42 @@
 }
 
 .balanceDue {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
   color: #6366f1;
   border-top: 2px solid #a3b1c6;
   border-bottom: none;
-  padding-top: 12px;
-  margin-top: 8px;
+  padding-top: 10px;
+  margin-top: 6px;
 }
 
-/* Footer */
+/* Footer - Compact */
 .footer {
-  margin-top: 40px;
-  padding-top: 20px;
+  margin-top: auto;
+  padding-top: 15px;
   border-top: 1px solid #e0e5ec;
-  font-size: 12px;
+  font-size: 11px;
   color: #4a5568;
 }
 
 .footer p {
-  margin: 4px 0;
+  margin: 3px 0;
 }
 
 .thankYou {
-  margin-top: 20px;
+  margin-top: 15px;
   font-style: italic;
   text-align: center;
   color: #6366f1;
 }
 
-/* Print Styles - Critical for clean printing */
+/* Print Styles */
 @media print {
   .invoiceContainer {
-    padding: 15mm;
+    padding: 10mm 12mm;
     box-shadow: none;
     margin: 0;
+    min-height: 0;
   }
   
   @page {
@@ -182,10 +185,6 @@
     margin: 0;
     padding: 0;
     background: white;
-  }
-  
-  .noPrint {
-    display: none !important;
   }
 }
 
