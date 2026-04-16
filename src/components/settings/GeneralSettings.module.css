@@ -1,0 +1,9 @@
+.settingsCard { padding: var(--space-lg); }
+.settingsCard h3 { font-size: 1.125rem; font-weight: 600; margin-bottom: var(--space-lg); }
+.formGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-md); }
+.formGroup { display: flex; flex-direction: column; gap: var(--space-xs); }
+.formGroup label { font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); }
+.select, .input { background: var(--bg-surface); border: none; border-radius: var(--radius-md); box-shadow: var(--shadow-inset); padding: 0.75rem 1rem; color: var(--text-primary); font-size: 0.875rem; }
+.select:focus, .input:focus { outline: none; box-shadow: var(--shadow-pressed); }
+.formActions { display: flex; justify-content: flex-end; margin-top: var(--space-lg); padding-top: var(--space-lg); border-top: 1px solid var(--shadow-dark); }
+@media (max-width: 768px) { .formGrid { grid-template-columns: 1fr; } }
