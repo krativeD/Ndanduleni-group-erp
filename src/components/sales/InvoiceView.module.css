@@ -16,6 +16,7 @@
   z-index: 10;
 }
 
+/* Hide actions when printing */
 @media print {
   .actions {
     display: none !important;
