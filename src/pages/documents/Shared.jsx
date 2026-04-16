@@ -8,19 +8,12 @@ import styles from './DocumentsStyles.module.css';
 
 const Shared = () => {
   const { documents, loading, refresh, getFileIcon, formatFileSize } = useSharedDocuments();
-  const { shareDocument, deleteDocument } = useDocuments();
+  const { shareDocument } = useDocuments();
   const [previewDocument, setPreviewDocument] = useState(null);
 
   const handleRemoveShare = (doc) => {
     if (window.confirm(`Remove sharing for "${doc.name}"?`)) {
       shareDocument(doc.id, []);
-      refresh();
-    }
-  };
-
-  const handleDelete = (id) => {
-    if (window.confirm('Delete this document?')) {
-      deleteDocument(id);
       refresh();
     }
   };
