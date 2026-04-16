@@ -8,7 +8,33 @@ import ForgotPassword from './pages/ForgotPassword';
 import Dashboard from './pages/Dashboard';
 import Users from './pages/Users';
 import Profile from './pages/Profile';
+// Settings Module Imports
+import SettingsDashboard from './pages/settings/SettingsDashboard';
+import General from './pages/settings/General';
+import Company from './pages/settings/Company';
+import SettingsUsers from './pages/settings/Users';
+import Roles from './pages/settings/Roles';
+import Email from './pages/settings/Email';
+import Notifications from './pages/settings/Notifications';
+import Security from './pages/settings/Security';
+import Backup from './pages/settings/Backup';
+import Integrations from './pages/settings/Integrations';
+import Audit from './pages/settings/Audit';
 
+// Add nested routes
+<Route path="/settings" element={<ProtectedRoute><SettingsDashboard /></ProtectedRoute>}>
+  <Route index element={<Navigate to="/settings/general" replace />} />
+  <Route path="general" element={<General />} />
+  <Route path="company" element={<Company />} />
+  <Route path="users" element={<SettingsUsers />} />
+  <Route path="roles" element={<Roles />} />
+  <Route path="email" element={<Email />} />
+  <Route path="notifications" element={<Notifications />} />
+  <Route path="security" element={<Security />} />
+  <Route path="backup" element={<Backup />} />
+  <Route path="integrations" element={<Integrations />} />
+  <Route path="audit" element={<Audit />} />
+</Route>
 // HR Module Imports
 import Employees from './pages/hr/Employees';
 import Attendance from './pages/hr/Attendance';
