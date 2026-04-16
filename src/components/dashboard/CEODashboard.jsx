@@ -5,7 +5,6 @@ import RecentActivity from './RecentActivity';
 import QuickActions from './QuickActions';
 import Loader from '../common/Loader';
 import Card from '../common/Card';
-import Button from '../common/Button';
 import styles from './Dashboard.module.css';
 
 const CEODashboard = () => {
@@ -26,6 +25,7 @@ const CEODashboard = () => {
     { name: 'Procurement', description: 'Suppliers, Requisitions, POs, Contracts, RFQs', path: '/procurement', icon: '📋', status: 'active' },
     { name: 'Reports', description: 'Sales, Financial, Inventory, HR, Service Analytics', path: '/reports', icon: '📊', status: 'active' },
     { name: 'Documents', description: 'File Management System', path: '/documents', icon: '📁', status: 'active' },
+    { name: 'Staff Management', description: 'Manage users, roles & permissions', path: '/users', icon: '👤', status: 'active' },
     { name: 'Settings', description: 'System Configuration', path: '/settings', icon: '⚙️', status: 'active' }
   ];
 
@@ -37,12 +37,7 @@ const CEODashboard = () => {
       </div>
 
       <Card className={styles.moduleGrid}>
-        <div className={styles.moduleGridHeader}>
-          <h3>System Modules</h3>
-          <Button variant="primary" size="small" onClick={() => navigate('/users')}>
-            👥 Staff Management
-          </Button>
-        </div>
+        <h3 style={{ gridColumn: '1/-1', marginBottom: '16px' }}>System Modules</h3>
         <div className={styles.moduleCards}>
           {modules.map((module, index) => (
             <div
