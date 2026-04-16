@@ -5,6 +5,7 @@ import RecentActivity from './RecentActivity';
 import QuickActions from './QuickActions';
 import Loader from '../common/Loader';
 import Card from '../common/Card';
+import Button from '../common/Button';
 import styles from './Dashboard.module.css';
 
 const CEODashboard = () => {
@@ -36,7 +37,12 @@ const CEODashboard = () => {
       </div>
 
       <Card className={styles.moduleGrid}>
-        <h3 style={{ gridColumn: '1/-1', marginBottom: '16px' }}>System Modules</h3>
+        <div className={styles.moduleGridHeader}>
+          <h3>System Modules</h3>
+          <Button variant="primary" size="small" onClick={() => navigate('/users')}>
+            👥 Staff Management
+          </Button>
+        </div>
         <div className={styles.moduleCards}>
           {modules.map((module, index) => (
             <div
