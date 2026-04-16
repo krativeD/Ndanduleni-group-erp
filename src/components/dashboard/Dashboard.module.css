@@ -1,3 +1,7 @@
+.dashboard {
+  padding: var(--space-md) 0;
+}
+
 .header {
   margin-bottom: var(--space-xl);
 }
@@ -11,4 +15,134 @@
 .welcome {
   color: var(--text-secondary);
   font-size: 1rem;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+
+.chartSection {
+  margin-bottom: var(--space-xl);
+}
+
+.bottomSection {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-lg);
+}
+
+.error {
+  text-align: center;
+  padding: var(--space-xl);
+  color: var(--danger);
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-raised);
+}
+
+/* Module Grid */
+.moduleGrid {
+  padding: var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+
+.moduleCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--space-md);
+}
+
+.moduleCard {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-raised);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+}
+
+.moduleCard:hover {
+  box-shadow: var(--shadow-pressed);
+  transform: translateY(-3px);
+}
+
+.moduleCard:active {
+  box-shadow: var(--shadow-pressed);
+  transform: translateY(0);
+}
+
+.moduleCardDisabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  position: relative;
+}
+
+.moduleCardDisabled:hover {
+  transform: none;
+  box-shadow: var(--shadow-raised);
+}
+
+.moduleIcon {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-xs);
+}
+
+.moduleName {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.moduleDesc {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.comingSoonBadge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--accent);
+  color: white;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .bottomSection {
+    grid-template-columns: 1fr;
+  }
+  
+  .moduleCards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .moduleCards {
+    grid-template-columns: 1fr;
+  }
 }
