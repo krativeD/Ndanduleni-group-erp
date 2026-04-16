@@ -1,0 +1,9 @@
+.profileCard { padding: var(--space-lg); }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg); }
+.header h3 { font-size: 1.125rem; font-weight: 600; }
+.formGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-md); }
+.fullWidth { grid-column: span 2; }
+.logoSection { grid-column: span 2; display: flex; align-items: center; gap: var(--space-lg); margin-bottom: var(--space-md); }
+.logo { width: 100px; height: auto; border-radius: var(--radius-md); box-shadow: var(--shadow-raised); }
+.formActions { display: flex; gap: var(--space-md); justify-content: flex-end; margin-top: var(--space-lg); padding-top: var(--space-lg); border-top: 1px solid var(--shadow-dark); }
+@media (max-width: 768px) { .formGrid { grid-template-columns: 1fr; } .fullWidth { grid-column: span 1; } }
