@@ -56,3 +56,28 @@
 .statusPending { background: rgba(107, 114, 128, 0.1); color: #6b7280; }
 .actionBtn { background: var(--bg-surface); border: none; border-radius: var(--radius-sm); box-shadow: var(--shadow-raised); padding: 0.4rem 0.6rem; cursor: pointer; font-size: 0.875rem; }
 .actionBtn:hover { box-shadow: var(--shadow-pressed); }
+.previewBtn {
+  background: var(--bg-surface);
+  border: none;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-raised);
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: var(--space-xs);
+}
+
+.previewBtn:hover {
+  box-shadow: var(--shadow-pressed);
+  transform: translateY(-2px);
+  background: var(--accent);
+}
+
+.previewBtn:active {
+  box-shadow: var(--shadow-pressed);
+  transform: translateY(0);
+}
