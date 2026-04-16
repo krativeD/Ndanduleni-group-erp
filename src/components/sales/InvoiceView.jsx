@@ -2,6 +2,8 @@ import React, { useRef } from 'react';
 import InvoiceTemplate from './InvoiceTemplate';
 import Button from '../common/Button';
 import styles from './InvoiceView.module.css';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 const InvoiceView = ({ invoice, onClose }) => {
   const printRef = useRef();
@@ -22,44 +24,85 @@ const InvoiceView = ({ invoice, onClose }) => {
     const originalTitle = document.title;
     const originalContents = document.body.innerHTML;
 
-    // Get only the invoice content
     const invoiceHTML = printContent.innerHTML;
 
-    // Create a clean print document
     document.body.innerHTML = `
-      <div class="print-container" style="max-width: 210mm; margin: 0 auto; padding: 20mm; background: white;">
+      <div class="print-container" style="max-width: 210mm; margin: 0 auto; padding: 10mm; background: white;">
         ${invoiceHTML}
       </div>
     `;
     document.title = `Invoice-${invoice.invoiceNumber}`;
 
-    // Add print styles
     const style = document.createElement('style');
     style.textContent = `
       @media print {
         @page { size: A4; margin: 0; }
         body { margin: 0; padding: 0; background: white; }
-        .print-container { padding: 15mm !important; }
+        .print-container { padding: 10mm !important; max-width: 210mm; }
         .no-print { display: none !important; }
       }
       * { box-sizing: border-box; }
     `;
     document.head.appendChild(style);
 
-    // Print and restore
     window.print();
 
-    // Restore original content
     document.body.innerHTML = originalContents;
     document.title = originalTitle;
-
-    // Re-attach React event listeners (page will refresh)
     window.location.reload();
   };
 
-  const handleDownloadPDF = () => {
-    // Use the same clean print approach for PDF
-    handlePrint();
+  const handleDownloadPDF = async () => {
+    const element = printRef.current;
+    
+    // Show loading
+    const loadingToast = document.createElement('div');
+    loadingToast.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#6366f1;color:white;padding:16px 32px;border-radius:12px;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,0.2);';
+    loadingToast.textContent = '📄 Generating PDF...';
+    document.body.appendChild(loadingToast);
+
+    try {
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        backgroundColor: '#ffffff',
+        logging: false,
+        allowTaint: true,
+        useCORS: true
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+      
+      // A4 dimensions in mm: 210 x 297
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      
+      // Calculate height to fit one page
+      const imgWidth = pdfWidth;
+      const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+      
+      // If content is taller than one page, scale to fit exactly one page
+      if (imgHeight > pdfHeight) {
+        const scaleFactor = pdfHeight / imgHeight;
+        const scaledWidth = pdfWidth;
+        const scaledHeight = pdfHeight;
+        pdf.addImage(imgData, 'PNG', 0, 0, scaledWidth, scaledHeight);
+      } else {
+        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      }
+
+      pdf.save(`Invoice-${invoice.invoiceNumber}.pdf`);
+    } catch (error) {
+      console.error('PDF generation error:', error);
+      alert('Could not generate PDF. Please try Print instead.');
+    } finally {
+      document.body.removeChild(loadingToast);
+    }
   };
 
   return (
