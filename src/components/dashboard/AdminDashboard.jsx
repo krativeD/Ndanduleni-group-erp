@@ -24,7 +24,7 @@ const AdminDashboard = () => {
     { name: 'Procurement', description: 'Suppliers & POs', path: '/procurement', icon: '📋', status: 'active' },
     { name: 'Reports', description: 'Analytics & Reports', path: '/reports', icon: '📊', status: 'active' },
     { name: 'Documents', description: 'File Management', path: '/documents', icon: '📁', status: 'active' },
-    { name: 'Staff Management', description: 'Manage users & roles', path: '/users', icon: '👤', status: 'active' },
+    { name: 'Staff Management', description: 'Manage staff, leave & jobs', path: '/staff', icon: '👤', status: 'active' },
     { name: 'Settings', description: 'System Configuration', path: '/settings', icon: '⚙️', status: 'active' }
   ];
 
