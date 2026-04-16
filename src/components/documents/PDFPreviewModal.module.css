@@ -1,0 +1,232 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: fadeIn 0.3s ease;
+  padding: var(--space-md);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modalContent {
+  background: var(--bg-primary);
+  border-radius: var(--radius-xl);
+  box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.3), -8px -8px 16px rgba(255, 255, 255, 0.05);
+  width: 100%;
+  max-width: 1000px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-lg) var(--space-xl);
+  border-bottom: 1px solid var(--shadow-dark);
+  background: var(--bg-surface);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+.documentInfo h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.docMeta {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.closeBtn {
+  background: var(--bg-surface);
+  border: none;
+  border-radius: 50%;
+  box-shadow: var(--shadow-raised);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+
+.closeBtn:hover {
+  box-shadow: var(--shadow-pressed);
+  transform: scale(0.95);
+  color: var(--danger);
+}
+
+.modalBody {
+  flex: 1;
+  min-height: 500px;
+  max-height: calc(90vh - 140px);
+  overflow: auto;
+  background: #525659;
+  position: relative;
+}
+
+.loaderContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 400px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.loaderContainer p {
+  margin-top: var(--space-md);
+  color: var(--text-secondary);
+}
+
+.pdfViewer {
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+  border: none;
+  display: block;
+}
+
+.fallbackPreview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  background: var(--bg-primary);
+  padding: var(--space-xl);
+}
+
+.previewPlaceholder {
+  text-align: center;
+  max-width: 400px;
+}
+
+.previewPlaceholder h4 {
+  margin: var(--space-md) 0;
+  color: var(--text-primary);
+}
+
+.previewPlaceholder p {
+  color: var(--text-secondary);
+  margin-bottom: var(--space-sm);
+}
+
+.hint {
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+.downloadBtn {
+  margin-top: var(--space-lg);
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-raised);
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.downloadBtn:hover {
+  box-shadow: var(--shadow-pressed);
+  transform: translateY(-2px);
+}
+
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  background: var(--bg-primary);
+  color: var(--danger);
+  text-align: center;
+}
+
+.errorContainer span {
+  font-size: 3rem;
+  margin-bottom: var(--space-md);
+}
+
+.errorContainer button {
+  margin-top: var(--space-md);
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-md) var(--space-xl);
+  border-top: 1px solid var(--shadow-dark);
+  background: var(--bg-surface);
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+}
+
+.footerText {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.downloadFooterBtn {
+  background: transparent;
+  border: none;
+  color: var(--accent);
+  font-weight: 500;
+  cursor: pointer;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+}
+
+.downloadFooterBtn:hover {
+  background: var(--bg-primary);
+  box-shadow: var(--shadow-inset);
+}
+
+@media (max-width: 768px) {
+  .modalContent {
+    max-height: 95vh;
+  }
+  
+  .modalHeader {
+    padding: var(--space-md);
+  }
+  
+  .modalFooter {
+    padding: var(--space-sm) var(--space-md);
+  }
+}
