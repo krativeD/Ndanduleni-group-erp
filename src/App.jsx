@@ -105,6 +105,16 @@ import Backup from './pages/settings/Backup';
 import Integrations from './pages/settings/Integrations';
 import Audit from './pages/settings/Audit';
 
+// Staff Management Module Imports
+import StaffDashboard from './pages/staff/StaffDashboard';
+import StaffOverview from './pages/staff/Overview';
+import StaffLeave from './pages/staff/Leave';
+import StaffJobs from './pages/staff/Jobs';
+import StaffAttendance from './pages/staff/Attendance';
+import StaffPerformance from './pages/staff/Performance';
+import StaffTraining from './pages/staff/Training';
+import StaffDirectory from './pages/staff/Directory';
+
 import './styles/global.css';
 
 // Protected Route wrapper
@@ -239,6 +249,17 @@ const AppRoutes = () => {
         <Route path="integrations" element={<Integrations />} />
         <Route path="audit" element={<Audit />} />
       </Route>
+
+      // Add nested routes
+<Route path="/staff" element={<ProtectedRoute><StaffDashboard /></ProtectedRoute>}>
+  <Route index element={<StaffOverview />} />
+  <Route path="leave" element={<StaffLeave />} />
+  <Route path="jobs" element={<StaffJobs />} />
+  <Route path="attendance" element={<StaffAttendance />} />
+  <Route path="performance" element={<StaffPerformance />} />
+  <Route path="training" element={<StaffTraining />} />
+  <Route path="directory" element={<StaffDirectory />} />
+</Route>
       
       {/* Default Redirect */}
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
