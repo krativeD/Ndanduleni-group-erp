@@ -7,7 +7,7 @@ import Loader from '../../components/common/Loader';
 import styles from './StaffStyles.module.css';
 
 const Training = () => {
-  const { training, loading, addTraining, updateTraining } = useTraining();
+  const { training, loading, addTraining } = useTraining();
   const { jobs } = useJobAssignments();
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({ employee: '', course: '', provider: '', startDate: '', endDate: '', cost: '', status: 'planned' });
