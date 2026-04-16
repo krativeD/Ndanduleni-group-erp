@@ -34,7 +34,7 @@ const InvoiceView = ({ invoice, onClose }) => {
     const style = document.createElement('style');
     style.textContent = `
       @media print {
-        @page { size: A4; margin: 0; }
+        @page { size: A4 portrait; margin: 0; }
         body { margin: 0; padding: 0; background: white; }
         .print-container { padding: 10mm !important; max-width: 210mm; }
         .no-print { display: none !important; }
@@ -73,20 +73,46 @@ const InvoiceView = ({ invoice, onClose }) => {
     document.body.appendChild(loadingDiv);
 
     try {
-      // Dynamically import libraries (works with Netlify)
+      // Clone the element and apply exact A4 portrait styling
+      const cloneElement = element.cloneNode(true);
+      cloneElement.style.width = '210mm';
+      cloneElement.style.minHeight = '297mm';
+      cloneElement.style.padding = '10mm';
+      cloneElement.style.margin = '0';
+      cloneElement.style.backgroundColor = 'white';
+      cloneElement.style.boxSizing = 'border-box';
+      cloneElement.style.position = 'relative';
+      
+      // Create a wrapper for proper rendering
+      const wrapper = document.createElement('div');
+      wrapper.style.position = 'fixed';
+      wrapper.style.left = '-9999px';
+      wrapper.style.top = '0';
+      wrapper.style.width = '210mm';
+      wrapper.style.backgroundColor = 'white';
+      wrapper.appendChild(cloneElement);
+      document.body.appendChild(wrapper);
+
+      // Dynamically import libraries
       const html2canvas = (await import('html2canvas')).default;
       const jsPDF = (await import('jspdf')).default;
 
-      const canvas = await html2canvas(element, {
-        scale: 2,
+      const canvas = await html2canvas(cloneElement, {
+        scale: 3,
         backgroundColor: '#ffffff',
         logging: false,
         allowTaint: true,
-        useCORS: true
+        useCORS: true,
+        windowWidth: 794, // 210mm at 96 DPI
+        windowHeight: 1123 // 297mm at 96 DPI
       });
+
+      // Remove the temporary wrapper
+      document.body.removeChild(wrapper);
 
       const imgData = canvas.toDataURL('image/png');
       
+      // Create PDF in portrait orientation
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
@@ -96,9 +122,11 @@ const InvoiceView = ({ invoice, onClose }) => {
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
       
+      // Calculate dimensions to fit exactly on one page
       const imgWidth = pdfWidth;
       const imgHeight = (canvas.height * pdfWidth) / canvas.width;
       
+      // Add image - if taller than page, scale to fit exactly
       if (imgHeight > pdfHeight) {
         pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       } else {
