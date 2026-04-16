@@ -17,7 +17,12 @@ const Quotations = () => {
   const [viewingQuotation, setViewingQuotation] = useState(null);
 
   const getStatusBadge = (status) => {
-    const badges = { 'draft': styles.statusDraft, 'sent': styles.statusSent, 'accepted': styles.statusAccepted, 'rejected': styles.statusRejected };
+    const badges = { 
+      'draft': styles.statusDraft, 
+      'sent': styles.statusSent, 
+      'accepted': styles.statusAccepted, 
+      'rejected': styles.statusRejected 
+    };
     return badges[status] || styles.statusDraft;
   };
 
@@ -77,7 +82,10 @@ const Quotations = () => {
         <QuotationForm 
           quotation={editingQuotation} 
           onSubmit={handleSubmit} 
-          onCancel={() => { setShowForm(false); setEditingQuotation(null); }}
+          onCancel={() => { 
+            setShowForm(false); 
+            setEditingQuotation(null); 
+          }}
           onConvertToInvoice={editingQuotation ? () => handleConvertToInvoice(editingQuotation) : null}
         />
       ) : (
@@ -109,12 +117,34 @@ const Quotations = () => {
                       <td>{q.items}</td>
                       <td>R {q.total.toLocaleString()}</td>
                       <td>{q.validUntil}</td>
-                      <td><span className={`${styles.statusBadge} ${getStatusBadge(q.status)}`}>{q.status}</span></td>
+                      <td>
+                        <span className={`${styles.statusBadge} ${getStatusBadge(q.status)}`}>
+                          {q.status}
+                        </span>
+                      </td>
                       <td>
                         <div className={styles.actions}>
-                          <button className={styles.actionBtn} onClick={() => handleView(q)} title="View/Print">👁️</button>
-                          <button className={styles.actionBtn} onClick={() => handleEdit(q)} title="Edit">✏️</button>
-                          <button className={styles.actionBtn} onClick={() => handleDelete(q.id)} title="Delete">🗑️</button>
+                          <button 
+                            className={styles.actionBtn} 
+                            onClick={() => handleView(q)} 
+                            title="View/Print"
+                          >
+                            👁️
+                          </button>
+                          <button 
+                            className={styles.actionBtn} 
+                            onClick={() => handleEdit(q)} 
+                            title="Edit"
+                          >
+                            ✏️
+                          </button>
+                          <button 
+                            className={styles.actionBtn} 
+                            onClick={() => handleDelete(q.id)} 
+                            title="Delete"
+                          >
+                            🗑️
+                          </button>
                         </div>
                       </td>
                     </tr>
