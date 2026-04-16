@@ -19,6 +19,7 @@ const StaffDashboard = () => {
     { name: 'My Attendance', description: 'Clock in/out & view history', path: '/hr/attendance', icon: '📍' },
     { name: 'My Tasks', description: 'View assigned tasks', path: '/crm/activities', icon: '📋' },
     { name: 'Service Jobs', description: 'View cleaning jobs', path: '/services/jobs', icon: '🧹' },
+    { name: 'My Documents', description: 'Access my documents', path: '/documents/my', icon: '📁' },
     { name: 'My Profile', description: 'Update personal info', path: '/profile', icon: '👤' }
   ];
 
@@ -30,42 +31,17 @@ const StaffDashboard = () => {
       </div>
 
       <div className={styles.statsGrid}>
-        <StatCard 
-          title="My Projects" 
-          value={stats.activeProjects} 
-          icon="📋" 
-          color="primary"
-        />
-        <StatCard 
-          title="Pending Tasks" 
-          value={stats.pendingOrders} 
-          icon="✅" 
-          color="warning"
-        />
-        <StatCard 
-          title="Attendance Rate" 
-          value={`${stats.attendanceRate}%`} 
-          icon="📍" 
-          color="success"
-        />
-        <StatCard 
-          title="Leave Balance" 
-          value="12 days" 
-          icon="🏖️" 
-          color="info"
-        />
+        <StatCard title="My Projects" value={stats.activeProjects} icon="📋" color="primary" />
+        <StatCard title="Pending Tasks" value={stats.pendingOrders} icon="✅" color="warning" />
+        <StatCard title="Attendance Rate" value={`${stats.attendanceRate}%`} icon="📍" color="success" />
+        <StatCard title="Leave Balance" value="12 days" icon="🏖️" color="info" />
       </div>
 
-      {/* Module Quick Access */}
       <Card className={styles.moduleGrid}>
         <h3 style={{ gridColumn: '1/-1', marginBottom: '16px' }}>Quick Access</h3>
         <div className={styles.moduleCards}>
           {modules.map((module, index) => (
-            <div 
-              key={index} 
-              className={styles.moduleCard}
-              onClick={() => navigate(module.path)}
-            >
+            <div key={index} className={styles.moduleCard} onClick={() => navigate(module.path)}>
               <span className={styles.moduleIcon}>{module.icon}</span>
               <span className={styles.moduleName}>{module.name}</span>
               <span className={styles.moduleDesc}>{module.description}</span>
