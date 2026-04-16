@@ -8,13 +8,14 @@ const InvoiceView = ({ invoice, onClose }) => {
 
   const companyInfo = {
     name: 'Ndanduleni Group',
-    address: '123 Main Street, Sandton, Johannesburg, 2196',
-    phone: '+27 11 234 5678',
-    email: 'accounts@ndanduleni.co.za',
+    address: '2220 Manthata Street, Ivory Park',
+    phone: '070 419 9457',
+    email: 'accounts@ndandulenigroup.co.za',
     vatNumber: '4870123456',
-    bankName: 'First National Bank (FNB)',
-    accountNumber: '6278 1234 5678',
-    branchCode: '250655'
+    bankName: 'Capitec Business Account',
+    accountType: 'Transact',
+    accountNumber: '1054498946',
+    branchCode: '450105'
   };
 
   const handlePrint = () => {
@@ -53,7 +54,6 @@ const InvoiceView = ({ invoice, onClose }) => {
   const handleDownloadPDF = async () => {
     const element = printRef.current;
     
-    // Show loading indicator
     const loadingDiv = document.createElement('div');
     loadingDiv.style.cssText = `
       position: fixed;
@@ -73,7 +73,6 @@ const InvoiceView = ({ invoice, onClose }) => {
     document.body.appendChild(loadingDiv);
 
     try {
-      // Clone the element and apply exact A4 portrait styling
       const cloneElement = element.cloneNode(true);
       cloneElement.style.width = '210mm';
       cloneElement.style.minHeight = '297mm';
@@ -83,7 +82,6 @@ const InvoiceView = ({ invoice, onClose }) => {
       cloneElement.style.boxSizing = 'border-box';
       cloneElement.style.position = 'relative';
       
-      // Create a wrapper for proper rendering
       const wrapper = document.createElement('div');
       wrapper.style.position = 'fixed';
       wrapper.style.left = '-9999px';
@@ -93,7 +91,6 @@ const InvoiceView = ({ invoice, onClose }) => {
       wrapper.appendChild(cloneElement);
       document.body.appendChild(wrapper);
 
-      // Dynamically import libraries
       const html2canvas = (await import('html2canvas')).default;
       const jsPDF = (await import('jspdf')).default;
 
@@ -103,16 +100,14 @@ const InvoiceView = ({ invoice, onClose }) => {
         logging: false,
         allowTaint: true,
         useCORS: true,
-        windowWidth: 794, // 210mm at 96 DPI
-        windowHeight: 1123 // 297mm at 96 DPI
+        windowWidth: 794,
+        windowHeight: 1123
       });
 
-      // Remove the temporary wrapper
       document.body.removeChild(wrapper);
 
       const imgData = canvas.toDataURL('image/png');
       
-      // Create PDF in portrait orientation
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
@@ -122,11 +117,9 @@ const InvoiceView = ({ invoice, onClose }) => {
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
       
-      // Calculate dimensions to fit exactly on one page
       const imgWidth = pdfWidth;
       const imgHeight = (canvas.height * pdfWidth) / canvas.width;
       
-      // Add image - if taller than page, scale to fit exactly
       if (imgHeight > pdfHeight) {
         pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       } else {
