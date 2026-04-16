@@ -91,6 +91,33 @@ const QuotationTemplate = ({ quotation, companyInfo }) => {
         </div>
       </div>
 
+      {/* Banking Details */}
+      <div className={styles.bankingDetails}>
+        <h3>Banking Details</h3>
+        <div className={styles.bankingGrid}>
+          <div className={styles.bankingRow}>
+            <span>Bank:</span>
+            <span>{companyInfo.bankName || 'First National Bank (FNB)'}</span>
+          </div>
+          <div className={styles.bankingRow}>
+            <span>Account Name:</span>
+            <span>{companyInfo.accountName || 'Ndanduleni Group (Pty) Ltd'}</span>
+          </div>
+          <div className={styles.bankingRow}>
+            <span>Account Number:</span>
+            <span>{companyInfo.accountNumber || '6278 1234 5678'}</span>
+          </div>
+          <div className={styles.bankingRow}>
+            <span>Branch Code:</span>
+            <span>{companyInfo.branchCode || '250655'}</span>
+          </div>
+          <div className={styles.bankingRow}>
+            <span>Reference:</span>
+            <span>{quotation.quoteNumber}</span>
+          </div>
+        </div>
+      </div>
+
       {/* Footer */}
       <div className={styles.footer}>
         <p><strong>Terms & Conditions:</strong></p>
@@ -98,6 +125,7 @@ const QuotationTemplate = ({ quotation, companyInfo }) => {
         <p>2. Prices are subject to change after the validity period.</p>
         <p>3. Payment terms: 50% deposit upon acceptance, 50% upon completion.</p>
         <p>4. This quotation is subject to site inspection and final scope confirmation.</p>
+        <p>5. Please use the quote number as reference when making payment.</p>
         <p className={styles.thankYou}>Thank you for considering Ndanduleni Group!</p>
       </div>
     </div>
