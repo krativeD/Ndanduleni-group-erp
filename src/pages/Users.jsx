@@ -4,13 +4,21 @@ import Card from '../components/common/Card';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
 import Loader from '../components/common/Loader';
-import { supabase } from '../lib/supabaseClient';
 import styles from './Users.module.css';
+
+// Mock users for demo
+const mockUsers = [
+  { id: '1', email: 'ceo@ndanduleni.co.za', full_name: 'Khumbu Admin', role: 'ceo', created_at: '2026-01-15', status: 'active' },
+  { id: '2', email: 'john.m@ndanduleni.co.za', full_name: 'John Mbeki', role: 'admin', created_at: '2026-01-20', status: 'active' },
+  { id: '3', email: 'sarah.n@ndanduleni.co.za', full_name: 'Sarah Ndlovu', role: 'staff', created_at: '2026-02-01', status: 'active' },
+  { id: '4', email: 'mike.k@ndanduleni.co.za', full_name: 'Mike Khumalo', role: 'staff', created_at: '2026-02-10', status: 'active' },
+  { id: '5', email: 'emily.z@ndanduleni.co.za', full_name: 'Emily Zulu', role: 'admin', created_at: '2026-02-15', status: 'active' },
+  { id: '6', email: 'grace.d@ndanduleni.co.za', full_name: 'Grace Dlamini', role: 'staff', created_at: '2026-03-01', status: 'inactive' }
+];
 
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRole, setFilterRole] = useState('all');
   const [showForm, setShowForm] = useState(false);
@@ -27,17 +35,7 @@ const Users = () => {
   const [inviteRole, setInviteRole] = useState('staff');
   const [inviting, setInviting] = useState(false);
 
-  // Mock users for demo (since Supabase may not be fully configured)
-  const mockUsers = [
-    { id: '1', email: 'ceo@ndanduleni.co.za', full_name: 'Khumbu Admin', role: 'ceo', created_at: '2026-01-15', status: 'active' },
-    { id: '2', email: 'john.m@ndanduleni.co.za', full_name: 'John Mbeki', role: 'admin', created_at: '2026-01-20', status: 'active' },
-    { id: '3', email: 'sarah.n@ndanduleni.co.za', full_name: 'Sarah Ndlovu', role: 'staff', created_at: '2026-02-01', status: 'active' },
-    { id: '4', email: 'mike.k@ndanduleni.co.za', full_name: 'Mike Khumalo', role: 'staff', created_at: '2026-02-10', status: 'active' },
-    { id: '5', email: 'emily.z@ndanduleni.co.za', full_name: 'Emily Zulu', role: 'admin', created_at: '2026-02-15', status: 'active' },
-    { id: '6', email: 'grace.d@ndanduleni.co.za', full_name: 'Grace Dlamini', role: 'staff', created_at: '2026-03-01', status: 'inactive' }
-  ];
-
-  // Initialize with mock data or localStorage
+  // Initialize with localStorage or mock data
   useEffect(() => {
     const storedUsers = localStorage.getItem('ndanduleni_users');
     if (storedUsers) {
@@ -47,6 +45,7 @@ const Users = () => {
       localStorage.setItem('ndanduleni_users', JSON.stringify(mockUsers));
     }
     setLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const saveUsers = (updatedUsers) => {
@@ -152,7 +151,6 @@ const Users = () => {
   };
 
   if (loading) return <Layout><Loader /></Layout>;
-  if (error) return <Layout><div className={styles.error}>Error: {error}</div></Layout>;
 
   return (
     <Layout>
