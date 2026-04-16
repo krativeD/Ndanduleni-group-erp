@@ -43,13 +43,16 @@ const DocumentList = ({ documents, folders, onUpload, onDelete, onShare, onView,
       {viewMode === 'grid' ? (
         <div className={styles.docGrid}>
           {filteredDocs.map(doc => (
-            <div key={doc.id} className={`${styles.docItem} ${selectedItems.includes(doc.id) ? styles.selected : ''}`} onClick={() => onView(doc)}>
+            <div key={doc.id} className={`${styles.docItem} ${selectedItems.includes(doc.id) ? styles.selected : ''}`}>
               <input type="checkbox" checked={selectedItems.includes(doc.id)} onChange={(e) => { e.stopPropagation(); toggleSelect(doc.id); }} className={styles.checkbox} />
               <span className={styles.docIcon}>{getFileIcon(doc.type)}</span>
               <span className={styles.docName}>{doc.name}</span>
               <span className={styles.docMeta}>{formatFileSize(doc.size)} • v{doc.version}</span>
               <span className={`${styles.statusBadge} ${getStatusBadge(doc.status)}`}>{doc.status}</span>
               <div className={styles.docActions} onClick={(e) => e.stopPropagation()}>
+                <button className={styles.previewBtn} onClick={() => onView(doc)} title="Preview">
+                  👁️
+                </button>
                 <button className={styles.actionBtn} onClick={() => onShare(doc)} title="Share">↗️</button>
                 <button className={styles.actionBtn} onClick={() => onDelete(doc.id)} title="Delete">🗑️</button>
               </div>
@@ -62,7 +65,7 @@ const DocumentList = ({ documents, folders, onUpload, onDelete, onShare, onView,
             <thead><tr><th><input type="checkbox" /></th><th>Name</th><th>Size</th><th>Version</th><th>Uploaded</th><th>Status</th><th>Actions</th></tr></thead>
             <tbody>
               {filteredDocs.map(doc => (
-                <tr key={doc.id} onClick={() => onView(doc)}>
+                <tr key={doc.id}>
                   <td><input type="checkbox" checked={selectedItems.includes(doc.id)} onChange={(e) => { e.stopPropagation(); toggleSelect(doc.id); }} /></td>
                   <td><span className={styles.docIcon}>{getFileIcon(doc.type)}</span> {doc.name}</td>
                   <td>{formatFileSize(doc.size)}</td>
@@ -70,8 +73,9 @@ const DocumentList = ({ documents, folders, onUpload, onDelete, onShare, onView,
                   <td>{doc.uploadedAt}</td>
                   <td><span className={`${styles.statusBadge} ${getStatusBadge(doc.status)}`}>{doc.status}</span></td>
                   <td onClick={(e) => e.stopPropagation()}>
-                    <button className={styles.actionBtn} onClick={() => onShare(doc)}>↗️</button>
-                    <button className={styles.actionBtn} onClick={() => onDelete(doc.id)}>🗑️</button>
+                    <button className={styles.previewBtn} onClick={() => onView(doc)} title="Preview">👁️</button>
+                    <button className={styles.actionBtn} onClick={() => onShare(doc)} title="Share">↗️</button>
+                    <button className={styles.actionBtn} onClick={() => onDelete(doc.id)} title="Delete">🗑️</button>
                   </td>
                 </tr>
               ))}
