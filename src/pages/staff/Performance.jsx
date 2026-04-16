@@ -7,7 +7,7 @@ import Loader from '../../components/common/Loader';
 import styles from './StaffStyles.module.css';
 
 const Performance = () => {
-  const { reviews, loading, addReview, updateReview } = usePerformance();
+  const { reviews, loading, addReview } = usePerformance();
   const { jobs } = useJobAssignments();
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({ employee: '', reviewPeriod: '', reviewDate: '', reviewer: '', rating: '', strengths: '', improvements: '', goals: '', status: 'scheduled' });
