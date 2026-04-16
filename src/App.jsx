@@ -115,6 +115,18 @@ import StaffPerformance from './pages/staff/Performance';
 import StaffTraining from './pages/staff/Training';
 import StaffDirectory from './pages/staff/Directory';
 
+// Sales Module Imports - Add Description
+import Description from './pages/sales/Description';
+
+// Update Sales Module Routes
+<Route path="/sales" element={<ProtectedRoute><SalesDashboard /></ProtectedRoute>}>
+  <Route index element={<Navigate to="/sales/orders" replace />} />
+  <Route path="orders" element={<Orders />} />
+  <Route path="quotations" element={<Quotations />} />
+  <Route path="invoices" element={<Invoices />} />
+  <Route path="description" element={<Description />} />
+</Route>
+
 import './styles/global.css';
 
 // Protected Route wrapper
