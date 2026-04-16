@@ -11,7 +11,11 @@ const QuotationView = ({ quotation, onClose }) => {
     address: '123 Main Street, Sandton, Johannesburg, 2196',
     phone: '+27 11 234 5678',
     email: 'info@ndanduleni.co.za',
-    vatNumber: '4870123456'
+    vatNumber: '4870123456',
+    bankName: 'First National Bank (FNB)',
+    accountName: 'Ndanduleni Group (Pty) Ltd',
+    accountNumber: '6278 1234 5678',
+    branchCode: '250655'
   };
 
   const handlePrint = () => {
@@ -69,7 +73,6 @@ const QuotationView = ({ quotation, onClose }) => {
     document.body.appendChild(loadingDiv);
 
     try {
-      // Clone the element and apply exact A4 portrait styling
       const cloneElement = element.cloneNode(true);
       cloneElement.style.width = '210mm';
       cloneElement.style.minHeight = '297mm';
@@ -79,7 +82,6 @@ const QuotationView = ({ quotation, onClose }) => {
       cloneElement.style.boxSizing = 'border-box';
       cloneElement.style.position = 'relative';
       
-      // Create a wrapper for proper rendering
       const wrapper = document.createElement('div');
       wrapper.style.position = 'fixed';
       wrapper.style.left = '-9999px';
