@@ -165,11 +165,12 @@
   color: #6366f1;
 }
 
-/* Print Styles */
+/* Print Styles - Critical for clean printing */
 @media print {
   .invoiceContainer {
     padding: 15mm;
     box-shadow: none;
+    margin: 0;
   }
   
   @page {
