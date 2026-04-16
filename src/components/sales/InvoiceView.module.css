@@ -1,5 +1,6 @@
 .invoiceView {
   position: relative;
+  width: 100%;
 }
 
 .actions {
@@ -7,18 +8,35 @@
   gap: var(--space-md);
   justify-content: flex-end;
   margin-bottom: var(--space-lg);
-  padding: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
   background: var(--bg-surface);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-raised);
   position: sticky;
   top: 0;
   z-index: 10;
+  flex-wrap: wrap;
+}
+
+.actions button {
+  min-width: 120px;
 }
 
 /* Hide actions when printing */
 @media print {
   .actions {
     display: none !important;
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+  .actions {
+    justify-content: center;
+  }
+  
+  .actions button {
+    flex: 1;
+    min-width: 100px;
   }
 }
