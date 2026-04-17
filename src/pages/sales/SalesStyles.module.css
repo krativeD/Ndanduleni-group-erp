@@ -13,7 +13,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--space-lg);
-  margin-bottom: var(--space-xxl);
+  margin-bottom: var(--space-xl);
 }
 .moduleCard {
   padding: var(--space-xl) var(--space-lg);
@@ -29,10 +29,6 @@
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   border-color: var(--accent);
-}
-.moduleCardActive {
-  border-color: var(--accent);
-  background: linear-gradient(135deg, var(--bg-surface) 0%, rgba(99, 102, 241, 0.03) 100%);
 }
 .moduleIcon {
   width: 56px;
@@ -51,37 +47,8 @@
 .moduleArrow { font-size: 1.25rem; color: var(--text-secondary); opacity: 0.4; transition: opacity 0.2s; }
 .moduleCard:hover .moduleArrow { opacity: 1; color: var(--accent); }
 
-/* Current Section */
-.currentSection { margin-bottom: var(--space-lg); }
-.sectionHeader { display: flex; align-items: center; gap: var(--space-sm); }
-.sectionIcon { font-size: 1.5rem; }
-.sectionHeader h2 { font-size: 1.5rem; font-weight: 600; color: var(--text-primary); }
-
-/* Sub Navigation */
-.subNavCard {
-  padding: var(--space-xs);
-  margin-bottom: var(--space-xl);
-  background: var(--bg-surface);
-  border-radius: var(--radius-xl);
-}
-.subNav { display: flex; gap: var(--space-xs); }
-.subNavItem {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  padding: 12px 24px;
-  background: transparent;
-  border: none;
-  border-radius: var(--radius-lg);
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.subNavItem:hover { background: var(--bg-primary); color: var(--text-primary); }
-.subNavActive { background: var(--accent); color: white; box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2); }
-.subNavIcon { font-size: 1.125rem; }
+/* Content Area */
+.contentArea { margin-top: 0; }
 
 /* Stats Cards */
 .statsGrid {
@@ -153,7 +120,7 @@
 }
 
 /* Container Styles */
-.ordersContainer, .quotationsContainer, .descriptionContainer { padding: var(--space-md) 0; }
+.ordersContainer, .quotationsContainer, .descriptionContainer { padding: 0; }
 
 /* Header with Action */
 .subHeader {
@@ -385,8 +352,6 @@
   .statsGrid { grid-template-columns: 1fr; }
   .viewToggle { flex-wrap: wrap; }
   .viewBtn { flex: 1 0 calc(50% - 4px); }
-  .subNav { flex-wrap: wrap; }
-  .subNavItem { flex: 1; justify-content: center; }
   .pageHeader { flex-direction: column; gap: var(--space-md); }
   .serviceGrid { grid-template-columns: 1fr; }
   .filters { flex-direction: column; }
