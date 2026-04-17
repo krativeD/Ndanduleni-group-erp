@@ -24,6 +24,8 @@ const QuotationView = ({ quotation, onClose, onPrintSuccess }) => {
     const now = new Date().toISOString();
     setLastPrinted(now);
     
+    console.log('🖨️ Updating lastPrinted timestamp:', now);
+    
     // Store print history in localStorage (non-destructive)
     const printHistory = JSON.parse(localStorage.getItem('ndanduleni_print_history') || '[]');
     printHistory.push({
@@ -36,11 +38,13 @@ const QuotationView = ({ quotation, onClose, onPrintSuccess }) => {
     
     // Update lastPrinted timestamp in quotation (does NOT change status or delete)
     if (onPrintSuccess) {
+      console.log('📞 Calling onPrintSuccess with quotation ID:', quotation.id);
       onPrintSuccess(quotation.id, { lastPrinted: now });
     }
   };
 
   const handlePrint = () => {
+    console.log('🖨️ Printing quotation:', quotation.quoteNumber, 'ID:', quotation.id);
     setIsPrinting(true);
     
     // Create a hidden iframe for printing - THIS PREVENTS PAGE RELOAD
@@ -102,6 +106,7 @@ const QuotationView = ({ quotation, onClose, onPrintSuccess }) => {
           
           // Show success message
           alert(`✅ Quotation ${quotation.quoteNumber} printed successfully!`);
+          console.log('✅ Print completed - quotation NOT deleted');
         }, 100);
       }, 500);
     };
@@ -113,6 +118,7 @@ const QuotationView = ({ quotation, onClose, onPrintSuccess }) => {
   };
 
   const handleDownloadPDF = async () => {
+    console.log('📄 Downloading PDF for quotation:', quotation.quoteNumber);
     setIsPrinting(true);
     
     const loadingDiv = document.createElement('div');
@@ -194,6 +200,7 @@ const QuotationView = ({ quotation, onClose, onPrintSuccess }) => {
       updateLastPrinted();
       
       alert(`✅ Quotation ${quotation.quoteNumber} PDF downloaded successfully!`);
+      console.log('✅ PDF download completed - quotation NOT deleted');
     } catch (error) {
       console.error('PDF Error:', error);
       alert('PDF generation failed. Please use Print and select "Save as PDF".');
