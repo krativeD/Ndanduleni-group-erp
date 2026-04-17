@@ -34,7 +34,7 @@ const QuotationView = ({ quotation, onClose, onPrintSuccess }) => {
     });
     localStorage.setItem('ndanduleni_print_history', JSON.stringify(printHistory));
     
-    // Optional: Update lastPrinted timestamp in quotation (does NOT change status)
+    // Update lastPrinted timestamp in quotation (does NOT change status or delete)
     if (onPrintSuccess) {
       onPrintSuccess(quotation.id, { lastPrinted: now });
     }
@@ -42,47 +42,74 @@ const QuotationView = ({ quotation, onClose, onPrintSuccess }) => {
 
   const handlePrint = () => {
     setIsPrinting(true);
-    const printContent = printRef.current;
-    const originalTitle = document.title;
-    const originalContents = document.body.innerHTML;
+    
+    // Create a hidden iframe for printing - THIS PREVENTS PAGE RELOAD
+    const printFrame = document.createElement('iframe');
+    printFrame.style.position = 'fixed';
+    printFrame.style.right = '0';
+    printFrame.style.bottom = '0';
+    printFrame.style.width = '0';
+    printFrame.style.height = '0';
+    printFrame.style.border = '0';
+    printFrame.style.visibility = 'hidden';
+    document.body.appendChild(printFrame);
 
+    const frameDoc = printFrame.contentDocument || printFrame.contentWindow.document;
+    const printContent = printRef.current.cloneNode(true);
+    
+    // Get the quotation HTML
     const quoteHTML = printContent.innerHTML;
 
-    document.body.innerHTML = `
-      <div class="print-container" style="max-width: 210mm; margin: 0 auto; padding: 10mm; background: white;">
-        ${quoteHTML}
-      </div>
-    `;
-    document.title = `Quotation-${quotation.quoteNumber}`;
+    // Write to iframe
+    frameDoc.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Quotation-${quotation.quoteNumber}</title>
+          <style>
+            @media print {
+              @page { size: A4 portrait; margin: 0; }
+              body { margin: 0; padding: 0; background: white; }
+              .print-container { padding: 10mm !important; max-width: 210mm; margin: 0 auto; }
+            }
+            * { box-sizing: border-box; }
+            body { font-family: Arial, Helvetica, sans-serif; }
+            .print-container { padding: 10mm; max-width: 210mm; margin: 0 auto; background: white; }
+          </style>
+        </head>
+        <body>
+          <div class="print-container">
+            ${quoteHTML}
+          </div>
+        </body>
+      </html>
+    `);
+    frameDoc.close();
 
-    const style = document.createElement('style');
-    style.textContent = `
-      @media print {
-        @page { size: A4 portrait; margin: 0; }
-        body { margin: 0; padding: 0; background: white; }
-        .print-container { padding: 10mm !important; max-width: 210mm; }
-        .no-print { display: none !important; }
-      }
-      * { box-sizing: border-box; }
-    `;
-    document.head.appendChild(style);
+    // Wait for content to load then print
+    printFrame.onload = function() {
+      setTimeout(() => {
+        printFrame.contentWindow.focus();
+        printFrame.contentWindow.print();
+        
+        // Remove iframe after print dialog closes
+        setTimeout(() => {
+          document.body.removeChild(printFrame);
+          setIsPrinting(false);
+          
+          // Update print history (non-destructive)
+          updateLastPrinted();
+          
+          // Show success message
+          alert(`✅ Quotation ${quotation.quoteNumber} printed successfully!`);
+        }, 100);
+      }, 500);
+    };
 
-    window.print();
-
-    // RESTORE ORIGINAL CONTENT - Quotation remains visible!
-    document.body.innerHTML = originalContents;
-    document.title = originalTitle;
-    
-    // Update print history (non-destructive)
-    updateLastPrinted();
-    
-    // Show success message
-    alert(`✅ Quotation ${quotation.quoteNumber} printed successfully!`);
-    
-    setIsPrinting(false);
-    
-    // Force re-render to restore React state
-    window.location.reload();
+    // Trigger onload manually if already loaded
+    if (frameDoc.readyState === 'complete') {
+      printFrame.onload();
+    }
   };
 
   const handleDownloadPDF = async () => {
