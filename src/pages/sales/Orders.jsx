@@ -3,7 +3,6 @@ import OrderList from '../../components/sales/OrderList';
 import OrderForm from '../../components/sales/OrderForm';
 import { useOrders } from '../../hooks/useSales';
 import Loader from '../../components/common/Loader';
-import Button from '../../components/common/Button';
 import Card from '../../components/common/Card';
 import styles from './SalesStyles.module.css';
 
@@ -11,7 +10,7 @@ const Orders = () => {
   const { orders, loading, error, addOrder, updateOrder, deleteOrder, updateOrderStatus } = useOrders();
   const [showForm, setShowForm] = useState(false);
   const [editingOrder, setEditingOrder] = useState(null);
-  const [view, setView] = useState('all'); // all, pending, processing, completed
+  const [view, setView] = useState('all');
 
   const stats = {
     total: orders.length,
