@@ -16,6 +16,18 @@ const Quotations = () => {
   const [editingQuotation, setEditingQuotation] = useState(null);
   const [viewingQuotation, setViewingQuotation] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
+  const [view, setView] = useState('all');
+
+  const stats = {
+    total: quotations.length,
+    draft: quotations.filter(q => q.status === 'draft').length,
+    sent: quotations.filter(q => q.status === 'sent').length,
+    accepted: quotations.filter(q => q.status === 'accepted').length,
+    converted: quotations.filter(q => q.status === 'converted').length,
+    totalValue: quotations.filter(q => q.status === 'accepted').reduce((sum, q) => sum + (q.total || 0), 0)
+  };
+
+  const formatCurrency = (amount) => `R ${amount?.toLocaleString('en-ZA', { minimumFractionDigits: 2 }) || '0.00'}`;
 
   const getStatusBadge = (status) => {
     const badges = { 
@@ -51,7 +63,6 @@ const Quotations = () => {
   const handleConvertToInvoice = (quotation) => {
     if (window.confirm(`Convert quotation ${quotation.quoteNumber} to invoice? This will mark the quotation as converted.`)) {
       const newInvoice = convertQuotationToInvoice(quotation);
-      // Mark quotation as converted (does NOT delete it)
       updateQuotation(quotation.id, { status: 'converted' });
       alert(`✅ Quotation converted to Invoice ${newInvoice.invoiceNumber} successfully!`);
       navigate('/sales/invoices');
@@ -59,7 +70,6 @@ const Quotations = () => {
   };
 
   const handlePrintSuccess = (id, updates) => {
-    // Only update lastPrinted timestamp - does NOT change status or delete
     updateQuotation(id, updates);
     setSuccessMessage('Quotation printed successfully!');
     setTimeout(() => setSuccessMessage(''), 3000);
@@ -77,27 +87,85 @@ const Quotations = () => {
 
   if (loading) return <Loader />;
 
-  // Show quotation view if viewing - QUOTATION REMAINS VISIBLE IN BACKGROUND
   if (viewingQuotation) {
     return (
-      <>
-        {/* The quotation list is still there, just hidden by the modal */}
-        <QuotationView 
-          quotation={viewingQuotation} 
-          onClose={() => setViewingQuotation(null)}
-          onPrintSuccess={handlePrintSuccess}
-        />
-      </>
+      <QuotationView 
+        quotation={viewingQuotation} 
+        onClose={() => setViewingQuotation(null)}
+        onPrintSuccess={handlePrintSuccess}
+      />
     );
   }
 
+  const filteredQuotations = quotations.filter(q => 
+    view === 'all' || 
+    (view === 'active' && q.status !== 'converted' && q.status !== 'rejected') ||
+    q.status === view
+  );
+
   return (
-    <>
+    <div className={styles.quotationsContainer}>
       {successMessage && (
-        <div className={styles.successToast}>
-          ✅ {successMessage}
-        </div>
+        <div className={styles.successToast}>✅ {successMessage}</div>
       )}
+
+      {/* Stats Cards */}
+      <div className={styles.statsGrid}>
+        <Card className={styles.statCard}>
+          <span className={styles.statIcon}>📄</span>
+          <div className={styles.statContent}>
+            <span className={styles.statLabel}>Total Quotes</span>
+            <span className={styles.statValue}>{stats.total}</span>
+          </div>
+        </Card>
+        <Card className={styles.statCard}>
+          <span className={styles.statIcon}>📝</span>
+          <div className={styles.statContent}>
+            <span className={styles.statLabel}>Draft</span>
+            <span className={styles.statValue}>{stats.draft}</span>
+          </div>
+        </Card>
+        <Card className={styles.statCard}>
+          <span className={styles.statIcon}>📤</span>
+          <div className={styles.statContent}>
+            <span className={styles.statLabel}>Sent</span>
+            <span className={styles.statValue}>{stats.sent}</span>
+          </div>
+        </Card>
+        <Card className={styles.statCard}>
+          <span className={styles.statIcon}>✅</span>
+          <div className={styles.statContent}>
+            <span className={styles.statLabel}>Accepted</span>
+            <span className={styles.statValue}>{stats.accepted}</span>
+          </div>
+        </Card>
+        <Card className={`${styles.statCard} ${styles.statHighlight}`}>
+          <span className={styles.statIcon}>💰</span>
+          <div className={styles.statContent}>
+            <span className={styles.statLabel}>Pipeline Value</span>
+            <span className={styles.statValue}>{formatCurrency(stats.totalValue)}</span>
+          </div>
+        </Card>
+      </div>
+
+      {/* View Toggle */}
+      <div className={styles.viewToggle}>
+        <button className={`${styles.viewBtn} ${view === 'all' ? styles.active : ''}`} onClick={() => setView('all')}>
+          All Quotes
+        </button>
+        <button className={`${styles.viewBtn} ${view === 'active' ? styles.active : ''}`} onClick={() => setView('active')}>
+          Active
+        </button>
+        <button className={`${styles.viewBtn} ${view === 'draft' ? styles.active : ''}`} onClick={() => setView('draft')}>
+          Draft
+        </button>
+        <button className={`${styles.viewBtn} ${view === 'sent' ? styles.active : ''}`} onClick={() => setView('sent')}>
+          Sent
+        </button>
+        <button className={`${styles.viewBtn} ${view === 'accepted' ? styles.active : ''}`} onClick={() => setView('accepted')}>
+          Accepted
+        </button>
+      </div>
 
       {showForm ? (
         <QuotationForm 
@@ -112,7 +180,7 @@ const Quotations = () => {
       ) : (
         <>
           <div className={styles.subHeader}>
-            <Button variant="primary" onClick={handleAdd}>+ New Quotation</Button>
+            <Button variant="primary" onClick={handleAdd}>+ Create Quotation</Button>
           </div>
           <Card className={styles.quoteCard}>
             <div className={styles.tableWrapper}>
@@ -122,22 +190,22 @@ const Quotations = () => {
                     <th>Quote #</th>
                     <th>Customer</th>
                     <th>Date</th>
+                    <th>Valid Until</th>
                     <th>Items</th>
                     <th>Total</th>
-                    <th>Valid Until</th>
                     <th>Status</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {quotations.map(q => (
+                  {filteredQuotations.map(q => (
                     <tr key={q.id} className={q.status === 'converted' ? styles.convertedRow : ''}>
-                      <td>{q.quoteNumber}</td>
+                      <td className={styles.quoteNumber}>{q.quoteNumber}</td>
                       <td>{q.customer}</td>
                       <td>{q.date}</td>
-                      <td>{q.items}</td>
-                      <td>R {q.total?.toLocaleString()}</td>
                       <td>{q.validUntil}</td>
+                      <td>{q.items}</td>
+                      <td className={styles.amount}>{formatCurrency(q.total)}</td>
                       <td>
                         <span className={`${styles.statusBadge} ${getStatusBadge(q.status)}`}>
                           {q.status}
@@ -150,29 +218,11 @@ const Quotations = () => {
                       </td>
                       <td>
                         <div className={styles.actions}>
-                          <button 
-                            className={styles.actionBtn} 
-                            onClick={() => handleView(q)} 
-                            title="View/Print"
-                          >
-                            👁️
-                          </button>
+                          <button className={styles.actionBtn} onClick={() => handleView(q)} title="View/Print">👁️</button>
                           {q.status !== 'converted' && (
                             <>
-                              <button 
-                                className={styles.actionBtn} 
-                                onClick={() => handleEdit(q)} 
-                                title="Edit"
-                              >
-                                ✏️
-                              </button>
-                              <button 
-                                className={styles.actionBtn} 
-                                onClick={() => handleDelete(q.id)} 
-                                title="Delete"
-                              >
-                                🗑️
-                              </button>
+                              <button className={styles.actionBtn} onClick={() => handleEdit(q)} title="Edit">✏️</button>
+                              <button className={styles.actionBtn} onClick={() => handleDelete(q.id)} title="Delete">🗑️</button>
                             </>
                           )}
                         </div>
@@ -185,7 +235,7 @@ const Quotations = () => {
           </Card>
         </>
       )}
-    </>
+    </div>
   );
 };
 
