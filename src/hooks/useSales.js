@@ -1,12 +1,228 @@
-import { useState, useEffect } from 'react';
-import { getMockOrders, getMockQuotations, getMockInvoices, getMockPayments } from '../lib/salesService';
+import { useState, useEffect, useCallback } from 'react';
+import { 
+  fetchQuotations, 
+  createQuotation, 
+  updateQuotation as updateQuotationDB, 
+  deleteQuotation as deleteQuotationDB,
+  convertQuotationToInvoiceDB,
+  fetchInvoices,
+  createInvoice,
+  updateInvoice as updateInvoiceDB,
+  subscribeToQuotations,
+  subscribeToInvoices
+} from '../lib/salesService';
+import { getMockOrders, getMockPayments } from '../lib/salesService';
+
+// ============================================
+// QUOTATIONS HOOK (WITH SUPABASE)
+// ============================================
+
+export const useQuotations = () => {
+  const [quotations, setQuotations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const loadQuotations = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await fetchQuotations('active'); // Only active quotations
+      setQuotations(data);
+      setError(null);
+    } catch (err) {
+      console.error('Error loading quotations:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  // Initial load
+  useEffect(() => {
+    loadQuotations();
+  }, [loadQuotations]);
+
+  // Real-time subscription
+  useEffect(() => {
+    const unsubscribe = subscribeToQuotations((payload) => {
+      console.log('Quotation change:', payload.eventType);
+      // Refresh the list when changes occur
+      loadQuotations();
+    }, 'active');
+    
+    return () => unsubscribe();
+  }, [loadQuotations]);
+
+  const addQuotation = async (quote) => {
+    try {
+      const quoteNumber = `QUO-${new Date().getFullYear()}-${String(quotations.length + 1).padStart(3, '0')}`;
+      const newQuote = {
+        ...quote,
+        quote_number: quoteNumber,
+        line_items: quote.lineItems || [],
+        created_by: 'Current User',
+        status: 'active'
+      };
+      
+      const data = await createQuotation(newQuote);
+      setQuotations(prev => [data, ...prev]);
+      return data;
+    } catch (err) {
+      console.error('Error adding quotation:', err);
+      throw err;
+    }
+  };
+
+  const updateQuotation = async (id, updates) => {
+    try {
+      const dbUpdates = {
+        ...updates,
+        line_items: updates.lineItems || updates.line_items
+      };
+      const data = await updateQuotationDB(id, dbUpdates);
+      setQuotations(prev => prev.map(q => q.id === id ? data : q));
+      return data;
+    } catch (err) {
+      console.error('Error updating quotation:', err);
+      throw err;
+    }
+  };
+
+  const deleteQuotation = async (id) => {
+    try {
+      await deleteQuotationDB(id);
+      setQuotations(prev => prev.filter(q => q.id !== id));
+    } catch (err) {
+      console.error('Error deleting quotation:', err);
+      throw err;
+    }
+  };
+
+  return { 
+    quotations, 
+    loading, 
+    error, 
+    addQuotation, 
+    updateQuotation, 
+    deleteQuotation,
+    refreshQuotations: loadQuotations
+  };
+};
+
+// ============================================
+// INVOICES HOOK (WITH SUPABASE)
+// ============================================
+
+export const useInvoices = () => {
+  const [invoices, setInvoices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const loadInvoices = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await fetchInvoices();
+      setInvoices(data);
+      setError(null);
+    } catch (err) {
+      console.error('Error loading invoices:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadInvoices();
+  }, [loadInvoices]);
+
+  useEffect(() => {
+    const unsubscribe = subscribeToInvoices((payload) => {
+      console.log('Invoice change:', payload.eventType);
+      loadInvoices();
+    });
+    
+    return () => unsubscribe();
+  }, [loadInvoices]);
+
+  const generateInvoiceNumber = () => {
+    const year = new Date().getFullYear();
+    const nextNumber = String(invoices.length + 1).padStart(3, '0');
+    return `INV-${year}-${nextNumber}`;
+  };
+
+  const addInvoice = async (invoice) => {
+    try {
+      const invoiceNumber = generateInvoiceNumber();
+      const newInvoice = {
+        ...invoice,
+        invoice_number: invoiceNumber,
+        created_by: 'Current User'
+      };
+      
+      const data = await createInvoice(newInvoice);
+      setInvoices(prev => [data, ...prev]);
+      return data;
+    } catch (err) {
+      console.error('Error adding invoice:', err);
+      throw err;
+    }
+  };
+
+  const convertQuotationToInvoice = async (quotation, orderNumber = null) => {
+    try {
+      // This does BOTH: creates invoice AND marks quotation as converted
+      const newInvoice = await convertQuotationToInvoiceDB(quotation.id, orderNumber);
+      
+      // Update local state - invoice added, quotation will be removed via subscription
+      setInvoices(prev => [newInvoice, ...prev]);
+      
+      return newInvoice;
+    } catch (err) {
+      console.error('Error converting quotation to invoice:', err);
+      throw err;
+    }
+  };
+
+  const updateInvoice = async (id, updates) => {
+    try {
+      const data = await updateInvoiceDB(id, updates);
+      setInvoices(prev => prev.map(i => i.id === id ? data : i));
+      return data;
+    } catch (err) {
+      console.error('Error updating invoice:', err);
+      throw err;
+    }
+  };
+
+  const deleteInvoice = async (id) => {
+    try {
+      await deleteInvoiceDB(id);
+      setInvoices(prev => prev.filter(i => i.id !== id));
+    } catch (err) {
+      console.error('Error deleting invoice:', err);
+      throw err;
+    }
+  };
+
+  return { 
+    invoices, 
+    loading, 
+    error,
+    addInvoice, 
+    updateInvoice, 
+    deleteInvoice, 
+    convertQuotationToInvoice,
+    generateInvoiceNumber,
+    refreshInvoices: loadInvoices
+  };
+};
+
+// ============================================
+// ORDERS HOOK (MOCK - TO BE MIGRATED LATER)
+// ============================================
 
 let globalOrders = null;
-let globalQuotations = null;
-let globalInvoices = null;
-let globalPayments = null;
 
-// ORDERS HOOK
 export const useOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -66,138 +282,12 @@ export const useOrders = () => {
   return { orders, loading, error, addOrder, updateOrder, updateOrderStatus, deleteOrder };
 };
 
-// QUOTATIONS HOOK
-export const useQuotations = () => {
-  const [quotations, setQuotations] = useState([]);
-  const [loading, setLoading] = useState(true);
+// ============================================
+// PAYMENTS HOOK (MOCK - TO BE MIGRATED LATER)
+// ============================================
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      if (globalQuotations) {
-        setQuotations(globalQuotations);
-      } else {
-        const data = getMockQuotations();
-        globalQuotations = data;
-        setQuotations(data);
-      }
-      setLoading(false);
-    };
-    fetchData();
-  }, []);
+let globalPayments = null;
 
-  const addQuotation = (quote) => {
-    const newQuote = {
-      ...quote,
-      id: Math.max(...quotations.map(q => q.id), 0) + 1,
-      quoteNumber: `QUO-2026-${String(quotations.length + 1).padStart(3, '0')}`,
-      date: new Date().toISOString().split('T')[0]
-    };
-    const updated = [...quotations, newQuote];
-    globalQuotations = updated;
-    setQuotations(updated);
-    return newQuote;
-  };
-
-  const updateQuotation = (id, updates) => {
-    const updated = quotations.map(q => q.id === id ? { ...q, ...updates } : q);
-    globalQuotations = updated;
-    setQuotations(updated);
-  };
-
-  const deleteQuotation = (id) => {
-    const updated = quotations.filter(q => q.id !== id);
-    globalQuotations = updated;
-    setQuotations(updated);
-  };
-
-  return { quotations, loading, addQuotation, updateQuotation, deleteQuotation };
-};
-
-// INVOICES HOOK
-export const useInvoices = () => {
-  const [invoices, setInvoices] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const generateInvoiceNumber = () => {
-    const currentYear = new Date().getFullYear();
-    const existingInvoices = invoices.filter(inv => 
-      inv.invoiceNumber && inv.invoiceNumber.includes(`INV-${currentYear}`)
-    );
-    const nextNumber = String(existingInvoices.length + 1).padStart(3, '0');
-    return `INV-${currentYear}-${nextNumber}`;
-  };
-
-  useEffect(() => {
-    setLoading(true);
-    if (globalInvoices) {
-      setInvoices(globalInvoices);
-    } else {
-      const data = getMockInvoices();
-      globalInvoices = data;
-      setInvoices(data);
-    }
-    setLoading(false);
-  }, []);
-
-  const addInvoice = (invoice) => {
-    const newInvoice = {
-      ...invoice,
-      id: Math.max(...invoices.map(i => i.id), 0) + 1,
-      invoiceNumber: generateInvoiceNumber(),
-      date: new Date().toISOString().split('T')[0]
-    };
-    const updated = [...invoices, newInvoice];
-    globalInvoices = updated;
-    setInvoices(updated);
-    return newInvoice;
-  };
-
-  const convertQuotationToInvoice = (quotation, orderNumber = null) => {
-    const newInvoice = {
-      id: Math.max(...invoices.map(i => i.id), 0) + 1,
-      invoiceNumber: generateInvoiceNumber(),
-      order: orderNumber || `ORD-${new Date().getFullYear()}-${String(invoices.length + 1).padStart(3, '0')}`,
-      customer: quotation.customer,
-      customerAddress: quotation.customerAddress || 'Address not provided',
-      customerEmail: quotation.customerEmail || '',
-      date: new Date().toISOString().split('T')[0],
-      dueDate: quotation.validUntil || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-      total: quotation.total,
-      paid: 0,
-      status: 'unpaid',
-      items: quotation.lineItems || [{ description: 'Cleaning Services', quantity: 1, unitPrice: quotation.total }]
-    };
-    const updated = [...invoices, newInvoice];
-    globalInvoices = updated;
-    setInvoices(updated);
-    return newInvoice;
-  };
-
-  const updateInvoice = (id, updates) => {
-    const updated = invoices.map(i => i.id === id ? { ...i, ...updates } : i);
-    globalInvoices = updated;
-    setInvoices(updated);
-  };
-
-  const deleteInvoice = (id) => {
-    const updated = invoices.filter(i => i.id !== id);
-    globalInvoices = updated;
-    setInvoices(updated);
-  };
-
-  return { 
-    invoices, 
-    loading, 
-    addInvoice, 
-    updateInvoice, 
-    deleteInvoice, 
-    convertQuotationToInvoice,
-    generateInvoiceNumber 
-  };
-};
-
-// PAYMENTS HOOK
 export const usePayments = () => {
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
