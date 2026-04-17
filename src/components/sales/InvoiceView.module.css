@@ -22,9 +22,24 @@
   min-width: 120px;
 }
 
+.actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.printHistory {
+  margin-bottom: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(99, 102, 241, 0.1);
+  border-radius: var(--radius-md);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-align: right;
+}
+
 /* Hide actions when printing */
 @media print {
-  .actions {
+  .actions, .printHistory {
     display: none !important;
   }
 }
