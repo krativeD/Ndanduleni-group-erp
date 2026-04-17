@@ -27,9 +27,13 @@ export const useQuotations = () => {
   const loadQuotations = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await fetchQuotations('active');
+      // Fetch all quotations except deleted ones
+      const data = await fetchQuotations(null); // Get all statuses
+      // Filter out deleted ones for display
+      const activeData = data.filter(q => q.status !== 'deleted' && q.status !== 'converted');
+      
       // Map snake_case to camelCase for frontend
-      const mappedData = data.map(q => ({
+      const mappedData = activeData.map(q => ({
         ...q,
         customerAddress: q.customer_address,
         customerEmail: q.customer_email,
@@ -59,7 +63,7 @@ export const useQuotations = () => {
     const unsubscribe = subscribeToQuotations((payload) => {
       console.log('Quotation change:', payload.eventType);
       loadQuotations();
-    }, 'active');
+    }, null); // Listen to all changes
     
     return () => unsubscribe();
   }, [loadQuotations]);
@@ -68,22 +72,28 @@ export const useQuotations = () => {
     try {
       const quoteNumber = `QUO-${new Date().getFullYear()}-${String(quotations.length + 1).padStart(3, '0')}`;
       
+      // Ensure status is one of the allowed values
+      const validStatus = quote.status || 'draft';
+      
       // Map camelCase to snake_case for database
       const newQuote = {
         quote_number: quoteNumber,
-        customer: quote.customer,
+        customer: quote.customer || '',
         customer_address: quote.customerAddress || '',
         customer_email: quote.customerEmail || '',
-        valid_until: quote.validUntil,
+        date: new Date().toISOString().split('T')[0],
+        valid_until: quote.validUntil || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
         line_items: quote.lineItems || [],
         items: quote.items || (quote.lineItems?.length || 0),
         subtotal: quote.subtotal || 0,
         tax: quote.tax || 0,
         discount: quote.discount || 0,
         total: quote.total || 0,
-        status: quote.status || 'active',
+        status: validStatus, // 'draft', 'sent', 'accepted', 'rejected'
         created_by: 'Current User'
       };
+      
+      console.log('Creating quotation with data:', newQuote);
       
       const data = await createQuotation(newQuote);
       
@@ -178,8 +188,11 @@ export const useInvoices = () => {
     try {
       setLoading(true);
       const data = await fetchInvoices();
+      // Filter out deleted ones
+      const activeData = data.filter(i => i.status !== 'deleted');
+      
       // Map snake_case to camelCase for frontend
-      const mappedData = data.map(i => ({
+      const mappedData = activeData.map(i => ({
         ...i,
         invoiceNumber: i.invoice_number,
         quotationId: i.quotation_id,
@@ -228,11 +241,11 @@ export const useInvoices = () => {
       const newInvoice = {
         invoice_number: invoiceNumber,
         order_ref: invoice.order || '',
-        customer: invoice.customer,
+        customer: invoice.customer || '',
         customer_address: invoice.customerAddress || '',
         customer_email: invoice.customerEmail || '',
-        date: invoice.date,
-        due_date: invoice.dueDate,
+        date: invoice.date || new Date().toISOString().split('T')[0],
+        due_date: invoice.dueDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
         items: invoice.items || [],
         subtotal: invoice.subtotal || 0,
         tax: invoice.tax || 0,
@@ -276,6 +289,8 @@ export const useInvoices = () => {
       };
       
       setInvoices(prev => [mappedData, ...prev]);
+      
+      // Also refresh quotations to remove the converted one
       return mappedData;
     } catch (err) {
       console.error('Error converting quotation to invoice:', err);
