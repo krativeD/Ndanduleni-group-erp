@@ -22,30 +22,12 @@ const Orders = () => {
 
   const formatCurrency = (amount) => `R ${amount.toLocaleString('en-ZA', { minimumFractionDigits: 2 })}`;
 
-  const handleAdd = () => {
-    setEditingOrder(null);
-    setShowForm(true);
-  };
-
-  const handleEdit = (order) => {
-    setEditingOrder(order);
-    setShowForm(true);
-  };
-
-  const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to delete this order?')) {
-      deleteOrder(id);
-    }
-  };
-
+  const handleAdd = () => { setEditingOrder(null); setShowForm(true); };
+  const handleEdit = (order) => { setEditingOrder(order); setShowForm(true); };
+  const handleDelete = (id) => { if (window.confirm('Delete this order?')) deleteOrder(id); };
   const handleSubmit = (data) => {
-    if (editingOrder) {
-      updateOrder(editingOrder.id, data);
-    } else {
-      addOrder(data);
-    }
-    setShowForm(false);
-    setEditingOrder(null);
+    editingOrder ? updateOrder(editingOrder.id, data) : addOrder(data);
+    setShowForm(false); setEditingOrder(null);
   };
 
   if (loading) return <Loader />;
@@ -53,81 +35,27 @@ const Orders = () => {
 
   return (
     <div className={styles.ordersContainer}>
-      {/* Stats Cards */}
       <div className={styles.statsGrid}>
-        <Card className={styles.statCard}>
-          <span className={styles.statIcon}>📋</span>
-          <div className={styles.statContent}>
-            <span className={styles.statLabel}>Total Orders</span>
-            <span className={styles.statValue}>{stats.total}</span>
-          </div>
-        </Card>
-        <Card className={styles.statCard}>
-          <span className={styles.statIcon}>⏳</span>
-          <div className={styles.statContent}>
-            <span className={styles.statLabel}>Pending</span>
-            <span className={styles.statValue}>{stats.pending}</span>
-          </div>
-        </Card>
-        <Card className={styles.statCard}>
-          <span className={styles.statIcon}>🔄</span>
-          <div className={styles.statContent}>
-            <span className={styles.statLabel}>Processing</span>
-            <span className={styles.statValue}>{stats.processing}</span>
-          </div>
-        </Card>
-        <Card className={styles.statCard}>
-          <span className={styles.statIcon}>✅</span>
-          <div className={styles.statContent}>
-            <span className={styles.statLabel}>Completed</span>
-            <span className={styles.statValue}>{stats.completed}</span>
-          </div>
-        </Card>
-        <Card className={`${styles.statCard} ${styles.statHighlight}`}>
-          <span className={styles.statIcon}>💰</span>
-          <div className={styles.statContent}>
-            <span className={styles.statLabel}>Revenue</span>
-            <span className={styles.statValue}>{formatCurrency(stats.revenue)}</span>
-          </div>
-        </Card>
+        <Card className={styles.statCard}><span className={styles.statIcon}>📋</span><div className={styles.statContent}><span className={styles.statLabel}>Total</span><span className={styles.statValue}>{stats.total}</span></div></Card>
+        <Card className={styles.statCard}><span className={styles.statIcon}>⏳</span><div className={styles.statContent}><span className={styles.statLabel}>Pending</span><span className={styles.statValue}>{stats.pending}</span></div></Card>
+        <Card className={styles.statCard}><span className={styles.statIcon}>🔄</span><div className={styles.statContent}><span className={styles.statLabel}>Processing</span><span className={styles.statValue}>{stats.processing}</span></div></Card>
+        <Card className={styles.statCard}><span className={styles.statIcon}>✅</span><div className={styles.statContent}><span className={styles.statLabel}>Completed</span><span className={styles.statValue}>{stats.completed}</span></div></Card>
+        <Card className={`${styles.statCard} ${styles.statHighlight}`}><span className={styles.statIcon}>💰</span><div className={styles.statContent}><span className={styles.statLabel}>Revenue</span><span className={styles.statValue}>{formatCurrency(stats.revenue)}</span></div></Card>
       </div>
 
-      {/* View Toggle */}
       <div className={styles.viewToggle}>
-        <button className={`${styles.viewBtn} ${view === 'all' ? styles.active : ''}`} onClick={() => setView('all')}>
-          All Orders
-        </button>
-        <button className={`${styles.viewBtn} ${view === 'pending' ? styles.active : ''}`} onClick={() => setView('pending')}>
-          Pending
-        </button>
-        <button className={`${styles.viewBtn} ${view === 'processing' ? styles.active : ''}`} onClick={() => setView('processing')}>
-          Processing
-        </button>
-        <button className={`${styles.viewBtn} ${view === 'completed' ? styles.active : ''}`} onClick={() => setView('completed')}>
-          Completed
-        </button>
+        <button className={`${styles.viewBtn} ${view === 'all' ? styles.active : ''}`} onClick={() => setView('all')}>All</button>
+        <button className={`${styles.viewBtn} ${view === 'pending' ? styles.active : ''}`} onClick={() => setView('pending')}>Pending</button>
+        <button className={`${styles.viewBtn} ${view === 'processing' ? styles.active : ''}`} onClick={() => setView('processing')}>Processing</button>
+        <button className={`${styles.viewBtn} ${view === 'completed' ? styles.active : ''}`} onClick={() => setView('completed')}>Completed</button>
       </div>
 
       {showForm ? (
-        <OrderForm 
-          order={editingOrder}
-          onSubmit={handleSubmit}
-          onCancel={() => {
-            setShowForm(false);
-            setEditingOrder(null);
-          }}
-        />
+        <OrderForm order={editingOrder} onSubmit={handleSubmit} onCancel={() => { setShowForm(false); setEditingOrder(null); }} />
       ) : (
         <OrderList 
-          orders={orders.filter(o => view === 'all' || 
-            (view === 'pending' && o.status === 'pending') ||
-            (view === 'processing' && o.status === 'processing') ||
-            (view === 'completed' && o.status === 'delivered')
-          )} 
-          onAdd={handleAdd}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-          onStatusChange={updateOrderStatus}
+          orders={orders.filter(o => view === 'all' || (view === 'pending' && o.status === 'pending') || (view === 'processing' && o.status === 'processing') || (view === 'completed' && o.status === 'delivered'))} 
+          onAdd={handleAdd} onEdit={handleEdit} onDelete={handleDelete} onStatusChange={updateOrderStatus} 
         />
       )}
     </div>
