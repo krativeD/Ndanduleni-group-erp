@@ -1,12 +1,11 @@
 import React from 'react';
-import { useNavigate, useLocation, Outlet } from 'react-router-dom';
+import { useNavigate, Outlet } from 'react-router-dom';
 import Layout from '../../components/common/Layout';
 import Card from '../../components/common/Card';
 import styles from './SalesStyles.module.css';
 
 const SalesDashboard = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const subModules = [
     { name: 'Orders', path: '/sales/orders', icon: '📋', description: 'Manage customer orders', color: '#6366f1' },
@@ -25,11 +24,12 @@ const SalesDashboard = () => {
           </div>
         </div>
 
+        {/* Module Overview Cards */}
         <div className={styles.moduleOverview}>
           {subModules.map((module, index) => (
             <Card 
               key={index} 
-              className={`${styles.moduleCard} ${location.pathname.includes(module.path) ? styles.moduleCardActive : ''}`}
+              className={styles.moduleCard}
               onClick={() => navigate(module.path)}
             >
               <div className={styles.moduleIcon} style={{ background: module.color }}>
@@ -44,21 +44,7 @@ const SalesDashboard = () => {
           ))}
         </div>
 
-        <Card className={styles.subNavCard}>
-          <div className={styles.subNav}>
-            {subModules.map((module, index) => (
-              <button
-                key={index}
-                className={`${styles.subNavItem} ${location.pathname.includes(module.path) ? styles.subNavActive : ''}`}
-                onClick={() => navigate(module.path)}
-              >
-                <span className={styles.subNavIcon}>{module.icon}</span>
-                <span className={styles.subNavLabel}>{module.name}</span>
-              </button>
-            ))}
-          </div>
-        </Card>
-
+        {/* Content Area - Direct outlet without tab bar */}
         <div className={styles.contentArea}>
           <Outlet />
         </div>
