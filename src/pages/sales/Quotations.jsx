@@ -15,13 +15,15 @@ const Quotations = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingQuotation, setEditingQuotation] = useState(null);
   const [viewingQuotation, setViewingQuotation] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const getStatusBadge = (status) => {
     const badges = { 
       'draft': styles.statusDraft, 
       'sent': styles.statusSent, 
       'accepted': styles.statusAccepted, 
-      'rejected': styles.statusRejected 
+      'rejected': styles.statusRejected,
+      'converted': styles.statusConverted
     };
     return badges[status] || styles.statusDraft;
   };
@@ -41,17 +43,26 @@ const Quotations = () => {
   };
 
   const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to delete this quotation?')) {
+    if (window.confirm('Are you sure you want to delete this quotation? This action cannot be undone.')) {
       deleteQuotation(id);
     }
   };
 
   const handleConvertToInvoice = (quotation) => {
-    if (window.confirm(`Convert quotation ${quotation.quoteNumber} to invoice?`)) {
+    if (window.confirm(`Convert quotation ${quotation.quoteNumber} to invoice? This will mark the quotation as converted.`)) {
       const newInvoice = convertQuotationToInvoice(quotation);
-      alert(`Invoice ${newInvoice.invoiceNumber} created successfully!`);
+      // Mark quotation as converted (does NOT delete it)
+      updateQuotation(quotation.id, { status: 'converted' });
+      alert(`✅ Quotation converted to Invoice ${newInvoice.invoiceNumber} successfully!`);
       navigate('/sales/invoices');
     }
+  };
+
+  const handlePrintSuccess = (id, updates) => {
+    // Only update lastPrinted timestamp - does NOT change status or delete
+    updateQuotation(id, updates);
+    setSuccessMessage('Quotation printed successfully!');
+    setTimeout(() => setSuccessMessage(''), 3000);
   };
 
   const handleSubmit = (data) => {
@@ -66,18 +77,28 @@ const Quotations = () => {
 
   if (loading) return <Loader />;
 
-  // Show quotation view if viewing
+  // Show quotation view if viewing - QUOTATION REMAINS VISIBLE IN BACKGROUND
   if (viewingQuotation) {
     return (
-      <QuotationView 
-        quotation={viewingQuotation} 
-        onClose={() => setViewingQuotation(null)} 
-      />
+      <>
+        {/* The quotation list is still there, just hidden by the modal */}
+        <QuotationView 
+          quotation={viewingQuotation} 
+          onClose={() => setViewingQuotation(null)}
+          onPrintSuccess={handlePrintSuccess}
+        />
+      </>
     );
   }
 
   return (
     <>
+      {successMessage && (
+        <div className={styles.successToast}>
+          ✅ {successMessage}
+        </div>
+      )}
+
       {showForm ? (
         <QuotationForm 
           quotation={editingQuotation} 
@@ -110,17 +131,22 @@ const Quotations = () => {
                 </thead>
                 <tbody>
                   {quotations.map(q => (
-                    <tr key={q.id}>
+                    <tr key={q.id} className={q.status === 'converted' ? styles.convertedRow : ''}>
                       <td>{q.quoteNumber}</td>
                       <td>{q.customer}</td>
                       <td>{q.date}</td>
                       <td>{q.items}</td>
-                      <td>R {q.total.toLocaleString()}</td>
+                      <td>R {q.total?.toLocaleString()}</td>
                       <td>{q.validUntil}</td>
                       <td>
                         <span className={`${styles.statusBadge} ${getStatusBadge(q.status)}`}>
                           {q.status}
                         </span>
+                        {q.lastPrinted && (
+                          <span className={styles.printedBadge} title={`Last printed: ${new Date(q.lastPrinted).toLocaleString()}`}>
+                            🖨️
+                          </span>
+                        )}
                       </td>
                       <td>
                         <div className={styles.actions}>
@@ -131,20 +157,24 @@ const Quotations = () => {
                           >
                             👁️
                           </button>
-                          <button 
-                            className={styles.actionBtn} 
-                            onClick={() => handleEdit(q)} 
-                            title="Edit"
-                          >
-                            ✏️
-                          </button>
-                          <button 
-                            className={styles.actionBtn} 
-                            onClick={() => handleDelete(q.id)} 
-                            title="Delete"
-                          >
-                            🗑️
-                          </button>
+                          {q.status !== 'converted' && (
+                            <>
+                              <button 
+                                className={styles.actionBtn} 
+                                onClick={() => handleEdit(q)} 
+                                title="Edit"
+                              >
+                                ✏️
+                              </button>
+                              <button 
+                                className={styles.actionBtn} 
+                                onClick={() => handleDelete(q.id)} 
+                                title="Delete"
+                              >
+                                🗑️
+                              </button>
+                            </>
+                          )}
                         </div>
                       </td>
                     </tr>
