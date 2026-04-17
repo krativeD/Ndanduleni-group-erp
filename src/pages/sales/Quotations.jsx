@@ -51,14 +51,17 @@ const Quotations = () => {
   };
 
   const handleView = (quote) => {
-    // Find the latest version of the quotation from the current state
     const currentQuote = quotations.find(q => q.id === quote.id) || quote;
     setViewingQuotation(currentQuote);
   };
 
   const handleDelete = (id) => {
+    console.log('🗑️ handleDelete called for ID:', id);
     if (window.confirm('Are you sure you want to delete this quotation? This action cannot be undone.')) {
+      console.log('✅ User confirmed deletion');
       deleteQuotation(id);
+    } else {
+      console.log('❌ User cancelled deletion');
     }
   };
 
@@ -72,14 +75,26 @@ const Quotations = () => {
   };
 
   const handlePrintSuccess = (id, updates) => {
-    // Only update lastPrinted timestamp - does NOT change status or delete
+    console.log('🖨️ handlePrintSuccess called with:', { id, updates });
+    console.log('📋 Quotations BEFORE update:', quotations.length);
+    
+    // Ensure we stay on 'all' view so quotation doesn't appear to disappear
+    setView('all');
+    
+    // Update the quotation with lastPrinted timestamp
     updateQuotation(id, updates);
-    setSuccessMessage('Quotation printed successfully!');
+    
+    // Check after update
+    setTimeout(() => {
+      console.log('📋 Quotations AFTER update - length should be same:', quotations.length);
+    }, 100);
+    
+    setSuccessMessage('✅ Quotation printed successfully!');
     setTimeout(() => setSuccessMessage(''), 3000);
   };
 
   const handleCloseView = () => {
-    // Just close the modal - DO NOT delete anything
+    console.log('👁️ Closing quotation view - quotation remains in list');
     setViewingQuotation(null);
   };
 
@@ -93,12 +108,10 @@ const Quotations = () => {
     setEditingQuotation(null);
   };
 
-  // DEBUG: Log to verify quotations are still there
-  console.log('Quotations in list:', quotations.length);
+  console.log('📊 Quotations in list:', quotations.length, 'Current view:', view);
 
   if (loading) return <Loader />;
 
-  // If viewing, show the modal OVER the list (list is still there in background)
   const filteredQuotations = quotations.filter(q => 
     view === 'all' || 
     (view === 'active' && q.status !== 'converted' && q.status !== 'rejected') ||
@@ -108,7 +121,7 @@ const Quotations = () => {
   return (
     <div className={styles.quotationsContainer}>
       {successMessage && (
-        <div className={styles.successToast}>✅ {successMessage}</div>
+        <div className={styles.successToast}>{successMessage}</div>
       )}
 
       {/* Stats Cards */}
