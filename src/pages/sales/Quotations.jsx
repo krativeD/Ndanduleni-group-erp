@@ -51,7 +51,9 @@ const Quotations = () => {
   };
 
   const handleView = (quote) => {
-    setViewingQuotation(quote);
+    // Find the latest version of the quotation from the current state
+    const currentQuote = quotations.find(q => q.id === quote.id) || quote;
+    setViewingQuotation(currentQuote);
   };
 
   const handleDelete = (id) => {
@@ -70,9 +72,15 @@ const Quotations = () => {
   };
 
   const handlePrintSuccess = (id, updates) => {
+    // Only update lastPrinted timestamp - does NOT change status or delete
     updateQuotation(id, updates);
     setSuccessMessage('Quotation printed successfully!');
     setTimeout(() => setSuccessMessage(''), 3000);
+  };
+
+  const handleCloseView = () => {
+    // Just close the modal - DO NOT delete anything
+    setViewingQuotation(null);
   };
 
   const handleSubmit = (data) => {
@@ -85,18 +93,12 @@ const Quotations = () => {
     setEditingQuotation(null);
   };
 
+  // DEBUG: Log to verify quotations are still there
+  console.log('Quotations in list:', quotations.length);
+
   if (loading) return <Loader />;
 
-  if (viewingQuotation) {
-    return (
-      <QuotationView 
-        quotation={viewingQuotation} 
-        onClose={() => setViewingQuotation(null)}
-        onPrintSuccess={handlePrintSuccess}
-      />
-    );
-  }
-
+  // If viewing, show the modal OVER the list (list is still there in background)
   const filteredQuotations = quotations.filter(q => 
     view === 'all' || 
     (view === 'active' && q.status !== 'converted' && q.status !== 'rejected') ||
@@ -234,6 +236,15 @@ const Quotations = () => {
             </div>
           </Card>
         </>
+      )}
+
+      {/* Modal - Rendered OVER the list, not replacing it */}
+      {viewingQuotation && (
+        <QuotationView 
+          quotation={viewingQuotation} 
+          onClose={handleCloseView}
+          onPrintSuccess={handlePrintSuccess}
+        />
       )}
     </div>
   );
