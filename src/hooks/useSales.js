@@ -8,10 +8,12 @@ import {
   fetchInvoices,
   createInvoice,
   updateInvoice as updateInvoiceDB,
+  deleteInvoice as deleteInvoiceDB,
   subscribeToQuotations,
-  subscribeToInvoices
+  subscribeToInvoices,
+  getMockOrders,
+  getMockPayments
 } from '../lib/salesService';
-import { getMockOrders, getMockPayments } from '../lib/salesService';
 
 // ============================================
 // QUOTATIONS HOOK (WITH SUPABASE)
@@ -25,7 +27,7 @@ export const useQuotations = () => {
   const loadQuotations = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await fetchQuotations('active'); // Only active quotations
+      const data = await fetchQuotations('active');
       setQuotations(data);
       setError(null);
     } catch (err) {
@@ -36,16 +38,13 @@ export const useQuotations = () => {
     }
   }, []);
 
-  // Initial load
   useEffect(() => {
     loadQuotations();
   }, [loadQuotations]);
 
-  // Real-time subscription
   useEffect(() => {
     const unsubscribe = subscribeToQuotations((payload) => {
       console.log('Quotation change:', payload.eventType);
-      // Refresh the list when changes occur
       loadQuotations();
     }, 'active');
     
@@ -170,12 +169,8 @@ export const useInvoices = () => {
 
   const convertQuotationToInvoice = async (quotation, orderNumber = null) => {
     try {
-      // This does BOTH: creates invoice AND marks quotation as converted
       const newInvoice = await convertQuotationToInvoiceDB(quotation.id, orderNumber);
-      
-      // Update local state - invoice added, quotation will be removed via subscription
       setInvoices(prev => [newInvoice, ...prev]);
-      
       return newInvoice;
     } catch (err) {
       console.error('Error converting quotation to invoice:', err);
