@@ -28,7 +28,20 @@ export const useQuotations = () => {
     try {
       setLoading(true);
       const data = await fetchQuotations('active');
-      setQuotations(data);
+      // Map snake_case to camelCase for frontend
+      const mappedData = data.map(q => ({
+        ...q,
+        customerAddress: q.customer_address,
+        customerEmail: q.customer_email,
+        validUntil: q.valid_until,
+        lineItems: q.line_items,
+        quoteNumber: q.quote_number,
+        lastPrinted: q.last_printed,
+        createdBy: q.created_by,
+        createdAt: q.created_at,
+        updatedAt: q.updated_at
+      }));
+      setQuotations(mappedData);
       setError(null);
     } catch (err) {
       console.error('Error loading quotations:', err);
@@ -54,17 +67,39 @@ export const useQuotations = () => {
   const addQuotation = async (quote) => {
     try {
       const quoteNumber = `QUO-${new Date().getFullYear()}-${String(quotations.length + 1).padStart(3, '0')}`;
+      
+      // Map camelCase to snake_case for database
       const newQuote = {
-        ...quote,
         quote_number: quoteNumber,
+        customer: quote.customer,
+        customer_address: quote.customerAddress || '',
+        customer_email: quote.customerEmail || '',
+        valid_until: quote.validUntil,
         line_items: quote.lineItems || [],
-        created_by: 'Current User',
-        status: 'active'
+        items: quote.items || (quote.lineItems?.length || 0),
+        subtotal: quote.subtotal || 0,
+        tax: quote.tax || 0,
+        discount: quote.discount || 0,
+        total: quote.total || 0,
+        status: quote.status || 'active',
+        created_by: 'Current User'
       };
       
       const data = await createQuotation(newQuote);
-      setQuotations(prev => [data, ...prev]);
-      return data;
+      
+      // Map back to camelCase for frontend
+      const mappedData = {
+        ...data,
+        customerAddress: data.customer_address,
+        customerEmail: data.customer_email,
+        validUntil: data.valid_until,
+        lineItems: data.line_items,
+        quoteNumber: data.quote_number,
+        lastPrinted: data.last_printed
+      };
+      
+      setQuotations(prev => [mappedData, ...prev]);
+      return mappedData;
     } catch (err) {
       console.error('Error adding quotation:', err);
       throw err;
@@ -73,13 +108,36 @@ export const useQuotations = () => {
 
   const updateQuotation = async (id, updates) => {
     try {
-      const dbUpdates = {
-        ...updates,
-        line_items: updates.lineItems || updates.line_items
-      };
+      // Map camelCase to snake_case for database
+      const dbUpdates = {};
+      if (updates.customer !== undefined) dbUpdates.customer = updates.customer;
+      if (updates.customerAddress !== undefined) dbUpdates.customer_address = updates.customerAddress;
+      if (updates.customerEmail !== undefined) dbUpdates.customer_email = updates.customerEmail;
+      if (updates.validUntil !== undefined) dbUpdates.valid_until = updates.validUntil;
+      if (updates.lineItems !== undefined) dbUpdates.line_items = updates.lineItems;
+      if (updates.items !== undefined) dbUpdates.items = updates.items;
+      if (updates.subtotal !== undefined) dbUpdates.subtotal = updates.subtotal;
+      if (updates.tax !== undefined) dbUpdates.tax = updates.tax;
+      if (updates.discount !== undefined) dbUpdates.discount = updates.discount;
+      if (updates.total !== undefined) dbUpdates.total = updates.total;
+      if (updates.status !== undefined) dbUpdates.status = updates.status;
+      if (updates.lastPrinted !== undefined) dbUpdates.last_printed = updates.lastPrinted;
+      
       const data = await updateQuotationDB(id, dbUpdates);
-      setQuotations(prev => prev.map(q => q.id === id ? data : q));
-      return data;
+      
+      // Map back to camelCase for frontend
+      const mappedData = {
+        ...data,
+        customerAddress: data.customer_address,
+        customerEmail: data.customer_email,
+        validUntil: data.valid_until,
+        lineItems: data.line_items,
+        quoteNumber: data.quote_number,
+        lastPrinted: data.last_printed
+      };
+      
+      setQuotations(prev => prev.map(q => q.id === id ? mappedData : q));
+      return mappedData;
     } catch (err) {
       console.error('Error updating quotation:', err);
       throw err;
@@ -120,7 +178,20 @@ export const useInvoices = () => {
     try {
       setLoading(true);
       const data = await fetchInvoices();
-      setInvoices(data);
+      // Map snake_case to camelCase for frontend
+      const mappedData = data.map(i => ({
+        ...i,
+        invoiceNumber: i.invoice_number,
+        quotationId: i.quotation_id,
+        orderRef: i.order_ref,
+        customerAddress: i.customer_address,
+        customerEmail: i.customer_email,
+        dueDate: i.due_date,
+        createdBy: i.created_by,
+        createdAt: i.created_at,
+        updatedAt: i.updated_at
+      }));
+      setInvoices(mappedData);
       setError(null);
     } catch (err) {
       console.error('Error loading invoices:', err);
@@ -152,15 +223,39 @@ export const useInvoices = () => {
   const addInvoice = async (invoice) => {
     try {
       const invoiceNumber = generateInvoiceNumber();
+      
+      // Map camelCase to snake_case for database
       const newInvoice = {
-        ...invoice,
         invoice_number: invoiceNumber,
+        order_ref: invoice.order || '',
+        customer: invoice.customer,
+        customer_address: invoice.customerAddress || '',
+        customer_email: invoice.customerEmail || '',
+        date: invoice.date,
+        due_date: invoice.dueDate,
+        items: invoice.items || [],
+        subtotal: invoice.subtotal || 0,
+        tax: invoice.tax || 0,
+        discount: invoice.discount || 0,
+        total: invoice.total || 0,
+        paid: invoice.paid || 0,
+        status: invoice.status || 'unpaid',
         created_by: 'Current User'
       };
       
       const data = await createInvoice(newInvoice);
-      setInvoices(prev => [data, ...prev]);
-      return data;
+      
+      // Map back to camelCase
+      const mappedData = {
+        ...data,
+        invoiceNumber: data.invoice_number,
+        customerAddress: data.customer_address,
+        customerEmail: data.customer_email,
+        dueDate: data.due_date
+      };
+      
+      setInvoices(prev => [mappedData, ...prev]);
+      return mappedData;
     } catch (err) {
       console.error('Error adding invoice:', err);
       throw err;
@@ -170,8 +265,18 @@ export const useInvoices = () => {
   const convertQuotationToInvoice = async (quotation, orderNumber = null) => {
     try {
       const newInvoice = await convertQuotationToInvoiceDB(quotation.id, orderNumber);
-      setInvoices(prev => [newInvoice, ...prev]);
-      return newInvoice;
+      
+      // Map back to camelCase
+      const mappedData = {
+        ...newInvoice,
+        invoiceNumber: newInvoice.invoice_number,
+        customerAddress: newInvoice.customer_address,
+        customerEmail: newInvoice.customer_email,
+        dueDate: newInvoice.due_date
+      };
+      
+      setInvoices(prev => [mappedData, ...prev]);
+      return mappedData;
     } catch (err) {
       console.error('Error converting quotation to invoice:', err);
       throw err;
@@ -180,9 +285,25 @@ export const useInvoices = () => {
 
   const updateInvoice = async (id, updates) => {
     try {
-      const data = await updateInvoiceDB(id, updates);
-      setInvoices(prev => prev.map(i => i.id === id ? data : i));
-      return data;
+      // Map camelCase to snake_case
+      const dbUpdates = {};
+      if (updates.customer !== undefined) dbUpdates.customer = updates.customer;
+      if (updates.customerAddress !== undefined) dbUpdates.customer_address = updates.customerAddress;
+      if (updates.paid !== undefined) dbUpdates.paid = updates.paid;
+      if (updates.status !== undefined) dbUpdates.status = updates.status;
+      
+      const data = await updateInvoiceDB(id, dbUpdates);
+      
+      const mappedData = {
+        ...data,
+        invoiceNumber: data.invoice_number,
+        customerAddress: data.customer_address,
+        customerEmail: data.customer_email,
+        dueDate: data.due_date
+      };
+      
+      setInvoices(prev => prev.map(i => i.id === id ? mappedData : i));
+      return mappedData;
     } catch (err) {
       console.error('Error updating invoice:', err);
       throw err;
