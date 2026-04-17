@@ -10,20 +10,20 @@ import styles from './SalesStyles.module.css';
 
 const Quotations = () => {
   const navigate = useNavigate();
-  const { quotations, loading, addQuotation, updateQuotation, deleteQuotation } = useQuotations();
+  const { quotations, loading, error, addQuotation, updateQuotation, deleteQuotation } = useQuotations();
   const { convertQuotationToInvoice } = useInvoices();
   const [showForm, setShowForm] = useState(false);
   const [editingQuotation, setEditingQuotation] = useState(null);
   const [viewingQuotation, setViewingQuotation] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
   const [view, setView] = useState('all');
+  const [converting, setConverting] = useState(false);
 
   const stats = {
     total: quotations.length,
     draft: quotations.filter(q => q.status === 'draft').length,
     sent: quotations.filter(q => q.status === 'sent').length,
     accepted: quotations.filter(q => q.status === 'accepted').length,
-    converted: quotations.filter(q => q.status === 'converted').length,
     totalValue: quotations.filter(q => q.status === 'accepted').reduce((sum, q) => sum + (q.total || 0), 0)
   };
 
@@ -55,62 +55,68 @@ const Quotations = () => {
     setViewingQuotation(currentQuote);
   };
 
-  const handleDelete = (id) => {
-    console.log('🗑️ handleDelete called for ID:', id);
+  const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this quotation? This action cannot be undone.')) {
-      console.log('✅ User confirmed deletion');
-      deleteQuotation(id);
-    } else {
-      console.log('❌ User cancelled deletion');
+      try {
+        await deleteQuotation(id);
+        setSuccessMessage('✅ Quotation deleted successfully!');
+        setTimeout(() => setSuccessMessage(''), 3000);
+      } catch (err) {
+        alert('Failed to delete quotation: ' + err.message);
+      }
     }
   };
 
-  const handleConvertToInvoice = (quotation) => {
-    if (window.confirm(`Convert quotation ${quotation.quoteNumber} to invoice? This will mark the quotation as converted.`)) {
-      const newInvoice = convertQuotationToInvoice(quotation);
-      updateQuotation(quotation.id, { status: 'converted' });
-      alert(`✅ Quotation converted to Invoice ${newInvoice.invoiceNumber} successfully!`);
-      navigate('/sales/invoices');
+  const handleConvertToInvoice = async (quotation) => {
+    if (window.confirm(`Convert quotation ${quotation.quote_number} to invoice?\n\nThis will:\n• Remove the quotation from this list\n• Create a new invoice\n• Transfer all data to the invoice`)) {
+      setConverting(true);
+      try {
+        const newInvoice = await convertQuotationToInvoice(quotation);
+        setSuccessMessage(`✅ Quotation converted to Invoice ${newInvoice.invoice_number} successfully!`);
+        setTimeout(() => setSuccessMessage(''), 3000);
+        
+        // Ask if user wants to view the new invoice
+        if (window.confirm('Quotation converted successfully! Would you like to view the new invoice?')) {
+          navigate('/sales/invoices');
+        }
+      } catch (err) {
+        alert('Failed to convert quotation: ' + err.message);
+      } finally {
+        setConverting(false);
+      }
     }
   };
 
   const handlePrintSuccess = (id, updates) => {
-    console.log('🖨️ handlePrintSuccess called with:', { id, updates });
-    console.log('📋 Quotations BEFORE update:', quotations.length);
-    
-    // Ensure we stay on 'all' view so quotation doesn't appear to disappear
     setView('all');
-    
-    // Update the quotation with lastPrinted timestamp
     updateQuotation(id, updates);
-    
-    // Check after update
-    setTimeout(() => {
-      console.log('📋 Quotations AFTER update - length should be same:', quotations.length);
-    }, 100);
-    
     setSuccessMessage('✅ Quotation printed successfully!');
     setTimeout(() => setSuccessMessage(''), 3000);
   };
 
   const handleCloseView = () => {
-    console.log('👁️ Closing quotation view - quotation remains in list');
     setViewingQuotation(null);
   };
 
-  const handleSubmit = (data) => {
-    if (editingQuotation) {
-      updateQuotation(editingQuotation.id, data);
-    } else {
-      addQuotation(data);
+  const handleSubmit = async (data) => {
+    try {
+      if (editingQuotation) {
+        await updateQuotation(editingQuotation.id, data);
+        setSuccessMessage('✅ Quotation updated successfully!');
+      } else {
+        await addQuotation(data);
+        setSuccessMessage('✅ Quotation created successfully!');
+      }
+      setTimeout(() => setSuccessMessage(''), 3000);
+      setShowForm(false);
+      setEditingQuotation(null);
+    } catch (err) {
+      alert('Failed to save quotation: ' + err.message);
     }
-    setShowForm(false);
-    setEditingQuotation(null);
   };
 
-  console.log('📊 Quotations in list:', quotations.length, 'Current view:', view);
-
   if (loading) return <Loader />;
+  if (error) return <div className={styles.error}>Error: {error}</div>;
 
   const filteredQuotations = quotations.filter(q => 
     view === 'all' || 
@@ -129,7 +135,7 @@ const Quotations = () => {
         <Card className={styles.statCard}>
           <span className={styles.statIcon}>📄</span>
           <div className={styles.statContent}>
-            <span className={styles.statLabel}>Total Quotes</span>
+            <span className={styles.statLabel}>Active Quotes</span>
             <span className={styles.statValue}>{stats.total}</span>
           </div>
         </Card>
@@ -214,19 +220,19 @@ const Quotations = () => {
                 </thead>
                 <tbody>
                   {filteredQuotations.map(q => (
-                    <tr key={q.id} className={q.status === 'converted' ? styles.convertedRow : ''}>
-                      <td className={styles.quoteNumber}>{q.quoteNumber}</td>
+                    <tr key={q.id}>
+                      <td className={styles.quoteNumber}>{q.quote_number}</td>
                       <td>{q.customer}</td>
                       <td>{q.date}</td>
-                      <td>{q.validUntil}</td>
-                      <td>{q.items}</td>
+                      <td>{q.valid_until}</td>
+                      <td>{q.items || (q.line_items?.length || 0)}</td>
                       <td className={styles.amount}>{formatCurrency(q.total)}</td>
                       <td>
                         <span className={`${styles.statusBadge} ${getStatusBadge(q.status)}`}>
                           {q.status}
                         </span>
-                        {q.lastPrinted && (
-                          <span className={styles.printedBadge} title={`Last printed: ${new Date(q.lastPrinted).toLocaleString()}`}>
+                        {q.last_printed && (
+                          <span className={styles.printedBadge} title={`Last printed: ${new Date(q.last_printed).toLocaleString()}`}>
                             🖨️
                           </span>
                         )}
@@ -234,12 +240,9 @@ const Quotations = () => {
                       <td>
                         <div className={styles.actions}>
                           <button className={styles.actionBtn} onClick={() => handleView(q)} title="View/Print">👁️</button>
-                          {q.status !== 'converted' && (
-                            <>
-                              <button className={styles.actionBtn} onClick={() => handleEdit(q)} title="Edit">✏️</button>
-                              <button className={styles.actionBtn} onClick={() => handleDelete(q.id)} title="Delete">🗑️</button>
-                            </>
-                          )}
+                          <button className={styles.actionBtn} onClick={() => handleEdit(q)} title="Edit">✏️</button>
+                          <button className={styles.actionBtn} onClick={() => handleConvertToInvoice(q)} title="Convert to Invoice" style={{ background: '#10b981', color: 'white' }}>📄→🧾</button>
+                          <button className={styles.actionBtn} onClick={() => handleDelete(q.id)} title="Delete">🗑️</button>
                         </div>
                       </td>
                     </tr>
@@ -251,13 +254,23 @@ const Quotations = () => {
         </>
       )}
 
-      {/* Modal - Rendered OVER the list, not replacing it */}
+      {/* Modal */}
       {viewingQuotation && (
         <QuotationView 
           quotation={viewingQuotation} 
           onClose={handleCloseView}
           onPrintSuccess={handlePrintSuccess}
         />
+      )}
+      
+      {/* Converting overlay */}
+      {converting && (
+        <div className={styles.modalOverlay}>
+          <Card className={styles.formCard}>
+            <h4>⏳ Converting to Invoice...</h4>
+            <p>Please wait while we process your request.</p>
+          </Card>
+        </div>
       )}
     </div>
   );
