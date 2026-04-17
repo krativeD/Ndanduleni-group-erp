@@ -1,10 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import QuotationTemplate from './QuotationTemplate';
 import Button from '../common/Button';
 import styles from './InvoiceView.module.css';
 
-const QuotationView = ({ quotation, onClose }) => {
+const QuotationView = ({ quotation, onClose, onPrintSuccess }) => {
   const printRef = useRef();
+  const [isPrinting, setIsPrinting] = useState(false);
+  const [lastPrinted, setLastPrinted] = useState(quotation.lastPrinted || null);
 
   const companyInfo = {
     name: 'Ndanduleni Group',
@@ -18,7 +20,28 @@ const QuotationView = ({ quotation, onClose }) => {
     branchCode: '450105'
   };
 
+  const updateLastPrinted = () => {
+    const now = new Date().toISOString();
+    setLastPrinted(now);
+    
+    // Store print history in localStorage (non-destructive)
+    const printHistory = JSON.parse(localStorage.getItem('ndanduleni_print_history') || '[]');
+    printHistory.push({
+      quotationId: quotation.id,
+      quoteNumber: quotation.quoteNumber,
+      printedAt: now,
+      printedBy: 'Current User'
+    });
+    localStorage.setItem('ndanduleni_print_history', JSON.stringify(printHistory));
+    
+    // Optional: Update lastPrinted timestamp in quotation (does NOT change status)
+    if (onPrintSuccess) {
+      onPrintSuccess(quotation.id, { lastPrinted: now });
+    }
+  };
+
   const handlePrint = () => {
+    setIsPrinting(true);
     const printContent = printRef.current;
     const originalTitle = document.title;
     const originalContents = document.body.innerHTML;
@@ -46,13 +69,24 @@ const QuotationView = ({ quotation, onClose }) => {
 
     window.print();
 
+    // RESTORE ORIGINAL CONTENT - Quotation remains visible!
     document.body.innerHTML = originalContents;
     document.title = originalTitle;
+    
+    // Update print history (non-destructive)
+    updateLastPrinted();
+    
+    // Show success message
+    alert(`✅ Quotation ${quotation.quoteNumber} printed successfully!`);
+    
+    setIsPrinting(false);
+    
+    // Force re-render to restore React state
     window.location.reload();
   };
 
   const handleDownloadPDF = async () => {
-    const element = printRef.current;
+    setIsPrinting(true);
     
     const loadingDiv = document.createElement('div');
     loadingDiv.style.cssText = `
@@ -73,6 +107,7 @@ const QuotationView = ({ quotation, onClose }) => {
     document.body.appendChild(loadingDiv);
 
     try {
+      const element = printRef.current;
       const cloneElement = element.cloneNode(true);
       cloneElement.style.width = '210mm';
       cloneElement.style.minHeight = '297mm';
@@ -80,7 +115,6 @@ const QuotationView = ({ quotation, onClose }) => {
       cloneElement.style.margin = '0';
       cloneElement.style.backgroundColor = 'white';
       cloneElement.style.boxSizing = 'border-box';
-      cloneElement.style.position = 'relative';
       
       const wrapper = document.createElement('div');
       wrapper.style.position = 'fixed';
@@ -105,6 +139,7 @@ const QuotationView = ({ quotation, onClose }) => {
       });
 
       document.body.removeChild(wrapper);
+      document.body.removeChild(loadingDiv);
 
       const imgData = canvas.toDataURL('image/png');
       
@@ -127,27 +162,38 @@ const QuotationView = ({ quotation, onClose }) => {
       }
 
       pdf.save(`Quotation-${quotation.quoteNumber}.pdf`);
+      
+      // Update print history (non-destructive)
+      updateLastPrinted();
+      
+      alert(`✅ Quotation ${quotation.quoteNumber} PDF downloaded successfully!`);
     } catch (error) {
       console.error('PDF Error:', error);
       alert('PDF generation failed. Please use Print and select "Save as PDF".');
     } finally {
-      document.body.removeChild(loadingDiv);
+      setIsPrinting(false);
     }
   };
 
   return (
     <div className={styles.invoiceView}>
       <div className={`${styles.actions} no-print`}>
-        <Button variant="primary" onClick={handlePrint}>
-          🖨️ Print Quotation
+        <Button variant="primary" onClick={handlePrint} disabled={isPrinting}>
+          🖨️ {isPrinting ? 'Printing...' : 'Print Quotation'}
         </Button>
-        <Button variant="success" onClick={handleDownloadPDF}>
-          📄 Download PDF
+        <Button variant="success" onClick={handleDownloadPDF} disabled={isPrinting}>
+          📄 {isPrinting ? 'Generating...' : 'Download PDF'}
         </Button>
         <Button variant="default" onClick={onClose}>
           ✕ Close
         </Button>
       </div>
+
+      {lastPrinted && (
+        <div className={`${styles.printHistory} no-print`}>
+          <span>🕐 Last printed: {new Date(lastPrinted).toLocaleString('en-ZA')}</span>
+        </div>
+      )}
       
       <div ref={printRef}>
         <QuotationTemplate quotation={quotation} companyInfo={companyInfo} />
