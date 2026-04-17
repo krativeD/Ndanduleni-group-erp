@@ -1,10 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import InvoiceTemplate from './InvoiceTemplate';
 import Button from '../common/Button';
 import styles from './InvoiceView.module.css';
 
-const InvoiceView = ({ invoice, onClose }) => {
+const InvoiceView = ({ invoice, onClose, onPrintSuccess }) => {
   const printRef = useRef();
+  const [isPrinting, setIsPrinting] = useState(false);
+  const [lastPrinted, setLastPrinted] = useState(invoice.lastPrinted || null);
 
   const companyInfo = {
     name: 'Ndanduleni Group',
@@ -18,41 +20,80 @@ const InvoiceView = ({ invoice, onClose }) => {
     branchCode: '450105'
   };
 
-  const handlePrint = () => {
-    const printContent = printRef.current;
-    const originalTitle = document.title;
-    const originalContents = document.body.innerHTML;
+  const updateLastPrinted = () => {
+    const now = new Date().toISOString();
+    setLastPrinted(now);
+    
+    if (onPrintSuccess) {
+      onPrintSuccess(invoice.id, { lastPrinted: now });
+    }
+  };
 
+  const handlePrint = () => {
+    setIsPrinting(true);
+    
+    // Create a hidden iframe for printing - THIS PREVENTS PAGE RELOAD
+    const printFrame = document.createElement('iframe');
+    printFrame.style.position = 'fixed';
+    printFrame.style.right = '0';
+    printFrame.style.bottom = '0';
+    printFrame.style.width = '0';
+    printFrame.style.height = '0';
+    printFrame.style.border = '0';
+    printFrame.style.visibility = 'hidden';
+    document.body.appendChild(printFrame);
+
+    const frameDoc = printFrame.contentDocument || printFrame.contentWindow.document;
+    const printContent = printRef.current.cloneNode(true);
+    
     const invoiceHTML = printContent.innerHTML;
 
-    document.body.innerHTML = `
-      <div class="print-container" style="max-width: 210mm; margin: 0 auto; padding: 10mm; background: white;">
-        ${invoiceHTML}
-      </div>
-    `;
-    document.title = `Invoice-${invoice.invoiceNumber}`;
+    frameDoc.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Invoice-${invoice.invoiceNumber}</title>
+          <style>
+            @media print {
+              @page { size: A4 portrait; margin: 0; }
+              body { margin: 0; padding: 0; background: white; }
+              .print-container { padding: 10mm !important; max-width: 210mm; margin: 0 auto; }
+            }
+            * { box-sizing: border-box; }
+            body { font-family: Arial, Helvetica, sans-serif; }
+            .print-container { padding: 10mm; max-width: 210mm; margin: 0 auto; background: white; }
+          </style>
+        </head>
+        <body>
+          <div class="print-container">
+            ${invoiceHTML}
+          </div>
+        </body>
+      </html>
+    `);
+    frameDoc.close();
 
-    const style = document.createElement('style');
-    style.textContent = `
-      @media print {
-        @page { size: A4 portrait; margin: 0; }
-        body { margin: 0; padding: 0; background: white; }
-        .print-container { padding: 10mm !important; max-width: 210mm; }
-        .no-print { display: none !important; }
-      }
-      * { box-sizing: border-box; }
-    `;
-    document.head.appendChild(style);
+    printFrame.onload = function() {
+      setTimeout(() => {
+        printFrame.contentWindow.focus();
+        printFrame.contentWindow.print();
+        
+        setTimeout(() => {
+          document.body.removeChild(printFrame);
+          setIsPrinting(false);
+          updateLastPrinted();
+          alert(`✅ Invoice ${invoice.invoiceNumber} printed successfully!`);
+        }, 100);
+      }, 500);
+    };
 
-    window.print();
-
-    document.body.innerHTML = originalContents;
-    document.title = originalTitle;
-    window.location.reload();
+    if (frameDoc.readyState === 'complete') {
+      printFrame.onload();
+    }
   };
 
   const handleDownloadPDF = async () => {
-    const element = printRef.current;
+    setIsPrinting(true);
     
     const loadingDiv = document.createElement('div');
     loadingDiv.style.cssText = `
@@ -73,6 +114,7 @@ const InvoiceView = ({ invoice, onClose }) => {
     document.body.appendChild(loadingDiv);
 
     try {
+      const element = printRef.current;
       const cloneElement = element.cloneNode(true);
       cloneElement.style.width = '210mm';
       cloneElement.style.minHeight = '297mm';
@@ -80,7 +122,6 @@ const InvoiceView = ({ invoice, onClose }) => {
       cloneElement.style.margin = '0';
       cloneElement.style.backgroundColor = 'white';
       cloneElement.style.boxSizing = 'border-box';
-      cloneElement.style.position = 'relative';
       
       const wrapper = document.createElement('div');
       wrapper.style.position = 'fixed';
@@ -105,6 +146,7 @@ const InvoiceView = ({ invoice, onClose }) => {
       });
 
       document.body.removeChild(wrapper);
+      document.body.removeChild(loadingDiv);
 
       const imgData = canvas.toDataURL('image/png');
       
@@ -127,27 +169,35 @@ const InvoiceView = ({ invoice, onClose }) => {
       }
 
       pdf.save(`Invoice-${invoice.invoiceNumber}.pdf`);
+      updateLastPrinted();
+      alert(`✅ Invoice ${invoice.invoiceNumber} PDF downloaded successfully!`);
     } catch (error) {
       console.error('PDF Error:', error);
       alert('PDF generation failed. Please use Print and select "Save as PDF".');
     } finally {
-      document.body.removeChild(loadingDiv);
+      setIsPrinting(false);
     }
   };
 
   return (
     <div className={styles.invoiceView}>
       <div className={`${styles.actions} no-print`}>
-        <Button variant="primary" onClick={handlePrint}>
-          🖨️ Print Invoice
+        <Button variant="primary" onClick={handlePrint} disabled={isPrinting}>
+          🖨️ {isPrinting ? 'Printing...' : 'Print Invoice'}
         </Button>
-        <Button variant="success" onClick={handleDownloadPDF}>
-          📄 Download PDF
+        <Button variant="success" onClick={handleDownloadPDF} disabled={isPrinting}>
+          📄 {isPrinting ? 'Generating...' : 'Download PDF'}
         </Button>
         <Button variant="default" onClick={onClose}>
           ✕ Close
         </Button>
       </div>
+
+      {lastPrinted && (
+        <div className={`${styles.printHistory} no-print`}>
+          <span>🕐 Last printed: {new Date(lastPrinted).toLocaleString('en-ZA')}</span>
+        </div>
+      )}
       
       <div ref={printRef}>
         <InvoiceTemplate invoice={invoice} companyInfo={companyInfo} />
